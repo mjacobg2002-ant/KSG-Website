@@ -84,7 +84,7 @@ export function ContactPage() {
             contactPoint: {
               "@type": "ContactPoint",
               contactType: "sales",
-              email: "contact@kindsupplyco.org",
+              email: "partnerships@kindsupplydigital.com",
               areaServed: "US",
               availableLanguage: "English",
             },

@@ -80,7 +80,7 @@ export function ContactPage() {
           mainEntity: {
             "@type": "Organization",
             name: "Kind Supply Digital",
-            email: "contact@kindsupplyco.org",
+            email: "partnerships@kindsupplydigital.com",
             contactPoint: {
               "@type": "ContactPoint",
               contactType: "sales",

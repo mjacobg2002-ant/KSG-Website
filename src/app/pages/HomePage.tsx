@@ -50,19 +50,19 @@ const caseStudies = [
   {
     title: "Mental Health Clinic Network",
     tags: ["Website Redesign", "SEO Architecture", "Patient Acquisition"],
-    result: "Increased new patient inquiries by 340% and improved search visibility across 12 locations.",
+    result: "New patient inquiries increased by 148% across all 12 locations within 4 months.",
     image: "https://images.unsplash.com/photo-1711343777918-6d395c16e37f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwY2xpbmljJTIwaGFsbHdheSUyMGJyaWdodCUyMHdlbGNvbWluZ3xlbnwxfHx8fDE3NzMxMTE4MzF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },
   {
     title: "Substance Abuse Treatment Center",
     tags: ["Custom Development", "Lead Generation", "Content Strategy"],
-    result: "Generated 180+ qualified admissions inquiries per month within 90 days of launch.",
+    result: "Generated 80+ qualified admissions inquiries per month within 90 days of launch.",
     image: "https://images.unsplash.com/photo-1615397987782-c7cb268de9ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjB3YWxraW5nJTIwdG93YXJkJTIwbGlnaHQlMjBzaWxob3VldHRlJTIwcmVjb3ZlcnklMjBmcmVlZG9tfGVufDF8fHx8MTc3MzEwOTcwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },
   {
     title: "DDA & Assisted Living Facility",
     tags: ["Full Redesign", "Growth Infrastructure", "Family Outreach"],
-    result: "Doubled facility tour bookings and improved family engagement by 210%.",
+    result: "Facility tour bookings doubled and family engagement improved by 86% in the first quarter.",
     image: "https://images.unsplash.com/photo-1589061434060-a05a5335bfbb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXZlcnNlJTIwY2FyZWdpdmVyJTIwaG9sZGluZyUyMGVsZGVybHklMjBwZXJzb24lMjBoYW5kJTIwZ2VudGxlJTIwY2xvc2UlMjB1cHxlbnwxfHx8fDE3NzMxMDk3MDh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },
 ];

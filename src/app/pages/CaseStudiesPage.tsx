@@ -21,7 +21,7 @@ const caseStudies = [
       "Mobile-first responsive redesign",
     ],
     result:
-      "New patient inquiries increased by 340% across all 12 locations within 4 months. The practice now ranks on page one for local therapy-related searches in every market they serve.",
+      "New patient inquiries increased by 148% across all 12 locations within 4 months. The practice now ranks on page one for local therapy-related searches in every market they serve.",
     image:
       "https://images.unsplash.com/photo-1711343777918-6d395c16e37f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwY2xpbmljJTIwaGFsbHdheSUyMGJyaWdodCUyMHdlbGNvbWluZ3xlbnwxfHx8fDE3NzMxMTE4MzF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },
@@ -41,7 +41,7 @@ const caseStudies = [
       "Google Ads integration with landing page A/B testing",
     ],
     result:
-      "The facility went from a handful of online inquiries to generating 180+ qualified admissions inquiries per month within 90 days of launch. Cost per lead dropped significantly as organic traffic grew.",
+      "The facility went from a handful of online inquiries to generating 80+ qualified admissions inquiries per month within 90 days of launch. Cost per lead dropped significantly as organic traffic grew.",
     image:
       "https://images.unsplash.com/photo-1615397987782-c7cb268de9ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjB3YWxraW5nJTIwdG93YXJkJTIwbGlnaHQlMjBzaWxob3VldHRlJTIwcmVjb3ZlcnklMjBmcmVlZG9tfGVufDF8fHx8MTc3MzEwOTcwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },
@@ -61,7 +61,7 @@ const caseStudies = [
       "Local SEO targeting \"assisted living near me\" and \"DDA services in [state]\"",
     ],
     result:
-      "Facility tour bookings doubled and family engagement improved by 210% in the first quarter. The resources hub now drives consistent organic traffic from families in the early research phase.",
+      "Facility tour bookings doubled and family engagement improved by 86% in the first quarter. The resources hub now drives consistent organic traffic from families in the early research phase.",
     image:
       "https://images.unsplash.com/photo-1589061434060-a05a5335bfbb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXZlcnNlJTIwY2FyZWdpdmVyJTIwaG9sZGluZyUyMGVsZGVybHklMjBwZXJzb24lMjBoYW5kJTIwZ2VudGxlJTIwY2xvc2UlMjB1cHxlbnwxfHx8fDE3NzMxMDk3MDh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },
@@ -81,7 +81,7 @@ const caseStudies = [
       "Structured data markup for healthcare provider schema",
     ],
     result:
-      "Qualified referral inquiries increased by 190% and patient acquisition cost decreased by 35%. The platform now supports seamless expansion as the group adds new locations and service lines.",
+      "Qualified referral inquiries increased by 142% and patient acquisition cost decreased by 29%. The platform now supports seamless expansion as the group adds new locations and service lines.",
     image:
       "https://images.unsplash.com/photo-1627909119251-394e3dadeaa8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncm91cCUyMHRoZXJhcHklMjBzZXNzaW9uJTIwY2lyY2xlJTIwc3VwcG9ydGl2ZSUyMGNvbm5lY3Rpb258ZW58MXx8fHwxNzczMTEwMTE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },

@@ -160,11 +160,11 @@ export function ContactPage() {
             <div className="flex items-center gap-2 text-blue-300/60">
               <Mail size={15} />
               <a
-                href="mailto:contact@kindsupplyco.org"
+                href="mailto:partnerships@kindsupplydigital.com"
                 className="hover:text-blue-200 transition-colors"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem" }}
               >
-                contact@kindsupplyco.org
+                partnerships@kindsupplydigital.com
               </a>
             </div>
           </AnimatedSection>
@@ -203,10 +203,10 @@ export function ContactPage() {
                 >
                   In the meantime, feel free to reach us directly at{" "}
                   <a
-                    href="mailto:contact@kindsupplyco.org"
+                    href="mailto:partnerships@kindsupplydigital.com"
                     className="text-blue-300 hover:text-blue-200 transition-colors"
                   >
-                    contact@kindsupplyco.org
+                    cpartnerships@kindsupplydigital.com
                   </a>
                 </p>
               </div>

@@ -569,9 +569,9 @@ export function HomePage() {
               className="text-white/40 mb-20 max-w-2xl"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "1rem", lineHeight: "1.8" }}
             >
-              The Lead Rescue System is flat-rate and guaranteed. Website builds are
-              quoted per business &mdash; no two are the same size. Want everything?
-              The full package is bundled at better-than-piecemeal pricing.
+              The Lead Rescue System is guaranteed and priced to your industry &mdash;
+              pricing varies by niche, so every engagement is quoted for your business.
+              Want everything? The full package is bundled at better-than-piecemeal pricing.
             </p>
           </AnimatedSection>
 
@@ -579,11 +579,11 @@ export function HomePage() {
             {[
               {
                 name: "Lead Rescue CRM System",
-                role: "New · Flat-rate · Guaranteed",
-                price: "$1,200",
-                priceNote: "setup, then $300/mo — one job in 30 days or your setup back",
+                role: "New · Quoted per industry · Guaranteed",
+                price: "Get a Quote",
+                priceNote: "priced to your industry — one job in 30 days or your setup back",
                 featured: true,
-                cta: "Get Started",
+                cta: "Get a Quote",
                 features: [
                   "Missed-call text-back on your line",
                   "Speed-to-lead automation",

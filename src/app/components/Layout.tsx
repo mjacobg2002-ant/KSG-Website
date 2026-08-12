@@ -1,5 +1,4 @@
 import { Outlet, useLocation } from "react-router";
-import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
@@ -29,7 +28,6 @@ export function Layout() {
       </main>
       <Footer />
       <FloatingCTA />
-      <Analytics />
     </div>
   );
 }

@@ -20,6 +20,7 @@ import { LeadRescueDemo } from "../components/LeadRescueDemo";
 import { PipelineBoard } from "../components/PipelineBoard";
 import { ClientWall } from "../components/ClientWall";
 import { ProvenResults } from "../components/ProvenResults";
+import { ServiceArea } from "../components/ServiceArea";
 
 /* ---------- Reusable CTA with reassurance ---------- */
 function CTABlock({ label = "Get Your Free Consultation", center = false }: { label?: string; center?: boolean }) {
@@ -119,14 +120,27 @@ export function HomePage() {
   return (
     <div>
       <SEOHead
-        title="Kind Supply Digital | Web Design, SEO & Lead Systems for Behavioral Health, Home Services, Legal & Dental"
-        description="Your next customer is searching right now. Kind Supply Digital builds conversion-engineered websites, SEO, Google Business Profiles, ads, and the Lead Rescue System — proven in behavioral health, now serving HVAC, home services, law firms, and dental."
-        keywords="behavioral health marketing agency, HVAC marketing, home services web design, law firm lead generation, dental marketing, missed call text back, lead rescue system, Google Business Profile, local SEO agency"
+        title="Web Design, SEO & Lead Systems in Northern Virginia | Kind Supply Digital"
+        description="Kind Supply Digital is a Northern Virginia web design, SEO, and lead-generation agency serving McLean, Tysons, Arlington, Fairfax, Reston, Ashburn, Washington DC, and the DMV. Conversion websites, local SEO, Google Business Profile, and the Lead Rescue System — proven in behavioral health, now serving home services, law firms, and dental."
+        keywords="web design Northern Virginia, SEO agency Northern Virginia, lead generation Northern Virginia, website design Fairfax VA, SEO agency McLean VA, digital marketing Northern Virginia, web design Washington DC, local SEO DMV, behavioral health marketing agency, HVAC marketing, law firm lead generation, dental marketing, missed call text back, lead rescue system, Google Business Profile"
         canonical="https://kindsupplydigital.com"
         structuredData={{
           "@type": "ProfessionalService",
           name: "Kind Supply Digital",
-          areaServed: "United States",
+          areaServed: [
+            "Northern Virginia",
+            "McLean",
+            "Tysons",
+            "Arlington",
+            "Alexandria",
+            "Fairfax",
+            "Vienna",
+            "Reston",
+            "Ashburn",
+            "Washington, DC",
+            "Maryland",
+            "DMV",
+          ],
         }}
       />
 
@@ -379,6 +393,9 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ============ SERVICE AREA — local NoVA / DMV SEO ============ */}
+      <ServiceArea />
 
       {/* ============ LEAD RESCUE — flagship offer + risk reversal ============ */}
       <section className="py-32 border-b border-white/5 bg-[#0c1525]">

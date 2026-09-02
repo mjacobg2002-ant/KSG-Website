@@ -66,9 +66,9 @@ export function SEOHead({
     setMeta("author", "Kind Supply Digital");
     setMeta("publisher", "Kind Supply Digital");
 
-    // Geo targeting
-    setMeta("geo.region", "US");
-    setMeta("geo.placename", "United States");
+    // Geo targeting (Northern Virginia / DMV)
+    setMeta("geo.region", "US-VA");
+    setMeta("geo.placename", "Northern Virginia");
 
     // Open Graph
     setMeta("og:title", title, "property");
@@ -107,19 +107,30 @@ export function SEOHead({
         "Premium healthcare digital agency specializing in strategic website development, SEO-optimized platforms, and patient acquisition systems for mental health clinics, substance abuse centers, DDA facilities, and assisted living organizations.",
       url: "https://kindsupplydigital.com",
       email: "partnerships@kindsupplydigital.com",
-      areaServed: {
-        "@type": "Country",
-        name: "United States",
-      },
+      areaServed: [
+        { "@type": "AdministrativeArea", name: "Northern Virginia" },
+        { "@type": "City", name: "McLean" },
+        { "@type": "City", name: "Tysons" },
+        { "@type": "City", name: "Arlington" },
+        { "@type": "City", name: "Alexandria" },
+        { "@type": "City", name: "Fairfax" },
+        { "@type": "City", name: "Vienna" },
+        { "@type": "City", name: "Falls Church" },
+        { "@type": "City", name: "Reston" },
+        { "@type": "City", name: "Ashburn" },
+        { "@type": "City", name: "Washington, DC" },
+        { "@type": "AdministrativeArea", name: "Maryland" },
+        { "@type": "AdministrativeArea", name: "DMV" },
+      ],
       serviceType: [
+        "Web Design",
+        "Local SEO",
+        "Lead Generation",
+        "Google Business Profile Optimization",
         "Healthcare Website Design",
-        "Mental Health Clinic SEO",
-        "Substance Abuse Treatment Center Web Development",
-        "Assisted Living Website Design",
-        "DDA Facility Digital Marketing",
         "Behavioral Health Website Development",
-        "Patient Acquisition Strategy",
-        "Healthcare Content Marketing",
+        "Law Firm Lead Generation",
+        "Dental Practice Marketing",
       ],
       knowsAbout: [
         "Healthcare Web Design",

@@ -16,12 +16,12 @@ import sn from "../assets/clients/sn.png";
 type Client = { src: string; alt: string; scale?: number };
 
 const clients: Client[] = [
-  { src: gracePath, alt: "Grace Path Wellness Center" },
+  { src: gracePath, alt: "Grace Path Wellness Center", scale: 1.4 },
   { src: dulaney, alt: "Dulaney" },
-  { src: ltc, alt: "LTC" },
-  { src: abideThrive, alt: "Abide & Thrive", scale: 1.7 },
-  { src: summitDental, alt: "Summit Dental" },
-  { src: alpineConcrete, alt: "Alpine Concrete Co." },
+  { src: ltc, alt: "LTC", scale: 1.45 },
+  { src: abideThrive, alt: "Abide & Thrive", scale: 2 },
+  { src: summitDental, alt: "Summit Dental", scale: 1.55 },
+  { src: alpineConcrete, alt: "Alpine Concrete Co.", scale: 1.55 },
   { src: sn, alt: "sn." },
 ];
 

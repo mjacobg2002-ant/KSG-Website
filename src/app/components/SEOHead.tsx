@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Head } from "vite-react-ssg";
 
 interface SEOHeadProps {
   title: string;
@@ -11,29 +11,7 @@ interface SEOHeadProps {
   noIndex?: boolean;
 }
 
-function setMeta(name: string, content: string, attr: "name" | "property" = "name") {
-  let el = document.querySelector(`meta[${attr}="${name}"]`);
-  if (el) {
-    el.setAttribute("content", content);
-  } else {
-    el = document.createElement("meta");
-    el.setAttribute(attr, name);
-    el.setAttribute("content", content);
-    document.head.appendChild(el);
-  }
-}
-
-function setLink(rel: string, href: string) {
-  let el = document.querySelector(`link[rel="${rel}"]`);
-  if (el) {
-    el.setAttribute("href", href);
-  } else {
-    el = document.createElement("link");
-    el.setAttribute("rel", rel);
-    el.setAttribute("href", href);
-    document.head.appendChild(el);
-  }
-}
+const SITE = "https://kindsupplydigital.com";
 
 export function SEOHead({
   title,
@@ -41,179 +19,131 @@ export function SEOHead({
   keywords,
   canonical,
   ogType = "website",
-  ogImage,
+  ogImage = `${SITE}/og-image.png`,
   structuredData,
   noIndex = false,
 }: SEOHeadProps) {
-  useEffect(() => {
-    // Title
-    document.title = title;
+  // Base organization schema (always present)
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE}/#organization`,
+    name: "Kind Supply Digital",
+    description:
+      "Web design, SEO, local search, paid growth, and lead automation for businesses in Northern Virginia and the DMV — proven in behavioral health, now serving home services, law firms, and dental.",
+    url: SITE,
+    email: "partnerships@kindsupplydigital.com",
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Northern Virginia" },
+      { "@type": "City", name: "McLean" },
+      { "@type": "City", name: "Tysons" },
+      { "@type": "City", name: "Arlington" },
+      { "@type": "City", name: "Alexandria" },
+      { "@type": "City", name: "Fairfax" },
+      { "@type": "City", name: "Vienna" },
+      { "@type": "City", name: "Falls Church" },
+      { "@type": "City", name: "Reston" },
+      { "@type": "City", name: "Ashburn" },
+      { "@type": "City", name: "Washington, DC" },
+      { "@type": "AdministrativeArea", name: "Maryland" },
+      { "@type": "AdministrativeArea", name: "DMV" },
+    ],
+    serviceType: [
+      "Search Engine Optimization (SEO)",
+      "Local SEO",
+      "Google Ads Management",
+      "Meta (Facebook & Instagram) Ads Management",
+      "Web Design",
+      "Google Business Profile Optimization",
+      "Lead Generation & CRM Automation",
+      "Behavioral Health Website Development",
+      "Law Firm Lead Generation",
+      "Dental Practice Marketing",
+    ],
+  };
 
-    // HTML lang attribute
-    document.documentElement.lang = "en";
-    document.documentElement.dir = "ltr";
+  const webSiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Kind Supply Digital",
+    url: SITE,
+    publisher: { "@id": `${SITE}/#organization` },
+  };
 
-    // Viewport (critical for mobile SEO)
-    setMeta("viewport", "width=device-width, initial-scale=1, maximum-scale=5");
+  const pageSchema = structuredData
+    ? { "@context": "https://schema.org", ...structuredData }
+    : null;
 
-    // Theme color
-    setMeta("theme-color", "#0f172a");
-
-    // Core meta
-    setMeta("description", description);
-    if (keywords) setMeta("keywords", keywords);
-    setMeta("robots", noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
-    setMeta("author", "Kind Supply Digital");
-    setMeta("publisher", "Kind Supply Digital");
-
-    // Geo targeting (Northern Virginia / DMV)
-    setMeta("geo.region", "US-VA");
-    setMeta("geo.placename", "Northern Virginia");
-
-    // Open Graph
-    setMeta("og:title", title, "property");
-    setMeta("og:description", description, "property");
-    setMeta("og:type", ogType, "property");
-    setMeta("og:site_name", "Kind Supply Digital", "property");
-    setMeta("og:locale", "en_US", "property");
-    if (canonical) setMeta("og:url", canonical, "property");
-    if (ogImage) {
-      setMeta("og:image", ogImage, "property");
-      setMeta("og:image:width", "1200", "property");
-      setMeta("og:image:height", "630", "property");
-      setMeta("og:image:type", "image/jpeg", "property");
-    }
-
-    // Twitter Card
-    setMeta("twitter:card", "summary_large_image");
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", description);
-    if (ogImage) setMeta("twitter:image", ogImage);
-
-    // Canonical
-    if (canonical) setLink("canonical", canonical);
-
-    // Structured Data (JSON-LD)
-    // Remove all existing SEO JSON-LD scripts
-    document.querySelectorAll('script[data-seo-jsonld]').forEach(s => s.remove());
-
-    // Base organization schema (always present)
-    const orgSchema = {
+  let breadcrumbSchema: Record<string, unknown> | null = null;
+  if (canonical && canonical !== SITE && canonical !== `${SITE}/`) {
+    const segments = canonical.replace(SITE, "").split("/").filter(Boolean);
+    breadcrumbSchema = {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "@id": "https://kindsupplydigital.com/#organization",
-      name: "Kind Supply Digital",
-      description:
-        "Premium healthcare digital agency specializing in strategic website development, SEO-optimized platforms, and patient acquisition systems for mental health clinics, substance abuse centers, DDA facilities, and assisted living organizations.",
-      url: "https://kindsupplydigital.com",
-      email: "partnerships@kindsupplydigital.com",
-      areaServed: [
-        { "@type": "AdministrativeArea", name: "Northern Virginia" },
-        { "@type": "City", name: "McLean" },
-        { "@type": "City", name: "Tysons" },
-        { "@type": "City", name: "Arlington" },
-        { "@type": "City", name: "Alexandria" },
-        { "@type": "City", name: "Fairfax" },
-        { "@type": "City", name: "Vienna" },
-        { "@type": "City", name: "Falls Church" },
-        { "@type": "City", name: "Reston" },
-        { "@type": "City", name: "Ashburn" },
-        { "@type": "City", name: "Washington, DC" },
-        { "@type": "AdministrativeArea", name: "Maryland" },
-        { "@type": "AdministrativeArea", name: "DMV" },
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+        ...segments.map((seg, i) => ({
+          "@type": "ListItem",
+          position: i + 2,
+          name: seg.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
+          item: `${SITE}/${segments.slice(0, i + 1).join("/")}`,
+        })),
       ],
-      serviceType: [
-        "Web Design",
-        "Local SEO",
-        "Lead Generation",
-        "Google Business Profile Optimization",
-        "Healthcare Website Design",
-        "Behavioral Health Website Development",
-        "Law Firm Lead Generation",
-        "Dental Practice Marketing",
-      ],
-      knowsAbout: [
-        "Healthcare Web Design",
-        "Mental Health SEO",
-        "HIPAA-Conscious Development",
-        "Patient Acquisition",
-        "Behavioral Health Marketing",
-        "Treatment Center Web Development",
-        "Local SEO for Healthcare",
-        "Medical Practice Marketing",
-      ],
-      priceRange: "$5,000 - $20,000+",
-      sameAs: [],
     };
+  }
 
-    const orgScript = document.createElement("script");
-    orgScript.type = "application/ld+json";
-    orgScript.setAttribute("data-seo-jsonld", "org");
-    orgScript.textContent = JSON.stringify(orgSchema);
-    document.head.appendChild(orgScript);
+  return (
+    <Head>
+      <html lang="en" dir="ltr" />
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      {keywords && <meta name="keywords" content={keywords} />}
+      <meta
+        name="robots"
+        content={
+          noIndex
+            ? "noindex, nofollow"
+            : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        }
+      />
+      <meta name="author" content="Kind Supply Digital" />
+      <meta name="publisher" content="Kind Supply Digital" />
 
-    // WebSite schema with search
-    const webSiteSchema = {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      name: "Kind Supply Digital",
-      url: "https://kindsupplydigital.com",
-      publisher: {
-        "@id": "https://kindsupplydigital.com/#organization",
-      },
-    };
+      {/* Local / geo targeting */}
+      <meta name="geo.region" content="US-VA" />
+      <meta name="geo.placename" content="Northern Virginia" />
 
-    const siteScript = document.createElement("script");
-    siteScript.type = "application/ld+json";
-    siteScript.setAttribute("data-seo-jsonld", "site");
-    siteScript.textContent = JSON.stringify(webSiteSchema);
-    document.head.appendChild(siteScript);
+      {/* Canonical */}
+      {canonical && <link rel="canonical" href={canonical} />}
 
-    // Page-specific structured data
-    if (structuredData) {
-      const pageSchema = {
-        "@context": "https://schema.org",
-        ...structuredData,
-      };
-      const pageScript = document.createElement("script");
-      pageScript.type = "application/ld+json";
-      pageScript.setAttribute("data-seo-jsonld", "page");
-      pageScript.textContent = JSON.stringify(pageSchema);
-      document.head.appendChild(pageScript);
-    }
+      {/* Open Graph */}
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:type" content={ogType} />
+      <meta property="og:site_name" content="Kind Supply Digital" />
+      <meta property="og:locale" content="en_US" />
+      {canonical && <meta property="og:url" content={canonical} />}
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:alt" content="Kind Supply Digital — Web Design, SEO & Lead Systems" />
 
-    // BreadcrumbList schema
-    if (canonical && canonical !== "https://kindsupplydigital.com") {
-      const pathSegments = canonical.replace("https://kindsupplydigital.com", "").split("/").filter(Boolean);
-      const breadcrumbs = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://kindsupplydigital.com",
-          },
-          ...pathSegments.map((seg, i) => ({
-            "@type": "ListItem",
-            position: i + 2,
-            name: seg.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase()),
-            item: `https://kindsupplydigital.com/${pathSegments.slice(0, i + 1).join("/")}`,
-          })),
-        ],
-      };
-      const breadScript = document.createElement("script");
-      breadScript.type = "application/ld+json";
-      breadScript.setAttribute("data-seo-jsonld", "breadcrumb");
-      breadScript.textContent = JSON.stringify(breadcrumbs);
-      document.head.appendChild(breadScript);
-    }
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={ogImage} />
 
-    return () => {
-      document.querySelectorAll('script[data-seo-jsonld]').forEach(s => s.remove());
-    };
-  }, [title, description, keywords, canonical, ogType, ogImage, structuredData, noIndex]);
-
-  return null;
+      {/* Structured data */}
+      <script type="application/ld+json">{JSON.stringify(orgSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(webSiteSchema)}</script>
+      {pageSchema && (
+        <script type="application/ld+json">{JSON.stringify(pageSchema)}</script>
+      )}
+      {breadcrumbSchema && (
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      )}
+    </Head>
+  );
 }

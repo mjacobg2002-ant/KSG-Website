@@ -1,0 +1,17 @@
+{
+  "name": "react-router-dom",
+  "version": "7.13.0",
+  "type": "module",
+  "description": "Local compatibility shim: react-router v7 merged react-router-dom, but vite-react-ssg still imports react-router-dom and react-router-dom/server.js (v6 layout). This re-exports react-router v7 and restores those subpaths.",
+  "main": "./index.mjs",
+  "module": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./server": "./server.mjs",
+    "./server.js": "./server.mjs",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "react-router": "7.13.0"
+  }
+}

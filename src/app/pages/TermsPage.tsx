@@ -69,35 +69,26 @@ export function TermsPage() {
           </LegalText>
         </LegalSection>
 
-        <LegalSection title="4. The One-Job Guarantee">
+        <LegalSection title="4. Engagement Terms">
           <LegalText>
-            We offer a one-job guarantee on the Lead Rescue System: if the system does not
-            capture at least one qualified inbound job, case, appointment, or client inquiry
-            during your first thirty days after it goes live, we will refund the setup fee for
-            that system.
+            SEO engagements and our CRM / Lead Rescue system run on a minimum term of six (6)
+            to twelve (12) months, as specified in your agreement. These terms reflect the
+            time required for search rankings and lead pipeline to develop and compound.
           </LegalText>
-          <LegalText>The guarantee applies when all of the following are true:</LegalText>
-          <LegalList
-            items={[
-              "The system was fully deployed and remained active for the entire thirty-day period",
-              "The client did not disable, bypass, or materially alter the system's workflows, phone routing, or messaging",
-              "The client provided the access, approvals, and business information needed to configure the system",
-              "The client's account is current on all fees",
-              "The refund is requested in writing within fifteen days after the end of the thirty-day period",
-            ]}
-          />
           <LegalText>
-            The guarantee covers the setup fee for the Lead Rescue System only. It does not
-            cover monthly fees for months already served, advertising spend, website build
-            fees, or other services. It is limited to one claim per client.
+            Website builds are project-based rather than term-based. Advertising management
+            (Google and Meta) may be billed monthly or bundled with another engagement, as set
+            out in your agreement.
           </LegalText>
         </LegalSection>
 
         <LegalSection title="5. Cancellation">
           <LegalText>
-            Ongoing services have no long-term contract. Either party may cancel a recurring
-            engagement with thirty days' written notice. Fees for the current billing period
-            are not prorated, and service continues through the end of that period.
+            SEO and CRM / Lead Rescue engagements run for their agreed six-to-twelve-month
+            term. After the initial term, they continue month-to-month and either party may
+            cancel with thirty (30) days' written notice. Cancelling during an initial term
+            does not waive the fees committed for that term. Fees for the current billing
+            period are not prorated, and service continues through the end of that period.
           </LegalText>
           <LegalText>
             Project-based work, such as a website build, may be cancelled in writing at any
@@ -160,8 +151,8 @@ export function TermsPage() {
 
         <LegalSection title="9. Results and Disclaimers">
           <LegalText>
-            Apart from the one-job guarantee described above, we do not guarantee specific
-            search rankings, lead volume, conversion rates, revenue, or return on investment.
+            We do not guarantee specific search rankings, lead volume, conversion rates,
+            revenue, or return on investment.
             Marketing outcomes depend on factors outside our control, including your market,
             competition, pricing, capacity, reputation, and how your team handles the
             inquiries we generate.

@@ -37,7 +37,7 @@ const stats: Stat[] = [
   { target: 60, suffix: "s", label: "To Text Back Every Missed Call" },
   { target: 7, suffix: " Days", label: "From Signup to Live System" },
   { target: null, staticValue: "24/7", label: "Coverage — Nights, Weekends, Holidays" },
-  { target: 1, suffix: " Job", label: "Guaranteed in 30 Days, or Money Back" },
+  { target: null, staticValue: "100%", label: "Leads & Ad Spend Tracked to Revenue" },
 ];
 
 function AnimatedStat({ stat, index }: { stat: Stat; index: number }) {

@@ -1,12 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./app/App";
-import { Analytics } from "@vercel/analytics/react";
+import { ViteReactSSG } from "vite-react-ssg";
+import { routes } from "./app/routes";
 import "./styles/index.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-    <Analytics />
-  </React.StrictMode>
-);
+// Static-site generation: prerenders real HTML for every route at build time
+// (crawlable for SEO) and hydrates into an SPA in the browser.
+export const createRoot = ViteReactSSG({ routes });

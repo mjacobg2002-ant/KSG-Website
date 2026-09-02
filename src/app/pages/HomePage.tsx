@@ -74,8 +74,8 @@ const services = [
   },
   {
     icon: Search,
-    title: "SEO & Keyword Analytics",
-    desc: "We research exactly what your customers type into Google, then build the pages and technical foundation to win those searches — visibility that compounds month over month.",
+    title: "SEO & Local Search",
+    desc: "We research exactly what your customers type into Google, then build the pages, content, and technical foundation to win those searches — local rankings that compound month over month. SEO engagements run on 6–12 month terms.",
   },
   {
     icon: MapPin,
@@ -84,8 +84,8 @@ const services = [
   },
   {
     icon: BarChart3,
-    title: "Paid Ads That Track to Revenue",
-    desc: "Google and Meta campaigns with full conversion tracking. You'll know your cost per lead and your return on every dollar — no vanity metrics.",
+    title: "Google & Meta Ads",
+    desc: "Google Search and Meta (Facebook & Instagram) campaigns with full conversion tracking. You'll know your cost per lead and your return on every dollar — no vanity metrics.",
   },
 ];
 
@@ -100,7 +100,7 @@ const objections = [
   },
   {
     q: "\u201CHow do I know this pays for itself?\u201D",
-    a: "The Lead Rescue System carries a one-job guarantee: if it doesn't catch you at least one job in your first 30 days, we refund your setup fee. One recovered HVAC replacement, signed case, or admitted client typically covers months of the system. The risk sits with us, not you.",
+    a: "We track everything to revenue \u2014 calls, forms, bookings, and cost per lead across SEO and ads \u2014 and report it in plain language, not vanity metrics. SEO compounds over a 6\u201312 month engagement, so rankings and pipeline build month over month. One recovered HVAC replacement, signed case, or admitted client can cover months of the work.",
   },
   {
     q: "\u201CWe're in healthcare — what about compliance?\u201D",
@@ -110,10 +110,10 @@ const objections = [
 
 const trustPoints = [
   "Proven in behavioral health — the most trust-sensitive niche on the internet",
-  "One-job guarantee on the Lead Rescue System: results in 30 days or your setup back",
-  "No long-term contracts — we keep your business by earning it monthly",
-  "A dedicated strategist on every project. You talk to the people doing the work",
-  "Live in 7 days for Lead Rescue. Clear timelines, in writing, for every build",
+  "SEO built to compound: local rankings, Google Business Profile, and content that climbs month over month",
+  "Google & Meta ads with full conversion tracking — you see cost per lead and return on every dollar",
+  "A dedicated strategist on every account. You talk to the people doing the work",
+  "SEO and our CRM system run on 6–12 month terms — durable rankings and pipeline compound over time, and we commit to the full arc with you",
 ];
 
 export function HomePage() {
@@ -236,7 +236,8 @@ export function HomePage() {
           >
             You're great at the work. But the patients, jobs, and cases you never hear
             about are going to businesses with a stronger site, better search presence,
-            and a phone that always answers. We fix all three &mdash; and guarantee the third.
+            and a phone that always answers. We build all three &mdash; websites, SEO, and
+            the system that catches every call.
           </motion.p>
 
           <motion.div
@@ -437,14 +438,15 @@ export function HomePage() {
                     className="text-white mb-1"
                     style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.95rem", fontWeight: 600 }}
                   >
-                    The One-Job Guarantee
+                    Runs on Your Line. Live in 7 Days.
                   </p>
                   <p
                     className="text-white/45"
                     style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.88rem", lineHeight: "1.7" }}
                   >
-                    If it doesn't catch you at least one job in your first 30 days,
-                    we refund your setup fee. The risk is ours, not yours.
+                    It installs on your existing number and goes live in about a week.
+                    Every missed call, form, and message lands in one pipeline with a
+                    dollar value attached &mdash; nothing slips through again.
                   </p>
                 </div>
               </div>
@@ -493,15 +495,17 @@ export function HomePage() {
                   lineHeight: 1.2,
                 }}
               >
-                We Put the Risk on Our Side of the Table
+                Real Work. Clear Terms. Measurable Results.
               </h2>
               <p
                 className="text-white/40"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "1rem", lineHeight: "1.9" }}
               >
-                No lock-in contracts. A written guarantee. Clear timelines. We earned
-                our name in behavioral health, where trust is everything and shortcuts
-                end careers &mdash; and we run every industry we serve to that same standard.
+                Honest timelines, reporting you can actually read, and a senior team on
+                every account. SEO and our CRM system run on 6&ndash;12 month terms because
+                real rankings and pipeline take time to build. We earned our name in
+                behavioral health, where trust is everything and shortcuts end careers
+                &mdash; and we run every industry we serve to that same standard.
               </p>
             </AnimatedSection>
             <AnimatedSection delay={0.15}>
@@ -588,15 +592,16 @@ export function HomePage() {
                 lineHeight: 1.2,
               }}
             >
-              Straightforward Pricing. The Risk Is Ours.
+              Straightforward Pricing, Structured for Results.
             </h2>
             <p
               className="text-white/40 mb-20 max-w-2xl"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "1rem", lineHeight: "1.8" }}
             >
-              The Lead Rescue System is guaranteed and priced to your industry &mdash;
-              pricing varies by niche, so every engagement is quoted for your business.
-              Want everything? The full package is bundled at better-than-piecemeal pricing.
+              Website builds are project-based. SEO and our CRM / Lead Rescue system run on
+              6&ndash;12 month terms, priced to your industry, so every engagement is quoted
+              for your business. Want everything? The full package is bundled at
+              better-than-piecemeal pricing.
             </p>
           </AnimatedSection>
 
@@ -604,9 +609,9 @@ export function HomePage() {
             {[
               {
                 name: "Lead Rescue CRM System",
-                role: "New · Quoted per industry · Guaranteed",
+                role: "New · Quoted per industry · 6–12 mo term",
                 price: "Get a Quote",
-                priceNote: "priced to your industry — one job in 30 days or your setup back",
+                priceNote: "priced to your industry — installed on your existing line, live in 7 days",
                 featured: true,
                 cta: "Get a Quote",
                 features: [

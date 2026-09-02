@@ -1,18 +1,17 @@
-import { motion } from "motion/react";
 import { AnimatedSection } from "./AnimatedSection";
 
-/* Real client logos on file. */
-import dulaney from "../assets/clients/dulaney.png";
+/* Real client logos — backgrounds removed, tuned for the dark theme. */
 import gracePath from "../assets/clients/grace-path.png";
+import dulaney from "../assets/clients/dulaney.png";
 import ltc from "../assets/clients/ltc.png";
+import abideThrive from "../assets/clients/abide-thrive.png";
+import summitDental from "../assets/clients/summit-dental.png";
+import alpineConcrete from "../assets/clients/alpine-concrete.png";
+import sn from "../assets/clients/sn.png";
 
 /*
- * ── Adding the rest of your client logos ──
- * Drop the file into  src/app/assets/clients/  then add a row below, e.g.:
- *   import abideThrive from "../assets/clients/abide-thrive.png";
- *   ...then add { src: abideThrive, alt: "Abide & Thrive" } to the array.
- * Suggested filenames for the logos you sent:
- *   abide-thrive.png · summit-dental.png · alpine-concrete.png · sn.png
+ * To add another client: drop a background-free PNG into
+ * src/app/assets/clients/, import it above, and add a row here.
  */
 type Client = { src: string; alt: string };
 
@@ -20,11 +19,38 @@ const clients: Client[] = [
   { src: gracePath, alt: "Grace Path Wellness Center" },
   { src: dulaney, alt: "Dulaney" },
   { src: ltc, alt: "LTC" },
+  { src: abideThrive, alt: "Abide & Thrive" },
+  { src: summitDental, alt: "Summit Dental" },
+  { src: alpineConcrete, alt: "Alpine Concrete Co." },
+  { src: sn, alt: "sn." },
 ];
 
+/* Seconds for one full loop. Lower = faster. */
+const LOOP_SECONDS = 32;
+
 export function ClientWall() {
+  // Two copies of the list so the scroll can loop seamlessly.
+  const track = [...clients, ...clients];
+
   return (
-    <section className="py-20 lg:py-24 border-b border-white/5 bg-[#0c1525]">
+    <section className="py-20 lg:py-24 border-b border-white/5 bg-[#0c1525] overflow-hidden">
+      <style>{`
+        @keyframes ksg-marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .ksg-marquee-track {
+          display: flex;
+          width: max-content;
+          animation: ksg-marquee ${LOOP_SECONDS}s linear infinite;
+          will-change: transform;
+        }
+        .ksg-marquee-viewport:hover .ksg-marquee-track { animation-play-state: paused; }
+        @media (prefers-reduced-motion: reduce) {
+          .ksg-marquee-track { animation: none; flex-wrap: wrap; justify-content: center; width: 100%; }
+        }
+      `}</style>
+
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <AnimatedSection>
           <p
@@ -34,28 +60,37 @@ export function ClientWall() {
             Trusted by the practices &amp; businesses we build for
           </p>
         </AnimatedSection>
+      </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 lg:gap-6 items-stretch">
-          {clients.map((c, i) => (
-            <motion.div
-              key={c.alt}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center justify-center bg-white/[0.97] rounded-lg px-6 py-8 lg:px-8 lg:py-10 min-h-[120px] transition-transform duration-300 hover:-translate-y-0.5"
+      {/* Edge-faded marquee viewport (full-bleed) */}
+      <div
+        className="ksg-marquee-viewport relative"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
+        }}
+      >
+        <div className="ksg-marquee-track">
+          {track.map((c, i) => (
+            <div
+              key={`${c.alt}-${i}`}
+              className="flex items-center justify-center shrink-0 px-8 lg:px-12"
+              aria-hidden={i >= clients.length}
             >
               <img
                 src={c.src}
-                alt={c.alt}
+                alt={i < clients.length ? c.alt : ""}
                 loading="lazy"
-                className="max-h-14 lg:max-h-16 w-auto object-contain"
+                className="h-10 lg:h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
               />
-            </motion.div>
+            </div>
           ))}
         </div>
+      </div>
 
-        {/* Credibility line — about us, not the clients' accreditations */}
+      <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <AnimatedSection delay={0.15}>
           <p
             className="text-center text-white/40 mt-14 max-w-2xl mx-auto"

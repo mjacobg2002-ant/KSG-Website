@@ -1,4 +1,4 @@
-import type { RouteRecord } from "vite-react-ssg";
+import { createBrowserRouter } from "react-router";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
 import { AboutPage } from "./pages/AboutPage";
@@ -11,9 +11,8 @@ import { ContactPage } from "./pages/ContactPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
-import { articles } from "./data/articles";
 
-export const routes: RouteRecord[] = [
+export const router = createBrowserRouter([
   {
     path: "/",
     Component: Layout,
@@ -24,16 +23,11 @@ export const routes: RouteRecord[] = [
       { path: "case-studies", Component: CaseStudiesPage },
       { path: "process", Component: ProcessPage },
       { path: "insights", Component: InsightsPage },
-      {
-        path: "insights/:slug",
-        Component: InsightArticlePage,
-        // Prerender a static page for every article.
-        getStaticPaths: () => articles.map((a) => `/insights/${a.slug}`),
-      },
+      { path: "insights/:slug", Component: InsightArticlePage },
       { path: "contact", Component: ContactPage },
       { path: "privacy-policy", Component: PrivacyPolicyPage },
       { path: "terms", Component: TermsPage },
       { path: "*", Component: NotFoundPage },
     ],
   },
-];
+]);

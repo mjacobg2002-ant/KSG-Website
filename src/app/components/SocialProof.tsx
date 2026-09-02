@@ -3,7 +3,7 @@ import { AnimatedSection } from "./AnimatedSection";
 import { motion, useInView } from "motion/react";
 
 // ── Count-up hook ──
-function useCountUp(end: number, duration: number, inView: boolean) {
+export function useCountUp(end: number, duration: number, inView: boolean) {
   const [count, setCount] = useState(0);
   const hasAnimated = useRef(false);
 

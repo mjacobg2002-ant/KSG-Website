@@ -18,6 +18,8 @@ import { AnimatedSection } from "../components/AnimatedSection";
 import { SEOHead } from "../components/SEOHead";
 import { LeadRescueDemo } from "../components/LeadRescueDemo";
 import { PipelineBoard } from "../components/PipelineBoard";
+import { ClientWall } from "../components/ClientWall";
+import { ProvenResults } from "../components/ProvenResults";
 
 /* ---------- Reusable CTA with reassurance ---------- */
 function CTABlock({ label = "Get Your Free Consultation", center = false }: { label?: string; center?: boolean }) {
@@ -242,6 +244,9 @@ export function HomePage() {
         </motion.div>
       </section>
 
+      {/* ============ CLIENT WALL — social proof up front ============ */}
+      <ClientWall />
+
       {/* ============ AGITATE — the cost of doing nothing ============ */}
       <section className="py-32 border-b border-white/5 bg-[#0c1525]">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
@@ -447,6 +452,9 @@ export function HomePage() {
           <PipelineBoard />
         </div>
       </section>
+
+      {/* ============ PROVEN RESULTS — real client outcomes ============ */}
+      <ProvenResults />
 
       {/* ============ TRUST STACK ============ */}
       <section className="py-32 border-b border-white/5">

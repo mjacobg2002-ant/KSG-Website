@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kindsupplydigital.com/sitemap.xml
+Sitemap: https://www.kindsupplydigital.com/sitemap.xml

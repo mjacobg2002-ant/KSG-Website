@@ -41,7 +41,7 @@ export function CaseStudiesPage() {
         title="Our Work | Kind Supply Digital"
         description="Websites, lead rescue CRM systems, SEO, and growth campaigns built by Kind Supply Digital for home services, behavioral health, legal, and dental businesses."
         keywords="Kind Supply Digital work, client acquisition website examples, missed call text back system, local service business marketing results"
-        canonical="https://kindsupplydigital.com/case-studies"
+        canonical="https://www.kindsupplydigital.com/case-studies"
       />
 
       {/* Header */}

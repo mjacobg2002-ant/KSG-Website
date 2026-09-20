@@ -7,7 +7,7 @@ export function TermsPage() {
       <SEOHead
         title="Terms of Service | Kind Supply Digital"
         description="The terms governing use of the Kind Supply Digital website and the web design, SEO, advertising, and lead system services we provide."
-        canonical="https://kindsupplydigital.com/terms"
+        canonical="https://www.kindsupplydigital.com/terms"
       />
 
       <LegalLayout

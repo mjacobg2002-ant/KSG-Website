@@ -7,7 +7,7 @@ export function PrivacyPolicyPage() {
       <SEOHead
         title="Privacy Policy | Kind Supply Digital"
         description="How Kind Supply Digital collects, uses, and protects information from visitors and clients, including our SMS messaging and text message privacy practices."
-        canonical="https://kindsupplydigital.com/privacy-policy"
+        canonical="https://www.kindsupplydigital.com/privacy-policy"
       />
 
       <LegalLayout

@@ -43,7 +43,7 @@ export function ProcessPage() {
         title="Our Process — From Audit Call to Live System | Kind Supply Digital"
         description="Our proven process for building client-acquisition websites and lead rescue CRM systems: Discovery, Architecture, Design, Development, Launch, and Growth Support — for home services, behavioral health, legal, and dental businesses."
         keywords="web design process, CRM setup process, missed call text back setup, local service business marketing process, website build methodology"
-        canonical="https://kindsupplydigital.com/process"
+        canonical="https://www.kindsupplydigital.com/process"
         structuredData={{
           "@type": "HowTo",
           name: "How Kind Supply Digital Builds Websites and Lead Systems",

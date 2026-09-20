@@ -1,7 +1,7 @@
 import { Link, useParams, Navigate } from "react-router";
 import { ArrowLeft, ArrowRight, Clock, Calendar } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
-import { SEOHead } from "../components/SEOHead";
+import { SEOHead, SITE } from "../components/SEOHead";
 import { getArticleBySlug, articles } from "../data/articles";
 
 export function InsightArticlePage() {
@@ -23,23 +23,53 @@ export function InsightArticlePage() {
         title={`${article.title} | Kind Supply Digital`}
         description={article.excerpt}
         keywords={`${article.category.toLowerCase()}, behavioral health marketing, healthcare digital marketing, ${article.title.toLowerCase().split(" ").slice(0, 5).join(", ")}`}
-        canonical={`https://kindsupplydigital.com/insights/${article.slug}`}
+        canonical={`${SITE}/insights/${article.slug}`}
         ogType="article"
-        structuredData={{
-          "@type": "BlogPosting",
-          headline: article.title,
-          description: article.excerpt,
-          articleSection: article.category,
-          author: {
-            "@type": "Organization",
-            name: "Kind Supply Digital",
-            url: "https://kindsupplydigital.com",
+        structuredData={[
+          {
+            "@type": "BlogPosting",
+            "@id": `${SITE}/insights/${article.slug}#article`,
+            headline: article.title,
+            description: article.excerpt,
+            image: `${SITE}/og-image.png`,
+            articleSection: article.category,
+            datePublished: article.dateISO,
+            dateModified: article.dateISO,
+            wordCount: article.content.reduce(
+              (n, s) => n + s.paragraphs.join(" ").split(/\s+/).length,
+              0
+            ),
+            inLanguage: "en-US",
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `${SITE}/insights/${article.slug}`,
+            },
+            author: {
+              "@type": "Organization",
+              name: "Kind Supply Digital",
+              url: `${SITE}/`,
+            },
+            publisher: { "@id": `${SITE}/#organization` },
           },
-          publisher: {
-            "@type": "Organization",
-            name: "Kind Supply Digital",
+          {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Insights",
+                item: `${SITE}/insights`,
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: article.title,
+                item: `${SITE}/insights/${article.slug}`,
+              },
+            ],
           },
-        }}
+        ]}
       />
 
       {/* Article Header */}

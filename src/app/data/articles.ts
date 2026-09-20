@@ -4,7 +4,10 @@ export interface Article {
   excerpt: string;
   category: string;
   readTime: string;
+  /** Human-readable display date, e.g. "Feb 2026". */
   date: string;
+  /** ISO 8601 date (YYYY-MM-DD) for schema.org / sitemap lastmod. */
+  dateISO: string;
   content: ArticleSection[];
 }
 
@@ -22,6 +25,7 @@ export const articles: Article[] = [
     category: "Healthcare SEO",
     readTime: "8 min read",
     date: "Feb 2026",
+    dateISO: "2026-02-10",
     content: [
       {
         paragraphs: [
@@ -74,6 +78,7 @@ export const articles: Article[] = [
     category: "Strategy",
     readTime: "12 min read",
     date: "Jan 2026",
+    dateISO: "2026-01-22",
     content: [
       {
         paragraphs: [
@@ -133,6 +138,7 @@ export const articles: Article[] = [
     category: "Performance",
     readTime: "6 min read",
     date: "Jan 2026",
+    dateISO: "2026-01-08",
     content: [
       {
         paragraphs: [
@@ -185,6 +191,7 @@ export const articles: Article[] = [
     category: "UX Design",
     readTime: "10 min read",
     date: "Dec 2025",
+    dateISO: "2025-12-18",
     content: [
       {
         paragraphs: [
@@ -244,6 +251,7 @@ export const articles: Article[] = [
     category: "Technology",
     readTime: "7 min read",
     date: "Dec 2025",
+    dateISO: "2025-12-04",
     content: [
       {
         paragraphs: [
@@ -296,6 +304,7 @@ export const articles: Article[] = [
     category: "Business",
     readTime: "9 min read",
     date: "Nov 2025",
+    dateISO: "2025-11-13",
     content: [
       {
         paragraphs: [

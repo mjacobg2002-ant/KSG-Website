@@ -11,7 +11,7 @@ export function InsightsPage() {
         title="Healthcare Digital Marketing Insights & Strategy Blog | Kind Supply Digital"
         description="Expert insights on behavioral health website design, mental health clinic SEO, patient acquisition strategies, treatment center marketing, and healthcare digital growth. Actionable strategies for behavioral health providers."
         keywords="healthcare digital marketing blog, mental health clinic SEO tips, treatment center website strategies, healthcare website design insights, patient acquisition strategies, behavioral health marketing tips, HIPAA website best practices"
-        canonical="https://kindsupplydigital.com/insights"
+        canonical="https://www.kindsupplydigital.com/insights"
         structuredData={{
           "@type": "Blog",
           name: "Kind Supply Digital — Healthcare Marketing Insights",
@@ -26,7 +26,7 @@ export function InsightsPage() {
             description: a.excerpt,
             articleSection: a.category,
             author: { "@type": "Organization", name: "Kind Supply Digital" },
-            url: `https://kindsupplydigital.com/insights/${a.slug}`,
+            url: `https://www.kindsupplydigital.com/insights/${a.slug}`,
           })),
         }}
       />

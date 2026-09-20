@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { ArrowRight, Code2, Search, BarChart3, RefreshCw, FileText, PhoneMissed, MapPin } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
-import { SEOHead } from "../components/SEOHead";
+import { SEOHead, SITE } from "../components/SEOHead";
 
 const services = [
   {
@@ -62,25 +62,43 @@ export function ServicesPage() {
         title="Services — Websites, CRM, SEO, GBP & Ads for Service Businesses | Kind Supply Digital"
         description="Client-acquisition websites, missed-call text-back CRM systems, Google Business Profile buildout, keyword analytics, SEO, and paid ads management for home services, behavioral health, legal, and dental businesses."
         keywords="client acquisition website, missed call text back, CRM for home services, Google Business Profile optimization, keyword analytics, local SEO agency, Google Ads management, behavioral health marketing, HVAC marketing, law firm lead generation, dental marketing"
-        canonical="https://kindsupplydigital.com/services"
-        structuredData={{
-          "@type": "Service",
-          provider: { "@type": "Organization", name: "Kind Supply Digital" },
-          serviceType: "Digital Marketing & Lead System Services",
-          areaServed: { "@type": "Country", name: "United States" },
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            name: "Kind Supply Digital Services",
-            itemListElement: services.map((s, i) => ({
-              "@type": "Offer",
-              itemOffered: {
-                "@type": "Service",
-                name: s.title,
-                description: s.desc,
-              },
-            })),
+        canonical={`${SITE}/services`}
+        structuredData={[
+          {
+            "@type": "Service",
+            provider: { "@id": `${SITE}/#organization` },
+            serviceType: "Digital Marketing & Lead System Services",
+            areaServed: [
+              { "@type": "AdministrativeArea", name: "Northern Virginia" },
+              { "@type": "AdministrativeArea", name: "DMV" },
+              { "@type": "City", name: "Washington, DC" },
+            ],
+            hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: "Kind Supply Digital Services",
+              itemListElement: services.map((s) => ({
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: s.title,
+                  description: s.desc,
+                },
+              })),
+            },
           },
-        }}
+          {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Services",
+                item: `${SITE}/services`,
+              },
+            ],
+          },
+        ]}
       />
       {/* Header */}
       <section className="pt-32 pb-20 border-b border-white/5">

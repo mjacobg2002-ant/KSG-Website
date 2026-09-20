@@ -9,7 +9,6 @@ export function NotFoundPage() {
       <SEOHead
         title="Page Not Found | Kind Supply Digital"
         description="The page you're looking for doesn't exist. Return to Kind Supply Digital's homepage to explore our behavioral health marketing services."
-        canonical="https://kindsupplydigital.com/404"
         noIndex
       />
       <section className="pt-32 pb-32 min-h-[70vh] flex items-center">

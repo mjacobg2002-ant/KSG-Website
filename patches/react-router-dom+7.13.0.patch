@@ -1,0 +1,41 @@
+diff --git a/node_modules/react-router-dom/package.json b/node_modules/react-router-dom/package.json
+index 6c9329d..c9c3832 100644
+--- a/node_modules/react-router-dom/package.json
++++ b/node_modules/react-router-dom/package.json
+@@ -38,6 +38,14 @@
+         "default": "./dist/index.js"
+       }
+     },
++    "./server": {
++      "import": "./server.mjs",
++      "default": "./server.js"
++    },
++    "./server.js": {
++      "import": "./server.mjs",
++      "default": "./server.js"
++    },
+     "./package.json": "./package.json"
+   },
+   "wireit": {
+diff --git a/node_modules/react-router-dom/server.js b/node_modules/react-router-dom/server.js
+new file mode 100644
+index 0000000..0770e4f
+--- /dev/null
++++ b/node_modules/react-router-dom/server.js
+@@ -0,0 +1,2 @@
++// Shim added for vite-react-ssg. React Router v7 folded server APIs into main.
++module.exports = require("./dist/index.js");
+diff --git a/node_modules/react-router-dom/server.mjs b/node_modules/react-router-dom/server.mjs
+new file mode 100644
+index 0000000..2ca876e
+--- /dev/null
++++ b/node_modules/react-router-dom/server.mjs
+@@ -0,0 +1,8 @@
++// Shim added for vite-react-ssg (which imports "react-router-dom/server.js").
++// React Router v7 folded the server APIs into the main entry, so re-export them.
++export {
++  createStaticHandler,
++  createStaticRouter,
++  StaticRouterProvider,
++  StaticRouter,
++} from "./dist/index.mjs";

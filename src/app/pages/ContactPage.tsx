@@ -12,7 +12,7 @@ export function ContactPage() {
         title="Get Your Free Consultation | Kind Supply Digital"
         description="Book a free strategy call with Kind Supply Digital, or text us directly. We build client-acquisition websites, lead-rescue CRM systems, and growth marketing for home services, behavioral health, legal, and dental businesses. Response within 24 hours."
         keywords="contact Kind Supply Digital, book a call, free consultation, website quote, CRM setup, free website audit, Northern Virginia marketing agency"
-        canonical="https://kindsupplydigital.com/contact"
+        canonical="https://www.kindsupplydigital.com/contact"
         structuredData={{
           "@type": "ContactPage",
           mainEntity: {

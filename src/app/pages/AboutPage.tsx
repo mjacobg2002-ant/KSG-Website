@@ -25,7 +25,7 @@ export function AboutPage() {
         title="About Kind Supply Digital | Growth Systems for Local Service Businesses"
         description="Kind Supply Digital builds client-acquisition websites, lead rescue CRM systems, and growth marketing for home services, behavioral health, legal, and dental businesses in Northern Virginia and beyond."
         keywords="about Kind Supply Digital, local service business marketing agency, home services marketing, behavioral health marketing, law firm marketing, dental marketing, Northern Virginia digital agency"
-        canonical="https://kindsupplydigital.com/about"
+        canonical="https://www.kindsupplydigital.com/about"
         structuredData={{
           "@type": "AboutPage",
           mainEntity: {

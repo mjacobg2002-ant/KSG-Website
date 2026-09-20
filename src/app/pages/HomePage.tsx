@@ -123,7 +123,7 @@ export function HomePage() {
         title="Web Design, SEO & Lead Systems in Northern Virginia | Kind Supply Digital"
         description="Kind Supply Digital is a Northern Virginia web design, SEO, and lead-generation agency serving McLean, Tysons, Arlington, Fairfax, Reston, Ashburn, Washington DC, and the DMV. Conversion websites, local SEO, Google Business Profile, and the Lead Rescue System — proven in behavioral health, now serving home services, law firms, and dental."
         keywords="web design Northern Virginia, SEO agency Northern Virginia, lead generation Northern Virginia, website design Fairfax VA, SEO agency McLean VA, digital marketing Northern Virginia, web design Washington DC, local SEO DMV, behavioral health marketing agency, HVAC marketing, law firm lead generation, dental marketing, missed call text back, lead rescue system, Google Business Profile"
-        canonical="https://kindsupplydigital.com"
+        canonical="https://www.kindsupplydigital.com/"
         structuredData={{
           "@type": "ProfessionalService",
           name: "Kind Supply Digital",
@@ -187,38 +187,18 @@ export function HomePage() {
             </p>
           </motion.div>
 
-          {/* Mobile headline — unchanged */}
+          {/* Single H1 — responsive typography handles mobile vs. desktop so
+              the page ships exactly one <h1> for SEO/accessibility. */}
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="text-white mb-8 lg:hidden"
+            className="text-white mb-8 lg:mb-10 mx-auto lg:max-w-[62rem]"
             style={{
               fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(2.4rem, 5.5vw, 4.6rem)",
+              fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
               fontWeight: 400,
-              lineHeight: 1.12,
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Your Next Customer Is Searching
-            <br />
-            Right Now. <span className="text-blue-200/50">Will They Find You &mdash;
-            <br />
-            or the Competitor Who Answers?</span>
-          </motion.h1>
-
-          {/* Desktop headline — sentence-per-line, balanced measure */}
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="text-white hidden lg:block mb-10 mx-auto max-w-[62rem]"
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "4rem",
-              fontWeight: 400,
-              lineHeight: 1.15,
+              lineHeight: 1.14,
               letterSpacing: "-0.02em",
             }}
           >

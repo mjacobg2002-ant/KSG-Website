@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import type { RouteRecord } from "vite-react-ssg";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
 import { AboutPage } from "./pages/AboutPage";
@@ -12,7 +12,9 @@ import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
-export const router = createBrowserRouter([
+// Plain route records consumed by vite-react-ssg (which builds the router
+// internally for both static generation and client hydration).
+export const routes: RouteRecord[] = [
   {
     path: "/",
     Component: Layout,
@@ -30,4 +32,4 @@ export const router = createBrowserRouter([
       { path: "*", Component: NotFoundPage },
     ],
   },
-]);
+];

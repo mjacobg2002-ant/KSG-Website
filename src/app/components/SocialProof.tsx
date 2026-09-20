@@ -3,9 +3,23 @@ import { AnimatedSection } from "./AnimatedSection";
 import { motion, useInView } from "motion/react";
 
 // ── Count-up hook ──
+// Initializes to `end` so the real number is present in the prerendered/no-JS
+// HTML (crawlers + first paint see "340%", not "0%"). On the client we drop to 0
+// off-screen (before the stat is scrolled into view) so the count-up still plays;
+// starting at `end` also keeps SSR and first client render identical (no
+// hydration mismatch).
 export function useCountUp(end: number, duration: number, inView: boolean) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(end);
   const hasAnimated = useRef(false);
+  const didInit = useRef(false);
+
+  useEffect(() => {
+    // Runs once after hydration. If the stat hasn't been reached yet, reset to 0
+    // so the animation has somewhere to count up from; this happens off-screen.
+    if (didInit.current) return;
+    didInit.current = true;
+    if (!inView) setCount(0);
+  }, [inView]);
 
   useEffect(() => {
     if (!inView || hasAnimated.current) return;

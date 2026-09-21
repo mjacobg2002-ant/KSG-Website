@@ -174,18 +174,28 @@ export function HomePage() {
             preload="auto"
             poster="/hero.jpg"
             aria-hidden="true"
-            style={{ filter: "grayscale(1) contrast(1.05) brightness(0.85)" }}
+            style={{ filter: "grayscale(0.85) contrast(1.08) brightness(1.05)" }}
           >
             <source src="/hero.mp4" type="video/mp4" />
           </video>
-          {/* Navy duotone tint over the photo */}
+          {/* Navy duotone tint — keeps the footage on-palette without hiding it */}
           <div
             className="absolute inset-0 bg-[#0f172a]"
-            style={{ opacity: 0.82, mixBlendMode: "multiply" }}
+            style={{ opacity: 0.4, mixBlendMode: "multiply" }}
             aria-hidden="true"
           />
-          {/* Legibility wash — keeps headline text high-contrast over the image */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/90 via-[#0f172a]/70 to-[#0f172a]/95" />
+          {/* Legibility scrim — darker behind the centered text, lighter at the
+              edges so the video stays clearly visible. */}
+          <div
+            className="absolute inset-0"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(ellipse 90% 70% at 50% 45%, rgba(15,23,42,0.72) 0%, rgba(15,23,42,0.45) 45%, rgba(15,23,42,0.25) 100%)",
+            }}
+          />
+          {/* Subtle top/bottom fade to blend the section edges */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/70 via-transparent to-[#0f172a]/80" aria-hidden="true" />
           <motion.div
             className="absolute inset-0 opacity-40"
             style={{

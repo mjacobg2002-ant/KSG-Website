@@ -20,7 +20,7 @@ const clients: Client[] = [
   { src: gracePath, alt: "Grace Path Wellness Center", scale: 1.4 },
   { src: dulaney, alt: "Dulaney" },
   { src: ltc, alt: "LTC", scale: 1.45 },
-  { src: abideThrive, alt: "Abide & Thrive", scale: 1.55 },
+  { src: abideThrive, alt: "Abide & Thrive", scale: 2.2 },
   { src: summitDental, alt: "Summit Dental", scale: 1.55 },
   { src: westparkDental, alt: "Westpark Dental Studio", scale: 1.7 },
   { src: alpineConcrete, alt: "Alpine Concrete Co.", scale: 1.55 },

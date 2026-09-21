@@ -37,6 +37,25 @@
     /></noscript>
     <!-- End Meta Pixel Code (noscript) -->
     <div id="root"></div>
+    <!--
+      vite-react-ssg 0.9.2's hydration path is incompatible with React Router v7
+      (it never hands the client data-router the SSR hydration state), so it
+      double-renders the app: the original prerendered tree is left in the DOM
+      (invisible, animations frozen) while a second tree mounts beside it.
+      Stripping the SSR marker before the app boots forces a single clean
+      createRoot render into #root. The prerendered HTML is still served to
+      crawlers for SEO — this only changes client behavior. Runs before the
+      deferred module script below.
+    -->
+    <script>
+      (function () {
+        var el = document.querySelector("[data-server-rendered]");
+        if (el) {
+          el.removeAttribute("data-server-rendered");
+          el.replaceChildren();
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
 
     <!-- LeadConnector (GoHighLevel) SMS opt-in chat widget -->

@@ -50,7 +50,7 @@ export function Navbar() {
             ))}
             <Link
               to="/contact"
-              className="ml-2 px-6 py-2.5 bg-blue-500 text-white hover:bg-blue-400 transition-all duration-300"
+              className="ml-2 px-6 py-2.5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.05em", fontWeight: 500 }}
             >
               Free Consultation
@@ -94,7 +94,7 @@ export function Navbar() {
               <Link
                 to="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="mt-4 px-6 py-3 bg-blue-500 text-white text-center"
+                className="mt-4 px-6 py-3 bg-blue-500 text-[#0f172a] font-medium text-center"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", fontWeight: 500 }}
               >
                 Free Consultation

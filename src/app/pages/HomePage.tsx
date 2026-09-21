@@ -28,7 +28,7 @@ function CTABlock({ label = "Get Your Free Consultation", center = false }: { la
     <div className={center ? "flex flex-col items-center" : "flex flex-col items-start"}>
       <Link
         to="/contact"
-        className="inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-white hover:bg-blue-400 transition-all duration-300 group"
+        className="inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group"
         style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
       >
         {label}
@@ -147,18 +147,41 @@ export function HomePage() {
       {/* ============ HERO — name the pain ============ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e3a5f] to-[#0f172a]" />
+          {/* Duotone photograph with a slow Ken-Burns drift for premium realism.
+              Swap /hero.jpg for real brand photography when available. */}
+          <motion.div
+            className="absolute inset-0"
+            initial={{ scale: 1.12 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 24, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+            aria-hidden="true"
+          >
+            <img
+              src="/hero.jpg"
+              alt=""
+              className="w-full h-full object-cover"
+              style={{ filter: "grayscale(1) contrast(1.05) brightness(0.85)" }}
+            />
+          </motion.div>
+          {/* Navy duotone tint over the photo */}
+          <div
+            className="absolute inset-0 bg-[#0f172a]"
+            style={{ opacity: 0.82, mixBlendMode: "multiply" }}
+            aria-hidden="true"
+          />
+          {/* Legibility wash — keeps headline text high-contrast over the image */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/90 via-[#0f172a]/70 to-[#0f172a]/95" />
           <motion.div
             className="absolute inset-0 opacity-40"
             style={{
               background:
-                "radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.2) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(96,165,250,0.15) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 30% 50%, rgba(202,163,78,0.18) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212,175,95,0.12) 0%, transparent 60%)",
             }}
             animate={{
               background: [
-                "radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.2) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(96,165,250,0.15) 0%, transparent 60%)",
-                "radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.25) 0%, transparent 60%), radial-gradient(ellipse at 50% 70%, rgba(96,165,250,0.15) 0%, transparent 60%)",
-                "radial-gradient(ellipse at 70% 50%, rgba(59,130,246,0.2) 0%, transparent 60%), radial-gradient(ellipse at 30% 50%, rgba(96,165,250,0.15) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 30% 50%, rgba(202,163,78,0.18) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212,175,95,0.12) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 50% 30%, rgba(202,163,78,0.22) 0%, transparent 60%), radial-gradient(ellipse at 50% 70%, rgba(212,175,95,0.12) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 70% 50%, rgba(202,163,78,0.18) 0%, transparent 60%), radial-gradient(ellipse at 30% 50%, rgba(212,175,95,0.12) 0%, transparent 60%)",
               ],
             }}
             transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
@@ -682,7 +705,7 @@ export function HomePage() {
                     to="/contact"
                     className={`px-8 py-3.5 text-center transition-all duration-300 ${
                       p.featured
-                        ? "bg-blue-500 text-white hover:bg-blue-400"
+                        ? "bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400"
                         : "border border-blue-400/20 text-blue-200/60 hover:text-white hover:border-blue-400/40"
                     }`}
                     style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", fontWeight: 500, letterSpacing: "0.05em" }}

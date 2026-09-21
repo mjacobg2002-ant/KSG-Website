@@ -6,6 +6,7 @@ import dulaney from "../assets/clients/dulaney.png";
 import ltc from "../assets/clients/ltc.png";
 import abideThrive from "../assets/clients/abide-thrive.png";
 import summitDental from "../assets/clients/summit-dental.png";
+import westparkDental from "../assets/clients/westpark-dental.png";
 import alpineConcrete from "../assets/clients/alpine-concrete.png";
 import sn from "../assets/clients/sn.png";
 
@@ -21,6 +22,7 @@ const clients: Client[] = [
   { src: ltc, alt: "LTC", scale: 1.45 },
   { src: abideThrive, alt: "Abide & Thrive", scale: 2 },
   { src: summitDental, alt: "Summit Dental", scale: 1.55 },
+  { src: westparkDental, alt: "Westpark Dental Studio", scale: 1.7 },
   { src: alpineConcrete, alt: "Alpine Concrete Co.", scale: 1.55 },
   { src: sn, alt: "sn." },
 ];

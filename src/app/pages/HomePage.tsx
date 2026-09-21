@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import {
   Code2,
@@ -117,6 +118,19 @@ const trustPoints = [
 ];
 
 export function HomePage() {
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Respect the visitor's "reduce motion" preference: pause the hero loop and
+  // let the poster still stand in.
+  useEffect(() => {
+    const v = heroVideoRef.current;
+    if (!v) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      v.removeAttribute("autoplay");
+      v.pause();
+    }
+  }, []);
+
   return (
     <div>
       <SEOHead
@@ -147,22 +161,23 @@ export function HomePage() {
       {/* ============ HERO — name the pain ============ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          {/* Duotone photograph with a slow Ken-Burns drift for premium realism.
-              Swap /hero.jpg for real brand photography when available. */}
-          <motion.div
-            className="absolute inset-0"
-            initial={{ scale: 1.12 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 24, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+          {/* Duotone looping video for premium background motion. The poster
+              (and the reduced-motion branch above) fall back to the still image.
+              Swap /hero.mp4 + /hero.jpg for real brand footage when available. */}
+          <video
+            ref={heroVideoRef}
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/hero.jpg"
             aria-hidden="true"
+            style={{ filter: "grayscale(1) contrast(1.05) brightness(0.85)" }}
           >
-            <img
-              src="/hero.jpg"
-              alt=""
-              className="w-full h-full object-cover"
-              style={{ filter: "grayscale(1) contrast(1.05) brightness(0.85)" }}
-            />
-          </motion.div>
+            <source src="/hero.mp4" type="video/mp4" />
+          </video>
           {/* Navy duotone tint over the photo */}
           <div
             className="absolute inset-0 bg-[#0f172a]"

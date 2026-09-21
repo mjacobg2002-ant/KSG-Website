@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -16,11 +16,27 @@ const navLinks = [
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  // Transparent over the hero at the very top; fade in the navy background once
+  // the visitor scrolls (or when the mobile menu is open, for legibility).
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const hasBackground = scrolled || mobileOpen;
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 bg-[#0f172a]/80 backdrop-blur-xl border-b border-white/5"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        hasBackground
+          ? "bg-[#0f172a]/80 backdrop-blur-xl border-b border-white/5"
+          : "bg-transparent border-b border-transparent"
+      }`}
       role="navigation"
       aria-label="Main navigation"
     >

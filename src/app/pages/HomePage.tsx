@@ -174,7 +174,15 @@ export function HomePage() {
             preload="auto"
             poster="/hero.jpg"
             aria-hidden="true"
-            style={{ filter: "contrast(1.06) saturate(1.12) brightness(1.02)" }}
+            tabIndex={-1}
+            controls={false}
+            disablePictureInPicture
+            disableRemotePlayback
+            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+            style={{
+              filter: "contrast(1.06) saturate(1.12) brightness(1.02)",
+              pointerEvents: "none",
+            }}
           >
             <source src="/hero.mp4" type="video/mp4" />
           </video>

@@ -1,13 +1,13 @@
 import { AnimatedSection } from "./AnimatedSection";
 
-/* Real client logos — backgrounds removed, tuned for the dark theme. */
-import gracePath from "../assets/clients/grace-path.png";
-import dulaney from "../assets/clients/dulaney.png";
-import ltc from "../assets/clients/ltc.png";
-import abideThrive from "../assets/clients/abide-thrive.png";
-import summitDental from "../assets/clients/summit-dental.png";
-import alpineConcrete from "../assets/clients/alpine-concrete.png";
-import sn from "../assets/clients/sn.png";
+/* Refined client logos — tightly cropped, sharpened, and transparent. */
+import gracePath from "../assets/clients/refined/grace-path.png";
+import dulaney from "../assets/clients/refined/dulaney.png";
+import ltc from "../assets/clients/refined/ltc.png";
+import abideThrive from "../assets/clients/refined/abide-thrive.png";
+import summitDental from "../assets/clients/refined/summit-dental.png";
+import alpineConcrete from "../assets/clients/refined/alpine-concrete.png";
+import sn from "../assets/clients/refined/sn.png";
 
 /*
  * To add another client: drop a background-free PNG into

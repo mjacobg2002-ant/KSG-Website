@@ -174,14 +174,14 @@ export function HomePage() {
             preload="auto"
             poster="/hero.jpg"
             aria-hidden="true"
-            style={{ filter: "grayscale(0.85) contrast(1.08) brightness(1.05)" }}
+            style={{ filter: "contrast(1.06) saturate(1.12) brightness(1.02)" }}
           >
             <source src="/hero.mp4" type="video/mp4" />
           </video>
-          {/* Navy duotone tint — keeps the footage on-palette without hiding it */}
+          {/* Light navy wash — keeps the footage on-palette without greying it out */}
           <div
             className="absolute inset-0 bg-[#0f172a]"
-            style={{ opacity: 0.4, mixBlendMode: "multiply" }}
+            style={{ opacity: 0.28, mixBlendMode: "multiply" }}
             aria-hidden="true"
           />
           {/* Legibility scrim — darker behind the centered text, lighter at the
@@ -633,7 +633,7 @@ export function HomePage() {
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 items-stretch">
             {[
               {
                 name: "Lead Rescue CRM System",
@@ -681,7 +681,7 @@ export function HomePage() {
                 ],
               },
             ].map((p, i) => (
-              <AnimatedSection key={p.name} delay={i * 0.12}>
+              <AnimatedSection key={p.name} delay={i * 0.12} className="h-full w-full">
                 <div
                   className={`p-10 h-full flex flex-col transition-colors duration-500 ${
                     p.featured ? "bg-[#162036]" : "bg-[#0f172a] hover:bg-[#131d32]"

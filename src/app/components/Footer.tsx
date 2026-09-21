@@ -133,7 +133,7 @@ export function Footer() {
             </div>
             <Link
               to="/contact"
-              className="inline-block px-6 py-2.5 bg-blue-500 text-white hover:bg-blue-400 transition-all"
+              className="inline-block px-6 py-2.5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.05em", fontWeight: 500 }}
             >
               Free Consultation

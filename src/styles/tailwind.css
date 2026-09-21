@@ -2,3 +2,29 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @import 'tw-animate-css';
+
+/*
+ * Brand re-skin — navy + warm gold.
+ * The site's accent was blue; the brand palette is now a warm brass gold
+ * (#caa34e, sampled from the reference banner). Rather than rename ~140
+ * `blue-*` utility usages, we remap the Tailwind `blue` color ramp to the gold
+ * scale here, so every existing `text-blue-300`, `bg-blue-500`, etc. renders as
+ * gold. Inline rgba/hex blues (hero gradient orbs) are updated at their source.
+ */
+@theme {
+  --color-blue-50: #faf6ec;
+  --color-blue-100: #f3e9cf;
+  --color-blue-200: #e8d4a1;
+  --color-blue-300: #dcc07b; /* light gold — eyebrow/accent text */
+  --color-blue-400: #d0ad5d; /* mid gold — icons, borders */
+  --color-blue-500: #caa34e; /* primary gold — CTAs (exact reference accent) */
+  --color-blue-600: #b0883a;
+  --color-blue-700: #8f6d2f;
+  --color-blue-800: #6d5326;
+  --color-blue-900: #4a3819;
+  --color-blue-950: #2a2010;
+
+  /* Convenience aliases if we want explicit gold utilities later. */
+  --color-gold: #caa34e;
+  --color-cream: #f4f0e7;
+}

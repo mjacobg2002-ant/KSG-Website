@@ -46,7 +46,7 @@ export function NotFoundPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/"
-                className="px-10 py-4 bg-blue-500 text-white hover:bg-blue-400 transition-all duration-300 group flex items-center justify-center gap-2"
+                className="px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group flex items-center justify-center gap-2"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
               >
                 Return Home

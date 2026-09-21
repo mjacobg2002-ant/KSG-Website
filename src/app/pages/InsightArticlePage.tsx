@@ -273,7 +273,7 @@ export function InsightArticlePage() {
             </p>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-3 px-12 py-5 bg-blue-500 text-white hover:bg-blue-400 transition-all duration-300 group"
+              className="inline-flex items-center gap-3 px-12 py-5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
             >
               Get Your Free Consultation

@@ -38,7 +38,7 @@ export function FloatingCTA() {
             <div className="flex items-center gap-3 ml-auto">
               <Link
                 to="/contact"
-                className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white hover:bg-blue-400 transition-all"
+                className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", fontWeight: 500 }}
               >
                 Free Consultation

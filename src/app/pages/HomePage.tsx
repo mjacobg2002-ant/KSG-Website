@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import {
   Code2,
@@ -28,7 +29,7 @@ function CTABlock({ label = "Get Your Free Consultation", center = false }: { la
     <div className={center ? "flex flex-col items-center" : "flex flex-col items-start"}>
       <Link
         to="/contact"
-        className="inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-white hover:bg-blue-400 transition-all duration-300 group"
+        className="inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group"
         style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
       >
         {label}
@@ -117,6 +118,19 @@ const trustPoints = [
 ];
 
 export function HomePage() {
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Respect the visitor's "reduce motion" preference: pause the hero loop and
+  // let the poster still stand in.
+  useEffect(() => {
+    const v = heroVideoRef.current;
+    if (!v) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      v.removeAttribute("autoplay");
+      v.pause();
+    }
+  }, []);
+
   return (
     <div>
       <SEOHead
@@ -147,18 +161,52 @@ export function HomePage() {
       {/* ============ HERO — name the pain ============ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e3a5f] to-[#0f172a]" />
+          {/* Duotone looping video for premium background motion. The poster
+              (and the reduced-motion branch above) fall back to the still image.
+              Swap /hero.mp4 + /hero.jpg for real brand footage when available. */}
+          <video
+            ref={heroVideoRef}
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/hero.jpg"
+            aria-hidden="true"
+            style={{ filter: "contrast(1.06) saturate(1.12) brightness(1.02)" }}
+          >
+            <source src="/hero.mp4" type="video/mp4" />
+          </video>
+          {/* Light navy wash — keeps the footage on-palette without greying it out */}
+          <div
+            className="absolute inset-0 bg-[#0f172a]"
+            style={{ opacity: 0.28, mixBlendMode: "multiply" }}
+            aria-hidden="true"
+          />
+          {/* Legibility scrim — darker behind the centered text, lighter at the
+              edges so the video stays clearly visible. */}
+          <div
+            className="absolute inset-0"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(ellipse 90% 70% at 50% 45%, rgba(15,23,42,0.72) 0%, rgba(15,23,42,0.45) 45%, rgba(15,23,42,0.25) 100%)",
+            }}
+          />
+          {/* Subtle top/bottom fade to blend the section edges */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/70 via-transparent to-[#0f172a]/80" aria-hidden="true" />
           <motion.div
             className="absolute inset-0 opacity-40"
             style={{
               background:
-                "radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.2) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(96,165,250,0.15) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 30% 50%, rgba(202,163,78,0.18) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212,175,95,0.12) 0%, transparent 60%)",
             }}
             animate={{
               background: [
-                "radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.2) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(96,165,250,0.15) 0%, transparent 60%)",
-                "radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.25) 0%, transparent 60%), radial-gradient(ellipse at 50% 70%, rgba(96,165,250,0.15) 0%, transparent 60%)",
-                "radial-gradient(ellipse at 70% 50%, rgba(59,130,246,0.2) 0%, transparent 60%), radial-gradient(ellipse at 30% 50%, rgba(96,165,250,0.15) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 30% 50%, rgba(202,163,78,0.18) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212,175,95,0.12) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 50% 30%, rgba(202,163,78,0.22) 0%, transparent 60%), radial-gradient(ellipse at 50% 70%, rgba(212,175,95,0.12) 0%, transparent 60%)",
+                "radial-gradient(ellipse at 70% 50%, rgba(202,163,78,0.18) 0%, transparent 60%), radial-gradient(ellipse at 30% 50%, rgba(212,175,95,0.12) 0%, transparent 60%)",
               ],
             }}
             transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
@@ -585,7 +633,7 @@ export function HomePage() {
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 items-stretch">
             {[
               {
                 name: "Lead Rescue CRM System",
@@ -633,7 +681,7 @@ export function HomePage() {
                 ],
               },
             ].map((p, i) => (
-              <AnimatedSection key={p.name} delay={i * 0.12}>
+              <AnimatedSection key={p.name} delay={i * 0.12} className="h-full w-full">
                 <div
                   className={`p-10 h-full flex flex-col transition-colors duration-500 ${
                     p.featured ? "bg-[#162036]" : "bg-[#0f172a] hover:bg-[#131d32]"
@@ -682,7 +730,7 @@ export function HomePage() {
                     to="/contact"
                     className={`px-8 py-3.5 text-center transition-all duration-300 ${
                       p.featured
-                        ? "bg-blue-500 text-white hover:bg-blue-400"
+                        ? "bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400"
                         : "border border-blue-400/20 text-blue-200/60 hover:text-white hover:border-blue-400/40"
                     }`}
                     style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", fontWeight: 500, letterSpacing: "0.05em" }}

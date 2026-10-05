@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kind Supply Digital — Resultados para Contratistas</title>
+<meta name="description" content="Kind Supply Digital le consigue a los contratistas de servicios para el hogar entre 3 y 4 trabajos extra al mes con anuncios de Meta. Campañas reales, contratos cerrados reales — y una calculadora de ingresos para proyectar sus propios resultados.">
+<meta name="theme-color" content="#111a26">
+<link rel="canonical" href="https://kindsupplydigital.com/contractors/es">
+<link rel="alternate" hreflang="en" href="https://kindsupplydigital.com/contractors">
+<link rel="alternate" hreflang="es" href="https://kindsupplydigital.com/contractors/es">
+<link rel="alternate" hreflang="x-default" href="https://kindsupplydigital.com/contractors">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#111a26; --navy-2:#18232f; --navy-3:#20303f;
+    --gold:#6aa6d0; --gold-2:#93c2e4;   /* calm steel-blue accent (trust/ease) */
+    --cream:#eef3f8; --text:#aeb9c7; --muted:#74828f; --line:rgba(106,166,208,.30);
+    --shell:1120px;
+    --dsp:"Plus Jakarta Sans","Inter",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:96px}
+  body{margin:0;background:var(--navy);color:var(--text);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:var(--dsp);font-weight:700;line-height:1.08;margin:0;color:var(--cream);letter-spacing:-.02em}
+  .shell{width:100%;max-width:var(--shell);margin:0 auto;padding:0 clamp(20px,5vw,44px)}
+  .gold{color:var(--gold)}
+  .eyebrow{font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.34em;font-size:.78rem;color:var(--gold);margin:0 0 14px}
+  .btn{display:inline-flex;align-items:center;gap:.5em;font-family:var(--dsp);font-weight:600;letter-spacing:0;font-size:1rem;padding:.85em 1.7em;border-radius:8px;border:1.5px solid var(--gold);transition:transform .15s ease,background .2s,color .2s}
+  .btn--gold{background:var(--gold);color:#12182a}
+  .btn--gold:hover{background:var(--gold-2);border-color:var(--gold-2);transform:translateY(-2px)}
+  .btn--ghost{color:var(--cream);border-color:rgba(255,255,255,.25)}
+  .btn--ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:50;padding:16px 0;background:transparent}
+  .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;
+    background:rgba(18,24,34,.72);backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);
+    border:1px solid rgba(255,255,255,.10);border-radius:999px;
+    padding:9px 12px 9px 22px;box-shadow:0 18px 44px -22px rgba(0,0,0,.8)}
+  .nav__logo{justify-self:start}
+  .nav__logo img{height:30px;width:auto;display:block}
+  .nav__links{justify-self:center;display:flex;gap:clamp(18px,2.4vw,34px)}
+  .nav__links a{font-family:var(--dsp);font-weight:500;font-size:.95rem;color:#d5dbe6;transition:color .2s}
+  .nav__links a:hover{color:#fff}
+  .nav__cta{justify-self:end;border-color:rgba(106,166,208,.5);color:var(--cream);box-shadow:0 0 26px -8px rgba(106,166,208,.55)}
+  .nav__cta:hover{background:var(--gold);border-color:var(--gold);color:#12182a;transform:translateY(-1px)}
+  .nav .btn{padding:.62em 1.3em;font-size:.9rem;border-radius:999px}
+  .nav .btn svg{width:15px;height:15px}
+  .nav__end{justify-self:end;display:flex;align-items:center;gap:10px}
+  .nav__lang{display:inline-flex;align-items:center;gap:6px;font-family:var(--dsp);font-weight:600;font-size:.82rem;letter-spacing:.03em;color:#d5dbe6;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:.52em .9em;transition:color .2s,border-color .2s}
+  .nav__lang:hover{color:#fff;border-color:var(--gold)}
+  .nav__lang svg{width:14px;height:14px;opacity:.85}
+  @media(max-width:760px){
+    .nav{grid-template-columns:1fr auto;padding:9px 12px 9px 18px}
+    .nav__links{display:none}
+  }
+
+  /* hero — full-bleed video, left-aligned content, logo carousel at bottom */
+  .hero{position:relative;overflow:hidden;background:#0a0f16;min-height:100svh;display:flex;flex-direction:column}
+  .hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:grayscale(.25)}
+  .hero__scrim{position:absolute;inset:0;z-index:1;
+    background:linear-gradient(90deg,rgba(11,15,22,.92),rgba(11,15,22,.55) 55%,rgba(11,15,22,.35)),
+      linear-gradient(0deg,rgba(11,15,22,.90),rgba(11,15,22,.15) 55%)}
+  .hero .shell{max-width:1340px}
+  .hero__inner{position:relative;z-index:2;flex:1;display:flex;align-items:flex-end;padding-top:clamp(110px,15vh,150px);padding-bottom:clamp(46px,9vh,110px)}
+  .hero__content{max-width:540px;text-align:left}
+  .hero .eyebrow{margin-bottom:12px;font-size:.7rem}
+  .hero h1{font-size:clamp(1.9rem,4.4vw,3.1rem);letter-spacing:-.02em;text-shadow:0 2px 30px rgba(0,0,0,.45)}
+  .hero__points{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+  .hero__points li{display:flex;gap:11px;align-items:flex-start;color:var(--text);font-size:.94rem;max-width:48ch}
+  .hero__points svg{flex:none;width:19px;height:19px;color:var(--gold);margin-top:2px}
+  .hero__points b{color:var(--cream);font-weight:700}
+  .hero .actions{display:flex;gap:14px;justify-content:flex-start;flex-wrap:wrap;margin-top:30px}
+  /* logo carousel */
+  .hero__logos{position:relative;z-index:2;padding:22px 0 26px;background:transparent}
+  .hero__logos-mask{-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);overflow:hidden}
+  .logos-track{display:flex;gap:16px;width:max-content;animation:marq 24s linear infinite}
+  .hero__logos:hover .logos-track{animation-play-state:paused}
+  .logo-chip{flex:none;height:92px;width:230px;display:flex;align-items:center;justify-content:center}
+  .logo-chip img{max-height:100%;max-width:100%;object-fit:contain;display:block}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.logos-track{animation:none}}
+
+  /* industries */
+  #industries .shell,#work .shell{max-width:1320px}
+  .ind-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .ind{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:3/2;border:1px solid rgba(255,255,255,.08)}
+  .ind img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .ind:hover img{transform:scale(1.05)}
+  .ind::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,28,.05) 30%,rgba(10,16,28,.85))}
+  .ind span{position:absolute;left:16px;bottom:14px;z-index:2;font-family:var(--dsp);font-weight:700;color:var(--cream);font-size:1.05rem;letter-spacing:-.01em}
+  .ind span small{display:block;font-family:var(--body);font-weight:500;font-size:.72rem;letter-spacing:.04em;color:var(--gold);text-transform:none}
+  @media(max-width:760px){.ind-grid{grid-template-columns:1fr}}
+
+  /* stat strip — transparent, thin */
+  .stats{background:transparent}
+  .stats .grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:16px 14px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+  .stat:last-child{border-right:none}
+  .stat b{display:block;font-family:var(--dsp);font-weight:700;color:var(--cream);font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1}
+  .stat b .gold{display:inline;color:var(--gold);font-size:.5em;font-weight:700;margin-left:3px;vertical-align:.18em}
+  .stat>span{display:block;margin-top:6px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+  section{padding:clamp(52px,7vw,96px) 0}
+  .sec-head{text-align:center;max-width:720px;margin:0 auto clamp(34px,5vw,52px)}
+  .sec-head h2{font-size:clamp(2rem,5vw,3.3rem)}
+  .sec-head p{margin:14px auto 0;font-size:1.04rem}
+
+  /* case studies */
+  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .case{background:var(--navy-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 26px 54px -30px rgba(0,0,0,.85)}
+  .case__tag{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 0;font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:var(--muted)}
+  .case__tag b{color:var(--gold)}
+  .case img{width:100%;height:auto;margin-top:12px}
+
+  /* wins (texts) */
+  .wins{background:var(--navy-2)}
+  .wins-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:900px;margin:0 auto}
+  .win{background:#000;border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;box-shadow:0 24px 50px -28px rgba(0,0,0,.85)}
+  .win img{width:100%}
+  .win figcaption{padding:14px 16px;text-align:center;font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.82rem;color:var(--muted)}
+  .win figcaption b{color:var(--gold);font-size:1.05rem}
+
+  /* speed-to-lead CRM */
+  .crm{background:var(--navy-2)}
+  .crm-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,60px);align-items:center}
+  .crm-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:#12182a;background:var(--gold);border-radius:999px;padding:7px 15px;margin-bottom:18px}
+  .crm h2{font-size:clamp(2rem,5vw,3.2rem)}
+  .crm .lede{margin:16px 0 24px;font-size:1.06rem;max-width:48ch}
+  .crm-feats{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px;margin:0;padding:0;list-style:none}
+  .crm-feats li{position:relative;padding-left:30px;font-size:.98rem;color:var(--text)}
+  .crm-feats li b{display:block;font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--cream);font-size:.92rem;margin-bottom:2px}
+  .crm-feats li::before{content:"";position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(106,166,208,.18)}
+  /* phone mock */
+  .phone{max-width:330px;margin:0 auto;background:#0a0f1a;border:1px solid rgba(255,255,255,.12);border-radius:34px;padding:16px 14px 20px;box-shadow:0 34px 70px -30px rgba(0,0,0,.9)}
+  .phone__bar{display:flex;align-items:center;gap:10px;padding:4px 6px 14px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+  .phone__ava{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#12182a;font-family:var(--dsp);font-weight:700;display:flex;align-items:center;justify-content:center}
+  .phone__who{font-family:var(--dsp);font-weight:600;color:var(--cream);font-size:.95rem;line-height:1.1}
+  .phone__who small{display:block;color:#4ade80;font-size:.66rem;letter-spacing:.04em;font-family:var(--body);font-weight:600}
+  .bub{max-width:82%;padding:10px 14px;border-radius:16px;font-size:.9rem;line-height:1.4;margin-bottom:10px}
+  .bub--in{background:#1c2740;color:#e7ecf5;border-bottom-left-radius:5px}
+  .bub--out{background:var(--gold);color:#12182a;border-bottom-right-radius:5px;margin-left:auto;font-weight:500}
+  .bub__meta{display:block;margin-top:5px;font-size:.64rem;letter-spacing:.03em;opacity:.7;font-weight:600}
+  .zap{display:inline-flex;align-items:center;gap:6px;margin:2px auto 0;font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;color:var(--gold);width:100%;justify-content:center}
+
+  /* calculator */
+  .calc-wrap{max-width:1000px;margin:0 auto;background:var(--navy-2);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,4vw,44px);box-shadow:0 30px 60px -30px rgba(0,0,0,.85)}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,48px);align-items:center}
+  .calc-field{margin-bottom:26px}
+  .calc-field:last-child{margin-bottom:0}
+  .calc-field .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .calc-field label{font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;color:var(--cream)}
+  .calc-field .val{font-family:var(--dsp);font-weight:700;color:var(--gold);font-size:1.15rem}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold));background-color:#26344f;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--gold);border:3px solid #0c1526;box-shadow:0 2px 8px rgba(0,0,0,.5);cursor:pointer}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--gold);border:3px solid #0c1526;cursor:pointer}
+  .ticket{display:flex;align-items:center;gap:8px;background:#0c1526;border:1.5px solid var(--line);border-radius:8px;padding:10px 14px}
+  .ticket span{font-family:var(--dsp);font-weight:700;color:var(--gold);font-size:1.2rem}
+  .ticket input{flex:1;background:transparent;border:none;outline:none;color:var(--cream);font-family:var(--dsp);font-weight:700;font-size:1.2rem;width:100%}
+  .calc-out{background:#0c1526;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:clamp(20px,3vw,30px)}
+  .calc-out .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+  .calc-out .mini div{text-align:center;background:var(--navy-2);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px 8px}
+  .calc-out .mini b{display:block;font-family:var(--dsp);font-weight:700;color:var(--cream);font-size:1.5rem;line-height:1}
+  .calc-out .mini span{display:block;margin-top:6px;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .calc-rev{text-align:center;border-top:1px solid rgba(255,255,255,.08);padding-top:20px}
+  .calc-rev .lab{font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;color:var(--muted)}
+  .calc-rev .big{font-family:var(--dsp);font-weight:700;color:var(--gold);font-size:clamp(2.6rem,7vw,4rem);line-height:1;margin:6px 0}
+  .calc-rev .roi{font-family:var(--dsp);font-weight:600;color:var(--cream);letter-spacing:.04em}
+  .calc-note{text-align:center;color:var(--muted);font-size:.82rem;margin:18px auto 0;max-width:60ch}
+
+  /* process */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .step{background:var(--navy-2);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:26px 20px}
+  .step .n{font-family:var(--dsp);font-weight:700;font-size:1.5rem;color:var(--gold)}
+  .step h3{margin:10px 0 7px;font-size:1.08rem}
+  .step p{margin:0;font-size:.94rem}
+
+  .cta{text-align:center;position:relative;
+    background:linear-gradient(rgba(11,18,32,.90),rgba(12,21,38,.95)),radial-gradient(900px 400px at 50% 120%,rgba(106,166,208,.14),transparent 70%),url(/contractors/assets/concrete-poster.jpg') center/cover no-repeat;
+    background-blend-mode:normal}
+  .cta h2{font-size:clamp(2.2rem,6vw,3.8rem)}
+  .cta p{max-width:46ch;margin:14px auto 0;font-size:1.08rem}
+  .cta .actions{margin-top:28px}
+
+  footer{border-top:1px solid rgba(255,255,255,.07);padding:32px 0;text-align:center}
+  footer img{height:32px;margin:0 auto 12px}
+  footer p{margin:0;color:var(--muted);font-size:.84rem}
+
+  @media(max-width:900px){
+    .stats .grid{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(2){border-right:none}
+    .cases{grid-template-columns:1fr;max-width:440px;margin:0 auto}
+    .calc-grid{grid-template-columns:1fr}
+    .crm-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+    .phone{order:-1}
+    .steps{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:560px){
+    .wins-grid{grid-template-columns:1fr;max-width:400px}
+    .steps{grid-template-columns:1fr}
+    .stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell nav">
+    <a class="nav__logo" href="#top" aria-label="Kind Supply Digital — inicio"><img src="/contractors/assets/logo.svg" alt="Kind Supply Digital"></a>
+    <nav class="nav__links" aria-label="Principal">
+      <a href="#work">Resultados</a>
+      <a href="#crm">Respuesta Rápida</a>
+      <a href="#calculator">Calculadora</a>
+      <a href="#book">Contacto</a>
+    </nav>
+    <div class="nav__end">
+      <a class="nav__lang" href="/contractors" hreflang="en" aria-label="View this page in English"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>English</a>
+      <a class="btn btn--ghost nav__cta" href="https://links.kindsupplydigital.com/widget/booking/74yPiZgcwlqMB7rNLRYm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z" fill="currentColor"/></svg>Reservar Llamada</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="hero__bg" autoplay muted loop playsinline preload="auto" poster="/contractors/assets/concrete-poster.jpg" aria-hidden="true">
+    <source src="/contractors/assets/concrete.mp4" type="video/mp4">
+  </video>
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="shell hero__inner">
+    <div class="hero__content">
+      <p class="eyebrow">Agencia de Marketing para Servicios del Hogar</p>
+      <h1>Kind Supply Digital</h1>
+      <ul class="hero__points">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg><span><b>Comprobado:</b> Campañas reales, contratos cerrados de verdad.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg><span><b>Hecho Por Nosotros:</b> Anuncios de Meta + un CRM de respuesta rápida, listos para usted.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg><span><b>Más Trabajos:</b> De 3 a 4 trabajos extra reservados cada mes.</span></li>
+      </ul>
+      <div class="actions">
+        <a class="btn btn--gold" href="https://links.kindsupplydigital.com/widget/booking/74yPiZgcwlqMB7rNLRYm" target="_blank" rel="noopener">Reservar Llamada</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero__logos" aria-label="Clientes de servicios del hogar con los que trabajamos">
+    <div class="hero__logos-mask">
+    <div class="logos-track">
+      <div class="logo-chip"><img src="/contractors/assets/logos/beamstead.png" alt="Beamstead Construction"></div>
+      <div class="logo-chip"><img src="/contractors/assets/logos/pourstone.png" alt="Pourstone Concrete Co."></div>
+      <div class="logo-chip"><img src="/contractors/assets/logos/ironpath.png" alt="Ironpath Paving"></div>
+      <div class="logo-chip"><img src="/contractors/assets/logos/ridgecraft.png" alt="Ridgecraft Roofing &amp; Exteriors"></div>
+      <div class="logo-chip"><img src="/contractors/assets/logos/brickbound.png" alt="Brickbound Masonry &amp; Stone"></div>
+      <div class="logo-chip"><img src="/contractors/assets/logos/groundforge.png" alt="GroundForge Excavation &amp; Grading"></div>
+      <div class="logo-chip" aria-hidden="true"><img src="/contractors/assets/logos/beamstead.png" alt=""></div>
+      <div class="logo-chip" aria-hidden="true"><img src="/contractors/assets/logos/pourstone.png" alt=""></div>
+      <div class="logo-chip" aria-hidden="true"><img src="/contractors/assets/logos/ironpath.png" alt=""></div>
+      <div class="logo-chip" aria-hidden="true"><img src="/contractors/assets/logos/ridgecraft.png" alt=""></div>
+      <div class="logo-chip" aria-hidden="true"><img src="/contractors/assets/logos/brickbound.png" alt=""></div>
+      <div class="logo-chip" aria-hidden="true"><img src="/contractors/assets/logos/groundforge.png" alt=""></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stats">
+  <div class="shell">
+    <div class="grid">
+      <div class="stat"><b>613<span class="gold">+</span></b><span>Prospectos Generados</span></div>
+      <div class="stat"><b>$20<span class="gold">prom</span></b><span>Costo Por Prospecto</span></div>
+      <div class="stat"><b>$137K<span class="gold">+</span></b><span>Contratos Cerrados</span></div>
+      <div class="stat"><b>3–4</b><span>Trabajos Extra / Mes</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="shell">
+    <div class="sec-head">
+      <p class="eyebrow">A Quién Hacemos Crecer</p>
+      <h2>Hecho para contratistas de servicios del hogar.</h2>
+      <p>Concreto, techos, jardinería, terrazas y más — nosotros manejamos los anuncios que mantienen a sus cuadrillas ocupadas.</p>
+    </div>
+    <div class="ind-grid">
+      <figure class="ind"><img src="/contractors/assets/ind-concrete.jpg" alt="Vertido de concreto en una obra" loading="lazy"><span>Concreto<small>Entradas · Patios · Losas</small></span></figure>
+      <figure class="ind"><img src="/contractors/assets/ind-roofing.jpg" alt="Techador aplicando una membrana de techo" loading="lazy"><span>Techos<small>Reparaciones · Reemplazos</small></span></figure>
+      <figure class="ind"><img src="/contractors/assets/ind-landscaping.jpg" alt="Exterior de casa con jardinería y buena apariencia" loading="lazy"><span>Jardinería<small>Césped · Apariencia</small></span></figure>
+      <figure class="ind"><img src="/contractors/assets/ind-decks.jpg" alt="Terraza de madera a medida y espacio al aire libre" loading="lazy"><span>Terrazas &amp; Patios<small>Vida al Aire Libre</small></span></figure>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="work">
+  <div class="shell">
+    <div class="sec-head">
+      <p class="eyebrow">Campaña Real · Resultados Reales</p>
+      <h2>Casos de éxito, directo del<br>Administrador de Anuncios de Meta.</h2>
+      <p>Campañas activas de servicios del hogar — clientes anonimizados. Inversión real, prospectos reales, costo por prospecto real.</p>
+    </div>
+    <div class="cases">
+      <figure class="case">
+        <div class="case__tag"><span>Caso 01</span><b>$12.70 / prospecto</b></div>
+        <img src="/contractors/assets/results-240.png" alt="240 prospectos a $12.70 por prospecto, $3,048.63 invertidos" loading="lazy">
+      </figure>
+      <figure class="case">
+        <div class="case__tag"><span>Caso 02</span><b>$20.71 / prospecto</b></div>
+        <img src="/contractors/assets/results-284.png" alt="284 prospectos a $20.71 por prospecto, $5.88K invertidos" loading="lazy">
+      </figure>
+      <figure class="case">
+        <div class="case__tag"><span>Caso 03</span><b>$32.93 / prospecto</b></div>
+        <img src="/contractors/assets/results-89.png" alt="89 prospectos a $32.93 por prospecto, $2.93K invertidos" loading="lazy">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENT WINS -->
+<section class="wins">
+  <div class="shell">
+    <div class="sec-head">
+      <p class="eyebrow">Directo De Nuestros Clientes</p>
+      <h2>Los prospectos se convierten<br>en contratos firmados.</h2>
+    </div>
+    <div class="wins-grid">
+      <figure class="win">
+        <img src="/contractors/assets/text-roofing.jpg" alt="Mensaje de cliente: más de 20 prospectos en 3 días, cerró un contrato de techo de $120K" loading="lazy">
+        <figcaption>Techos · <b>$120K cerrados</b></figcaption>
+      </figure>
+      <figure class="win">
+        <img src="/contractors/assets/text-mike.jpg" alt="Mensaje de cliente: reuniones una tras otra en 3 días, cerró un contrato de $17K" loading="lazy">
+        <figcaption>Servicios del hogar · <b>$17K cerrados</b></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- SPEED-TO-LEAD CRM -->
+<section class="crm" id="crm">
+  <div class="shell">
+    <div class="crm-grid">
+      <div class="crm-copy">
+        <span class="crm-badge">★ Incluido En Cada Campaña</span>
+        <h2>CRM de respuesta rápida,<br><span class="gold">ya integrado.</span></h2>
+        <p class="lede">Los prospectos no esperan. En cuanto llega uno, nuestro CRM le envía un mensaje de texto y un correo automáticamente — así usted es el primero en responder, no el quinto. Cada prospecto capturado, atendido y agendado en un solo lugar.</p>
+        <ul class="crm-feats">
+          <li><b>Respuesta Instantánea</b>Los nuevos prospectos reciben respuesta en segundos, 24/7.</li>
+          <li><b>Texto Por Llamada Perdida</b>¿Perdió una llamada? Les manda un texto automático.</li>
+          <li><b>Seguimientos Automáticos</b>Secuencias inteligentes de SMS y correo que persiguen cada prospecto.</li>
+          <li><b>Una Sola Bandeja</b>Llamadas, textos y formularios en un solo panel.</li>
+          <li><b>Agenda En Calendario</b>Los prospectos reservan directo en su calendario.</li>
+          <li><b>Solicitud de Reseñas</b>Pide reseñas de 5 estrellas a clientes satisfechos, automáticamente.</li>
+        </ul>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="phone__bar">
+          <div class="phone__ava">KS</div>
+          <div class="phone__who">Nuevo Prospecto · Jake<small>● Autorespuesta activa</small></div>
+        </div>
+        <div class="bub bub--in">Hola, llené el formulario para un estimado de techo.</div>
+        <div class="bub bub--out">¡Hola Jake! 👋 Gracias por comunicarse — nos encantaría ayudarle con su techo. ¿Qué día le funciona para un estimado gratis?<span class="bub__meta">Enviado auto. · 8 segundos</span></div>
+        <div class="bub bub--in">¡Vaya, qué rápido! ¿Mañana en la mañana?</div>
+        <div class="bub bub--out">Perfecto — lo agendo para las 9:00 AM. Ya está en el calendario ✅<span class="bub__meta">Enviado auto. · agendado</span></div>
+        <span class="zap">⚡ Respondido y agendado antes de que su competencia lo viera</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVENUE CALCULATOR -->
+<section id="calculator">
+  <div class="shell">
+    <div class="sec-head">
+      <p class="eyebrow">Proyecte Su Crecimiento</p>
+      <h2>Calculadora de Ingresos</h2>
+      <p>Mueva las barras para ver lo que una campaña de anuncios de Meta podría hacer por su negocio.</p>
+    </div>
+    <div class="calc-wrap">
+      <div class="calc-grid">
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <div class="row"><label for="adSpend">Inversión Diaria en Anuncios</label><span class="val" id="adSpendValue">$65</span></div>
+            <input type="range" id="adSpend" min="30" max="500" value="65" oninput="calculateRevenue()">
+          </div>
+          <div class="calc-field">
+            <div class="row"><label for="ticketPrice">Precio Promedio por Trabajo</label></div>
+            <div class="ticket"><span>$</span><input type="text" id="ticketPrice" inputmode="numeric" value="1000" oninput="calculateRevenue()"></div>
+          </div>
+          <div class="calc-field">
+            <div class="row"><label for="closeRate">Tasa de Cierre</label><span class="val" id="closeRateValue">30%</span></div>
+            <input type="range" id="closeRate" min="1" max="100" value="30" oninput="calculateRevenue()">
+          </div>
+        </div>
+        <div class="calc-out">
+          <div class="mini">
+            <div><b id="leads">0</b><span>Prospectos Est.</span></div>
+            <div><b id="deals">0</b><span>Trabajos Est.</span></div>
+            <div><b id="spend">$0</b><span>Inversión</span></div>
+          </div>
+          <div class="calc-rev">
+            <div class="lab">Ingresos Mensuales Proyectados</div>
+            <div class="big" id="revenue">$0</div>
+            <div class="roi"><span id="roi">0%</span> ROI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="calc-note">Estimaciones basadas en datos reales de campañas de Meta (costo por prospecto según el nivel de inversión) y un honorario de gestión de $2,500/mes. Sus resultados reales dependen de su oferta, su mercado y su tasa de cierre.</p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="shell">
+    <div class="sec-head">
+      <p class="eyebrow">Cómo Funciona</p>
+      <h2>Cómo le conseguimos 3–4<br>trabajos más al mes.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Definimos la Oferta</h3><p>Afinamos su servicio, su zona y una oferta a la que los dueños de casa respondan.</p></div>
+      <div class="step"><div class="n">02</div><h3>Lanzamos los Anuncios</h3><p>Campañas de alta conversión salen al aire — a menudo generando prospectos en días.</p></div>
+      <div class="step"><div class="n">03</div><h3>Prospectos Para Usted</h3><p>Prospectos calificados llegan a su teléfono y calendario, listos para agendar.</p></div>
+      <div class="step"><div class="n">04</div><h3>Usted Cierra</h3><p>Usted cotiza y cierra — nosotros mantenemos la cartera llena.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="book">
+  <div class="shell">
+    <p class="eyebrow">Hagamos Crecer Su Negocio</p>
+    <h2>¿Listo para más trabajos?</h2>
+    <p>Reserve una llamada rápida y le mostraremos exactamente cómo le traeremos de 3 a 4 trabajos extra al mes.</p>
+    <div class="actions"><a class="btn btn--gold" href="https://links.kindsupplydigital.com/widget/booking/74yPiZgcwlqMB7rNLRYm" target="_blank" rel="noopener">Reservar Llamada</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <img src="/contractors/assets/logo.svg" alt="Kind Supply Digital">
+    <p>&copy; <span id="yr">2026</span> Kind Supply Digital · Más Prospectos. Más Crecimiento.</p>
+  </div>
+</footer>
+
+<script>
+  if('scrollRestoration' in history){history.scrollRestoration='auto';}
+  (function(){
+    var nav=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||{};
+    // Fresh visit with a hash (e.g. shared /#book) -> open at the top.
+    // Reloads keep the browser's restored scroll position.
+    if(nav.type!=='reload' && location.hash){
+      history.replaceState(null,'',location.pathname+location.search);
+      window.scrollTo(0,0);
+      window.addEventListener('load',function(){ window.scrollTo(0,0); });
+    }
+  })();
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){var hv=document.querySelector('.hero__bg');if(hv){hv.removeAttribute('autoplay');hv.pause&&hv.pause();}}
+  function calculateRevenue(){
+    var adSpend=parseFloat(document.getElementById('adSpend').value);
+    var ticketPrice=parseFloat(document.getElementById('ticketPrice').value)||0;
+    var closeRate=parseFloat(document.getElementById('closeRate').value);
+    document.getElementById('adSpendValue').innerText='$'+adSpend;
+    document.getElementById('closeRateValue').innerText=closeRate+'%';
+    var monthlySpend=adSpend*30;
+    // realistic contractor CPL by spend level (Meta benchmarks)
+    var cpl;
+    if(adSpend<50){cpl=90;}
+    else if(adSpend<100){cpl=75;}
+    else if(adSpend<200){cpl=60;}
+    else{cpl=50;}
+    var estimatedLeads=Math.floor(monthlySpend/cpl);
+    var closedDeals=Math.round(estimatedLeads*(closeRate/100)*10)/10;
+    var adSpendPlusRetainer=monthlySpend+2500; // ad spend + management retainer
+    var revenue=closedDeals*ticketPrice;
+    var roi=adSpendPlusRetainer>0?((revenue-adSpendPlusRetainer)/adSpendPlusRetainer)*100:0;
+    document.getElementById('leads').innerText=estimatedLeads;
+    document.getElementById('deals').innerText=closedDeals;
+    document.getElementById('spend').innerText='$'+adSpendPlusRetainer.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    document.getElementById('revenue').innerText='$'+revenue.toLocaleString('en-US');
+    document.getElementById('roi').innerText=roi.toFixed(2)+'%';
+  }
+  calculateRevenue();
+</script>
+</body>
+</html>

@@ -1,7 +1,4 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/westpark-case-study", "destination": "/westpark-case-study.pdf" }
-  ]
+  "trailingSlash": false
 }

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import logoWhite from "../../imports/kind-supply-digital-logo-white.svg";
+import { BOOKING_URL } from "../booking";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -64,13 +65,15 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/contact"
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="ml-2 px-6 py-2.5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.05em", fontWeight: 500 }}
             >
               Free Consultation
-            </Link>
+            </a>
           </div>
 
           {/* Mobile Toggle */}
@@ -107,14 +110,16 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                to="/contact"
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 px-6 py-3 bg-blue-500 text-[#0f172a] font-medium text-center"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", fontWeight: 500 }}
               >
                 Free Consultation
-              </Link>
+              </a>
             </div>
           </motion.div>
         )}

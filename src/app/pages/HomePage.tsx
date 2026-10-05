@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { BOOKING_URL } from "../booking";
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import {
@@ -24,17 +25,23 @@ import { ProvenResults } from "../components/ProvenResults";
 import { ServiceArea } from "../components/ServiceArea";
 
 /* ---------- Reusable CTA with reassurance ---------- */
-function CTABlock({ label = "Get Your Free Consultation", center = false }: { label?: string; center?: boolean }) {
+function CTABlock({ label = "Get Your Free Consultation", center = false, href }: { label?: string; center?: boolean; href?: string }) {
+  const btnClass =
+    "inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group";
+  const btnStyle = { fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" } as const;
   return (
     <div className={center ? "flex flex-col items-center" : "flex flex-col items-start"}>
-      <Link
-        to="/contact"
-        className="inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group"
-        style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
-      >
-        {label}
-        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-      </Link>
+      {href ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" className={btnClass} style={btnStyle}>
+          {label}
+          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+        </a>
+      ) : (
+        <Link to="/contact" className={btnClass} style={btnStyle}>
+          {label}
+          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+        </Link>
+      )}
       <p
         className="text-white/30 mt-4"
         style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em" }}
@@ -284,7 +291,7 @@ export function HomePage() {
             transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="flex justify-center"
           >
-            <CTABlock center />
+            <CTABlock center href={BOOKING_URL} />
           </motion.div>
         </div>
 

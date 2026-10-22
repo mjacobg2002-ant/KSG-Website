@@ -96,7 +96,11 @@
   .ind span small{display:block;font-family:var(--body);font-weight:500;font-size:.72rem;letter-spacing:.04em;color:var(--gold);text-transform:none}
   @media(max-width:760px){.ind-grid{grid-template-columns:1fr}}
 
-  /* stat strip — transparent, thin */
+  /* stat strip — glass band overlaid on the hero video */
+  .hero .stats{position:relative;z-index:2;
+    background:rgba(11,15,22,.42);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border-top:1px solid rgba(255,255,255,.1)}
   .stats{background:transparent}
   .stats .grid{display:grid;grid-template-columns:repeat(4,1fr)}
   .stat{padding:16px 14px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
@@ -244,19 +248,19 @@
       </div>
     </div>
   </div>
-</section>
 
-<!-- STAT STRIP -->
-<div class="stats">
-  <div class="shell">
-    <div class="grid">
-      <div class="stat"><b>613<span class="gold">+</span></b><span>Prospectos Generados</span></div>
-      <div class="stat"><b>$20<span class="gold">prom</span></b><span>Costo Por Prospecto</span></div>
-      <div class="stat"><b>$137K<span class="gold">+</span></b><span>Contratos Cerrados</span></div>
-      <div class="stat"><b>3–4</b><span>Trabajos Extra / Mes</span></div>
+  <!-- STAT STRIP (overlaid on hero video) -->
+  <div class="stats">
+    <div class="shell">
+      <div class="grid">
+        <div class="stat"><b>613<span class="gold">+</span></b><span>Prospectos Generados</span></div>
+        <div class="stat"><b>$20<span class="gold">prom</span></b><span>Costo Por Prospecto</span></div>
+        <div class="stat"><b>$137K<span class="gold">+</span></b><span>Contratos Cerrados</span></div>
+        <div class="stat"><b>3–4</b><span>Trabajos Extra / Mes</span></div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- INDUSTRIES -->
 <section id="industries">

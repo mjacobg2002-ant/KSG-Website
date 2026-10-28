@@ -68,11 +68,7 @@ export function ServicesPage() {
             "@type": "Service",
             provider: { "@id": `${SITE}/#organization` },
             serviceType: "Digital Marketing & Lead System Services",
-            areaServed: [
-              { "@type": "AdministrativeArea", name: "Northern Virginia" },
-              { "@type": "AdministrativeArea", name: "DMV" },
-              { "@type": "City", name: "Washington, DC" },
-            ],
+            areaServed: { "@type": "Country", name: "United States" },
             hasOfferCatalog: {
               "@type": "OfferCatalog",
               name: "Kind Supply Digital Services",

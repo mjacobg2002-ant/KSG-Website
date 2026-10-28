@@ -24,30 +24,15 @@ const orgSchema = {
   "@id": ORG_ID,
   name: "Kind Supply Digital",
   description:
-    "Web design, SEO, local search, paid growth, and lead automation for businesses in Northern Virginia and the DMV — proven in behavioral health, now serving home services, law firms, and dental.",
+    "Web design, SEO, local search, paid growth, and lead automation for service businesses across the United States — proven in behavioral health, now serving home services, law firms, and dental. 100% remote.",
   url: `${SITE}/`,
   logo: `${SITE}/og-image.png`,
   image: `${SITE}/og-image.png`,
   email: "partnerships@kindsupplydigital.com",
   priceRange: "$$",
-  areaServed: [
-    { "@type": "AdministrativeArea", name: "Northern Virginia" },
-    { "@type": "City", name: "McLean" },
-    { "@type": "City", name: "Tysons" },
-    { "@type": "City", name: "Arlington" },
-    { "@type": "City", name: "Alexandria" },
-    { "@type": "City", name: "Fairfax" },
-    { "@type": "City", name: "Vienna" },
-    { "@type": "City", name: "Falls Church" },
-    { "@type": "City", name: "Reston" },
-    { "@type": "City", name: "Ashburn" },
-    { "@type": "City", name: "Washington, DC" },
-    { "@type": "AdministrativeArea", name: "Maryland" },
-    { "@type": "AdministrativeArea", name: "DMV" },
-  ],
+  areaServed: { "@type": "Country", name: "United States" },
   address: {
     "@type": "PostalAddress",
-    addressRegion: "VA",
     addressCountry: "US",
   },
   serviceType: [
@@ -104,8 +89,8 @@ export function SEOHead({
       <meta name="publisher" content="Kind Supply Digital" />
 
       {/* Geo targeting */}
-      <meta name="geo.region" content="US-VA" />
-      <meta name="geo.placename" content="Northern Virginia" />
+      <meta name="geo.region" content="US" />
+      <meta name="geo.placename" content="United States" />
 
       <link rel="canonical" href={canonicalUrl} />
 

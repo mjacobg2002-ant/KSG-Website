@@ -141,27 +141,14 @@ export function HomePage() {
   return (
     <div>
       <SEOHead
-        title="Web Design, SEO & Lead Systems in Northern Virginia | Kind Supply Digital"
-        description="Kind Supply Digital is a Northern Virginia web design, SEO, and lead-generation agency serving McLean, Tysons, Arlington, Fairfax, Reston, Ashburn, Washington DC, and the DMV. Conversion websites, local SEO, Google Business Profile, and the Lead Rescue System — proven in behavioral health, now serving home services, law firms, and dental."
-        keywords="web design Northern Virginia, SEO agency Northern Virginia, lead generation Northern Virginia, website design Fairfax VA, SEO agency McLean VA, digital marketing Northern Virginia, web design Washington DC, local SEO DMV, behavioral health marketing agency, HVAC marketing, law firm lead generation, dental marketing, missed call text back, lead rescue system, Google Business Profile"
+        title="Web Design, SEO & Lead Systems for Service Businesses | Kind Supply Digital"
+        description="Kind Supply Digital is a nationwide web design, SEO, and lead-generation agency serving service businesses across the United States. Conversion websites, local SEO, Google Business Profile, and the Lead Rescue System — proven in behavioral health, now serving home services, law firms, and dental. 100% remote."
+        keywords="web design agency, SEO agency, lead generation agency, nationwide SEO, local SEO, website design for service businesses, digital marketing agency USA, Google Business Profile, behavioral health marketing agency, HVAC marketing, law firm lead generation, dental marketing, missed call text back, lead rescue system"
         canonical="https://www.kindsupplydigital.com/"
         structuredData={{
           "@type": "ProfessionalService",
           name: "Kind Supply Digital",
-          areaServed: [
-            "Northern Virginia",
-            "McLean",
-            "Tysons",
-            "Arlington",
-            "Alexandria",
-            "Fairfax",
-            "Vienna",
-            "Reston",
-            "Ashburn",
-            "Washington, DC",
-            "Maryland",
-            "DMV",
-          ],
+          areaServed: "United States",
         }}
       />
 
@@ -440,7 +427,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ============ SERVICE AREA — local NoVA / DMV SEO ============ */}
+      {/* ============ SERVICE AREA — nationwide USA ============ */}
       <ServiceArea />
 
       {/* ============ LEAD RESCUE — flagship offer + risk reversal ============ */}

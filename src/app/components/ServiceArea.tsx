@@ -2,12 +2,12 @@ import { MapPin } from "lucide-react";
 import { AnimatedSection } from "./AnimatedSection";
 
 const areas = [
-  { city: "McLean & Tysons", note: "Web design · SEO · lead generation" },
-  { city: "Arlington & Alexandria", note: "Local search · conversion websites" },
-  { city: "Fairfax & Vienna", note: "SEO · Google Business · automation" },
-  { city: "Reston & Ashburn", note: "Web design · paid growth · CRM" },
-  { city: "Washington, DC", note: "Digital growth · SEO · lead systems" },
-  { city: "Maryland & the DMV", note: "Remote service available" },
+  { city: "Web Design", note: "Conversion-focused sites · built to book" },
+  { city: "Local & National SEO", note: "Get found in any U.S. market" },
+  { city: "Google Business Profile", note: "Rank the map · win local search" },
+  { city: "Paid Growth", note: "Google & Meta ads that convert" },
+  { city: "Lead Rescue CRM", note: "Missed-call text-back · automation" },
+  { city: "100% Remote", note: "All 50 states · every time zone" },
 ];
 
 export function ServiceArea() {
@@ -19,7 +19,7 @@ export function ServiceArea() {
             className="text-blue-300/30 uppercase tracking-[0.3em] mb-4"
             style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.7rem", fontWeight: 500 }}
           >
-            Local Digital Marketing
+            Nationwide Digital Marketing
           </p>
           <h2
             className="text-white mb-6"
@@ -30,16 +30,16 @@ export function ServiceArea() {
               lineHeight: 1.2,
             }}
           >
-            Built for Businesses Across Northern Virginia &amp; the DMV.
+            Built for Businesses Across the United States.
           </h2>
           <p
             className="text-white/40 mb-20 max-w-2xl"
             style={{ fontFamily: "'Inter', sans-serif", fontSize: "1rem", lineHeight: 1.8 }}
           >
-            We help local businesses get found and convert more customers throughout the
-            DMV &mdash; with a strong focus on Northern Virginia. Whether someone searches
-            from McLean, Fairfax, Arlington, or across the river in DC, we make sure your
-            business is what they find.
+            We help service businesses get found and convert more customers &mdash; anywhere
+            in the country. Fully remote, we bring the same conversion websites, local SEO,
+            and lead systems to any U.S. market, in every time zone, so wherever your
+            customers search, your business is what they find.
           </p>
         </AnimatedSection>
 

@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from "motion/react";
 import logoWhite from "../../imports/kind-supply-digital-logo-white.svg";
 import { BOOKING_URL } from "../booking";
 
+// Static page in public/ (not a React route), so it's a plain <a>, not <Link>.
+const CASE_STUDY_URL = "/westpark-case-study";
+
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
@@ -52,7 +55,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-8 whitespace-nowrap">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -65,6 +68,13 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href={CASE_STUDY_URL}
+              className="text-blue-300/90 hover:text-blue-200 transition-colors duration-300"
+              style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 500 }}
+            >
+              Dental Case Study
+            </a>
             <a
               href={BOOKING_URL}
               target="_blank"
@@ -110,6 +120,14 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <a
+                href={CASE_STUDY_URL}
+                onClick={() => setMobileOpen(false)}
+                className="py-2 text-blue-300/90"
+                style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", letterSpacing: "0.05em", fontWeight: 500 }}
+              >
+                Dental Case Study
+              </a>
               <a
                 href={BOOKING_URL}
                 target="_blank"

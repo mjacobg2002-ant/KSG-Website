@@ -20,11 +20,11 @@ const serviceLinks = [
 ];
 
 const industryLinks = [
+  "Dental",
   "Behavioral Health",
   "HVAC & Home Services",
   "Plumbing & Roofing",
   "Law Firms",
-  "Dental",
 ];
 
 export function Footer() {
@@ -87,6 +87,13 @@ export function Footer() {
                   {link.label}
                 </Link>
               ))}
+              <a
+                href="/westpark-case-study"
+                className="text-blue-300/80 hover:text-blue-200 transition-colors"
+                style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
+              >
+                Dental Case Study
+              </a>
             </nav>
           </div>
 

@@ -22,6 +22,7 @@ import { LeadRescueDemo } from "../components/LeadRescueDemo";
 import { PipelineBoard } from "../components/PipelineBoard";
 import { ClientWall } from "../components/ClientWall";
 import { ProvenResults } from "../components/ProvenResults";
+import { DentalSpotlight } from "../components/DentalSpotlight";
 import { ServiceArea } from "../components/ServiceArea";
 
 /* ---------- Reusable CTA with reassurance ---------- */
@@ -117,7 +118,8 @@ const objections = [
 ];
 
 const trustPoints = [
-  "Proven in behavioral health — the most trust-sensitive niche on the internet",
+  "Proven in dental — 46% more website-booked patients in under a month, Page 1 of Google in 3 weeks",
+  "Battle-tested in behavioral health — the most trust-sensitive niche on the internet",
   "SEO built to compound: local rankings, Google Business Profile, and content that climbs month over month",
   "Google & Meta ads with full conversion tracking — you see cost per lead and return on every dollar",
   "A dedicated strategist on every account. You talk to the people doing the work",
@@ -141,9 +143,9 @@ export function HomePage() {
   return (
     <div>
       <SEOHead
-        title="Web Design, SEO & Lead Systems for Service Businesses | Kind Supply Digital"
-        description="Kind Supply Digital is a nationwide web design, SEO, and lead-generation agency serving service businesses across the United States. Conversion websites, local SEO, Google Business Profile, and the Lead Rescue System — proven in behavioral health, now serving home services, law firms, and dental. 100% remote."
-        keywords="web design agency, SEO agency, lead generation agency, nationwide SEO, local SEO, website design for service businesses, digital marketing agency USA, Google Business Profile, behavioral health marketing agency, HVAC marketing, law firm lead generation, dental marketing, missed call text back, lead rescue system"
+        title="Dental & Service Business Marketing: Web Design, SEO & Lead Systems | Kind Supply Digital"
+        description="Kind Supply Digital is a nationwide web design, SEO, and lead-generation agency for dental practices and service businesses. We grew a dental office's website-booked patients 46% in under a month. Conversion websites, local SEO, Google Business Profile, and the Lead Rescue System for dental, behavioral health, home services, and law firms."
+        keywords="dental marketing agency, dental website design, dental SEO, web design agency, SEO agency, lead generation agency, nationwide SEO, local SEO, website design for service businesses, digital marketing agency USA, Google Business Profile, behavioral health marketing agency, HVAC marketing, law firm lead generation, dental marketing, missed call text back, lead rescue system"
         canonical="https://www.kindsupplydigital.com/"
         structuredData={{
           "@type": "ProfessionalService",
@@ -235,7 +237,7 @@ export function HomePage() {
               className="text-blue-300/50 uppercase tracking-[0.3em] mb-8 lg:mb-10"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.75rem", fontWeight: 500 }}
             >
-              Behavioral Health &middot; HVAC & Home Services &middot; Law Firms &middot; Dental
+              Dental Practices &middot; Behavioral Health &middot; Home Services &middot; Law Firms
             </p>
           </motion.div>
 
@@ -268,8 +270,8 @@ export function HomePage() {
           >
             You're great at the work. But the patients, jobs, and cases you never hear
             about are going to businesses with a stronger site, better search presence,
-            and a phone that always answers. We build all three &mdash; websites, SEO, and
-            the system that catches every call.
+            and a phone that always answers. We build all three &mdash; and for one dental
+            office, that meant 46% more booked patients in under a month.
           </motion.p>
 
           <motion.div
@@ -280,6 +282,19 @@ export function HomePage() {
           >
             <CTABlock center href={BOOKING_URL} />
           </motion.div>
+
+          <motion.a
+            href="#dental-results"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 border border-blue-400/20 bg-[#0f172a]/50 text-blue-200/80 hover:text-white hover:border-blue-400/40 transition-colors group"
+            style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.03em" }}
+          >
+            <span className="text-blue-300 font-semibold">+46%</span>
+            booked patients for a dental office in under a month
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </motion.a>
         </div>
 
         <motion.div
@@ -293,6 +308,11 @@ export function HomePage() {
 
       {/* ============ CLIENT WALL — social proof up front ============ */}
       <ClientWall />
+
+      {/* ============ DENTAL PROOF — our strongest case study, up front ============ */}
+      <div id="dental-results" className="scroll-mt-20">
+        <DentalSpotlight eyebrow={"Proven in Dental \u00B7 Built for Every Industry"} />
+      </div>
 
       {/* ============ AGITATE — the cost of doing nothing ============ */}
       <section className="py-32 border-b border-white/5 bg-[#0c1525]">
@@ -357,9 +377,9 @@ export function HomePage() {
               className="text-white/50 mt-16 max-w-2xl"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "1rem", lineHeight: "1.9" }}
             >
-              Each leak feels small because you never see it happen. But one HVAC
-              replacement, one signed case, one admitted client can be worth $5,000
-              to $50,000 &mdash; so losing even a few leads a month quietly costs more
+              Each leak feels small because you never see it happen. But one new dental
+              patient, one HVAC replacement, one signed case, one admitted client can be
+              worth thousands over their lifetime &mdash; so losing even a few leads a month quietly costs more
               than fixing all three leaks ever would.
             </p>
           </AnimatedSection>
@@ -391,10 +411,10 @@ export function HomePage() {
               className="text-white/40 mb-20 max-w-2xl"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "1rem", lineHeight: "1.8" }}
             >
-              We built this playbook over years in behavioral health &mdash; the hardest
-              niche online to earn trust in &mdash; and now we run it for HVAC, home
-              services, law firms, and dental practices. Get found. Convert the visit.
-              Answer every call.
+              It's the same playbook that grew a dental office's booked patients 46% in
+              under a month &mdash; sharpened in behavioral health, the hardest niche online
+              to earn trust in, and now running for dental practices, home services, and
+              law firms. Get found. Convert the visit. Answer every call.
             </p>
           </AnimatedSection>
 

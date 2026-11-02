@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { ArrowRight, PhoneMissed, Code2, Search, BarChart3 } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
 import { SEOHead } from "../components/SEOHead";
+import { DentalSpotlight } from "../components/DentalSpotlight";
 
 const workTypes = [
   {
@@ -27,11 +28,11 @@ const workTypes = [
 ];
 
 const verticals = [
+  "Dental Practices",
+  "Behavioral Health",
   "Plumbing & HVAC",
   "Roofing & Home Services",
-  "Behavioral Health",
   "Law Firms",
-  "Dental Practices",
 ];
 
 export function CaseStudiesPage() {
@@ -39,8 +40,8 @@ export function CaseStudiesPage() {
     <div>
       <SEOHead
         title="Our Work | Kind Supply Digital"
-        description="Websites, lead rescue CRM systems, SEO, and growth campaigns built by Kind Supply Digital for home services, behavioral health, legal, and dental businesses."
-        keywords="Kind Supply Digital work, client acquisition website examples, missed call text back system, local service business marketing results"
+        description="Real results from Kind Supply Digital: a dental office grew website-booked patients 46% in under a month and reached Page 1 of Google in 3 weeks. Websites, SEO, and lead systems for dental, behavioral health, home services, and law firms."
+        keywords="dental marketing case study, dental website results, dental SEO results, Kind Supply Digital work, client acquisition website examples, missed call text back system, local service business marketing results"
         canonical="https://www.kindsupplydigital.com/case-studies"
       />
 
@@ -63,20 +64,23 @@ export function CaseStudiesPage() {
                 lineHeight: 1.1,
               }}
             >
-              We'd Rather Show You Than Tell You
+              Results You Can Book On
             </h1>
             <p
               className="text-white/40 max-w-3xl"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.05rem", lineHeight: "1.8" }}
             >
-              Detailed case studies with real client numbers are on the way &mdash; we publish
-              results with permission, not projections. In the meantime, here's what we build,
-              and the fastest proof we can offer: book an audit and we'll run the system live
-              on your own phone number before you pay for anything.
+              Our clearest proof is in dental: a new website that grew booked patients 46% in
+              its first month and put the practice on Page 1 of Google in three weeks. The
+              same playbook runs for every industry we serve &mdash; here's the numbers, and
+              everything we build.
             </p>
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Featured dental case study */}
+      <DentalSpotlight />
 
       {/* What we build */}
       <section className="py-20 border-b border-white/5">

@@ -157,7 +157,7 @@ export function HomePage() {
       {/* ============ HERO — name the pain ============ */}
       {/* -mt-20 pulls the hero up under the (transparent) fixed navbar so the
           video fills to the very top — cancels the Layout's pt-20 offset. */}
-      <section className="relative min-h-screen -mt-20 flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen -mt-20 pt-32 pb-24 lg:pt-28 lg:pb-20 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           {/* Duotone looping video for premium background motion. The poster
               (and the reduced-motion branch above) fall back to the still image.

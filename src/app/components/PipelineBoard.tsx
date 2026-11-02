@@ -8,33 +8,33 @@ const columns: Column[] = [
     title: "New Lead",
     count: 3,
     leads: [
-      { name: "Water heater burst", meta: "Missed call · 10:47 PM · auto-texted", value: "Est. $2,400" },
-      { name: "Drain backup", meta: "Web form · 8:12 AM", value: "Est. $450" },
-      { name: "Repipe estimate", meta: "Google Ads · 9:03 AM", value: "Est. $9,000" },
+      { name: "New patient \u00B7 chipped tooth", meta: "Missed call \u00B7 10:47 PM \u00B7 auto-texted", value: "Est. $1,200" },
+      { name: "Water heater burst", meta: "Missed call \u00B7 9:15 PM \u00B7 auto-texted", value: "Est. $2,400" },
+      { name: "Implant consult", meta: "Google Ads \u00B7 9:03 AM", value: "Est. $4,500" },
     ],
   },
   {
     title: "Contacted",
     count: 2,
     leads: [
-      { name: "Sump pump failure", meta: "Replied YES · called back in 42s", value: "Est. $1,800" },
-      { name: "Garbage disposal", meta: "Text thread active", value: "Est. $380" },
+      { name: "Emergency toothache", meta: "Replied YES \u00B7 called back in 42s", value: "Est. $900" },
+      { name: "Sump pump failure", meta: "Text thread active", value: "Est. $1,800" },
     ],
   },
   {
     title: "Booked",
     count: 2,
     leads: [
-      { name: "Tankless install", meta: "Thu 8:00 AM · self-booked", value: "Est. $4,600" },
-      { name: "Leak inspection", meta: "Fri 1:00 PM", value: "Est. $250" },
+      { name: "New patient exam & cleaning", meta: "Thu 8:00 AM \u00B7 self-booked", value: "Est. $350" },
+      { name: "Tankless install", meta: "Fri 1:00 PM", value: "Est. $4,600" },
     ],
   },
   {
     title: "Won",
     count: 2,
     leads: [
-      { name: "Sewer line repair", meta: "Closed · review requested", value: "$7,200" },
-      { name: "Water heater swap", meta: "Closed · 5-star review left", value: "$2,400" },
+      { name: "Invisalign start", meta: "Closed \u00B7 review requested", value: "$5,200" },
+      { name: "Water heater swap", meta: "Closed \u00B7 5-star review left", value: "$2,400" },
     ],
   },
 ];
@@ -97,7 +97,7 @@ export function PipelineBoard() {
         className="text-center text-white/25 mt-8"
         style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em" }}
       >
-        Sample pipeline &mdash; your board, your jobs, your numbers.
+        Sample pipeline &mdash; your board, your patients or jobs, your numbers.
       </p>
     </div>
   );

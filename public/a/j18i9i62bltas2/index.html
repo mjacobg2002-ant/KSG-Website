@@ -68,6 +68,21 @@
   .sig p{margin:0 0 6px;color:var(--text)}
   .sig p strong{color:#fff;font-weight:600}
 
+  html{scroll-behavior:smooth}
+  .pay{scroll-margin-top:80px}
+  /* sticky pay CTA — appears once the payment card scrolls out of view */
+  .stick{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(15,23,42,.92);
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,.08);
+    transform:translateY(110%);transition:transform .35s ease}
+  .stick.show{transform:translateY(0)}
+  .stick__in{max-width:48rem;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .stick__txt{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.6)}
+  .stick__txt b{display:block;color:#fff;font-weight:500;font-size:.9rem}
+  .stick__btn{flex-shrink:0;display:inline-flex;align-items:center;gap:.6em;background:var(--blue);color:var(--navy);
+    font-weight:500;font-size:.9rem;letter-spacing:.05em;padding:.85rem 2rem;transition:background .3s}
+  .stick__btn:hover{background:#60a5fa;color:var(--navy)}
+  body.has-stick footer{padding-bottom:110px}
+  @media(max-width:640px){.stick__txt span{display:none}.stick__btn{padding:.8rem 1.4rem}}
   footer{border-top:1px solid var(--line);background:var(--navy-deep);padding:40px 0}
   .foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;
     font-size:.8rem;color:var(--muted)}
@@ -81,7 +96,7 @@
   }
   @media print{
     body{background:#fff;color:#111}
-    header,footer,.pay stripe-buy-button{display:none}
+    header,footer,.stick,.pay stripe-buy-button{display:none}
     .pay{padding:0;background:none}
     .pay__card,.sig{background:#fff;border:1px solid #999}
     .pay__notice,.title h1,.doc h2,.doc p,.doc p strong,.doc p em,.sig p,.sig p strong{color:#111}
@@ -99,7 +114,7 @@
 </header>
 
 <main>
-  <section class="pay" aria-label="Payment and acceptance">
+  <section class="pay" id="pay" aria-label="Payment and acceptance">
     <div class="shell">
       <div class="pay__card">
         <stripe-buy-button
@@ -267,6 +282,26 @@
     <span>&copy; 2026 Kind Supply Co LLC &middot; <a href="mailto:marcel.grisard@kindsupplyco.org">marcel.grisard@kindsupplyco.org</a></span>
   </div>
 </footer>
+
+<div class="stick" id="stick" aria-hidden="true">
+  <div class="stick__in">
+    <p class="stick__txt" style="margin:0"><b>$2,000 / month &middot; 6-month term</b><span>Payment is your acceptance of this Agreement.</span></p>
+    <a class="stick__btn" href="#pay" tabindex="-1">Pay Now &rarr;</a>
+  </div>
+</div>
+<script>
+  (function () {
+    var bar = document.getElementById("stick"), card = document.querySelector(".pay__card");
+    if (!bar || !card || !("IntersectionObserver" in window)) { if (bar) { bar.classList.add("show"); document.body.classList.add("has-stick"); } return; }
+    document.body.classList.add("has-stick");
+    new IntersectionObserver(function (e) {
+      var hidden = !e[0].isIntersecting;
+      bar.classList.toggle("show", hidden);
+      bar.setAttribute("aria-hidden", hidden ? "false" : "true");
+      bar.querySelector("a").tabIndex = hidden ? 0 : -1;
+    }, { threshold: 0 }).observe(card);
+  })();
+</script>
 
 </body>
 </html>

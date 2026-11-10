@@ -6,14 +6,17 @@ import { SEOHead, SITE } from "../components/SEOHead";
 import { DevicePreview } from "../components/dental/DevicePreview";
 import { IntakeForm, type IntakeField } from "../components/dental/IntakeForm";
 import { ResponsivePhoto } from "../components/dental/ResponsivePhoto";
-import { StickyAssessmentCTA } from "../components/dental/StickyAssessmentCTA";
+import { StickyEnrollmentCTA } from "../components/dental/StickyEnrollmentCTA";
 import { founderPhoto, photos, westparkHomeShots } from "../components/dental/westparkMedia";
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
+  AGREEMENT_PATH,
   CONTACT_EMAIL,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_HREF,
   PACKAGE,
+  SHOW_STANDALONE_COMPARISON,
+  STANDALONE,
   usd,
 } from "../components/dental/dentalConfig";
 
@@ -23,12 +26,11 @@ import {
 const INTER = "'Inter', sans-serif";
 const PLAYFAIR = "'Playfair Display', serif";
 const CREAM = "#f4f0e7";
-const NAVY = "#0f172a";
 /** Gold dark enough for text on cream (5.4:1). */
 const GOLD_ON_CREAM = "#7a5c26";
 
 const eyebrowStyle = { fontFamily: INTER, fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.28em" } as const;
-const display = (size: string) => ({ fontFamily: PLAYFAIR, fontSize: size, fontWeight: 400, lineHeight: 1.08, letterSpacing: "-0.015em" }) as const;
+const display = (size: string) => ({ fontFamily: PLAYFAIR, fontSize: size, fontWeight: 400, lineHeight: 1.14, letterSpacing: "-0.02em" }) as const;
 const body = (size = "1rem", lh = 1.75) => ({ fontFamily: INTER, fontSize: size, lineHeight: lh }) as const;
 
 function Eyebrow({ children, onCream = false }: { children: ReactNode; onCream?: boolean }) {
@@ -43,15 +45,16 @@ const PAGE_URL = `${SITE}/dental-marketing`;
 const HERO_ID = "dental-hero";
 const ASSESSMENT_ID = "assessment";
 
+const waivedFees = SHOW_STANDALONE_COMPARISON
+  ? [
+      `${usd(STANDALONE.websiteBuild)} website build fee waived`,
+      `${usd(STANDALONE.adsManagementMonthly)}/month Google Ads management fee waived`,
+    ]
+  : ["Website build fee waived", "Separate Google Ads management fee waived"];
+
 /* ------------------------------------------------------------------ */
 /* Content                                                              */
 /* ------------------------------------------------------------------ */
-const services = [
-  ["Website and booking", "A site built around your practice, with a clear way to request or book a visit."],
-  ["Local search", "Service pages and a Google Business Profile that help nearby patients find you."],
-  ["Google Ads", "Search campaigns matched to the treatments you offer and the budget you approve."],
-];
-
 const results = [
   {
     value: "13 → 19",
@@ -300,58 +303,60 @@ export function DentalMarketingPage() {
         className="relative border-b border-white/10 bg-[radial-gradient(ellipse_at_top_right,#1c2940,transparent_64%)]"
         aria-labelledby="dental-hero-title"
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 sm:py-24 lg:py-28 grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          <div className="lg:col-span-7">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 sm:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div>
             <Eyebrow>Dental Marketing for Independent Practices</Eyebrow>
-            <h1 id="dental-hero-title" className="text-white mb-7" style={display("clamp(2rem, calc(1rem + 5.2vw), 6.2rem)")}>
-              <span className="block">Easier to find.</span>
-              <span className="block text-blue-200">Easier to book.</span>
+            <h1 id="dental-hero-title" className="text-white mb-6" style={display("clamp(2.1rem, 4.1vw, 3.75rem)")}>
+              <span className="block text-balance">More Booked Patients.</span>{" "}
+              <span className="block text-balance text-blue-200">Not Just More Clicks.</span>
             </h1>
-            <p className="text-white/78 max-w-lg mb-8" style={body("1.12rem", 1.7)}>
-              Kind Supply Digital brings your website, local SEO, and Google Ads together so patients
-              can find the care they need and take the next step with your practice.
+            <p className="text-white/78 max-w-lg mb-5" style={body("1.12rem", 1.7)}>
+              Custom dental websites, local SEO, and Google Ads management—working together to help
+              independent practices attract patients and turn interest into scheduled appointments.
             </p>
+            <div className="max-w-lg mb-7 border-l-2 border-blue-500 pl-4 py-1">
+              <ul className="list-none m-0 p-0 space-y-1 text-blue-200 font-semibold" style={body("1rem", 1.45)}>
+                {waivedFees.map((fee) => <li key={fee}>{fee}</li>)}
+              </ul>
+              <p className="text-white/70 mt-2 mb-0" style={body("0.88rem", 1.55)}>
+                With the {usd(PACKAGE.monthly)}/month package. You pay your ad budget directly to Google.
+              </p>
+            </div>
             <div className="flex flex-wrap items-center gap-x-7 gap-y-2">
               <a
-                href={`#${ASSESSMENT_ID}`}
-                className="inline-flex items-center justify-center gap-3 min-h-[52px] px-5 sm:px-7 bg-blue-500 text-[#0f172a] font-semibold hover:bg-blue-400 transition-colors"
-                style={body("0.94rem", 1.4)}
+                href={AGREEMENT_PATH}
+                className="inline-flex items-center justify-center gap-3 min-h-[52px] px-5 sm:px-7 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-colors"
+                style={{ ...body("0.94rem", 1.4), letterSpacing: "0.03em" }}
               >
-                Get a free written assessment
+                Review agreement &amp; checkout
                 <ArrowRight size={16} className="shrink-0" aria-hidden="true" />
               </a>
-              <a href="#work" className="inline-flex items-center min-h-[44px] text-white/80 hover:text-white underline underline-offset-4" style={body("0.94rem")}>
+              <a href={`#${ASSESSMENT_ID}`} className="inline-flex items-center min-h-[44px] text-white/80 hover:text-white underline underline-offset-4" style={body("0.94rem")}>
+                Get a free written assessment
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-x-6 mt-2" style={body("0.88rem")}>
+              <a href="#work" className="inline-flex items-center min-h-[44px] text-white/70 hover:text-white underline underline-offset-4">
                 View a case study
               </a>
+              <a href="#package" className="inline-flex items-center min-h-[44px] text-white/70 hover:text-white underline underline-offset-4">
+                View pricing and terms
+              </a>
             </div>
-            <p className="text-white/60 mt-4" style={body("0.88rem")}>
-              Delivered by email. No call required.
-            </p>
           </div>
 
-          <aside className="lg:col-span-5 border-t-2 border-blue-500 bg-[#131d32] px-5 sm:px-8 py-7 sm:py-8" aria-labelledby="hero-package-title">
-            <h2 id="hero-package-title" className="text-white mb-3" style={display("clamp(1.7rem, 2.7vw, 2.4rem)")}>
-              {PACKAGE.name}
-            </h2>
-            <ol className="list-none p-0 m-0 divide-y divide-white/10">
-              {services.map(([title, description], i) => (
-                <li key={title} className="grid grid-cols-[2rem_1fr] gap-3 py-4">
-                  <span aria-hidden="true" className="text-blue-300" style={body("0.82rem")}>0{i + 1}</span>
-                  <div>
-                    <p className="text-white font-semibold mb-1" style={body("0.98rem", 1.45)}>{title}</p>
-                    <p className="text-white/70 m-0" style={body("0.9rem", 1.55)}>{description}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <div className="border-t border-white/15 pt-4">
-              <a href="#package" className="inline-flex items-center gap-2 min-h-[44px] text-blue-300 hover:text-blue-200" style={body("0.96rem")}>
-                {usd(PACKAGE.monthly)}/month · View pricing and terms
-                <ArrowRight size={15} className="shrink-0" aria-hidden="true" />
-              </a>
-              <p className="text-white/65 m-0" style={body("0.86rem")}>Six months · One practice location</p>
-            </div>
-          </aside>
+          <figure className="m-0 min-w-0">
+            <DevicePreview
+              shots={westparkHomeShots}
+              url="westparkdds.com"
+              desktopAlt="Westpark Dental Studio homepage on desktop, with a Book an Appointment button"
+              mobileAlt="Westpark Dental Studio homepage on a phone, with a fixed Call and Book Appointment bar"
+              eager
+            />
+            <figcaption className="mt-3 text-white/65" style={body("0.83rem")}>
+              Westpark Dental Studio · Website design by Kind Supply Digital
+            </figcaption>
+          </figure>
         </div>
       </section>
 
@@ -417,7 +422,7 @@ export function DentalMarketingPage() {
             ))}
           </dl>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center mt-9 lg:mt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start mt-9 lg:mt-12">
             <div className="lg:col-span-5">
               <h3 className="mb-3" style={display("1.5rem")}>How to read these numbers</h3>
               <p className="text-[#0f172a]/80 mb-3" style={body("0.91rem", 1.7)}>
@@ -445,28 +450,19 @@ export function DentalMarketingPage() {
                 </ul>
               </details>
             </div>
-            <figure className="lg:col-span-7 m-0 bg-[#0f172a] p-4 sm:p-7">
-              <DevicePreview
-                shots={westparkHomeShots}
-                url="westparkdds.com"
-                desktopAlt="Westpark Dental Studio homepage on desktop, with a Book an Appointment button"
-                mobileAlt="Westpark Dental Studio homepage on a phone, with a fixed Call and Book Appointment bar"
-              />
+            <figure className="lg:col-span-7 m-0">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-2 sm:gap-3">
+                {practicePhotos.map((photo) => (
+                  <div key={photo.alt} className="aspect-[3/2] overflow-hidden">
+                    <ResponsivePhoto photo={photo} sizes="(min-width: 1280px) 300px, (min-width: 1024px) 28vw, (min-width: 640px) 25vw, 50vw" className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
+              <figcaption className="mt-3 text-[#0f172a]/75" style={body("0.83rem")}>
+                Westpark practice photography, shown with permission.
+              </figcaption>
             </figure>
           </div>
-
-          <figure className="m-0 mt-8">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-              {practicePhotos.map((photo) => (
-                <div key={photo.alt} className="aspect-[3/2] overflow-hidden">
-                  <ResponsivePhoto photo={photo} sizes="(min-width: 1280px) 300px, (min-width: 640px) 25vw, 50vw" className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
-            <figcaption className="mt-3 text-[#0f172a]/75" style={body("0.83rem")}>
-              Westpark practice photography, shown with permission.
-            </figcaption>
-          </figure>
         </div>
       </section>
 
@@ -487,9 +483,14 @@ export function DentalMarketingPage() {
               <p className="font-semibold mb-2" style={body("1rem", 1.55)}>
                 {usd(PACKAGE.total)} total over six months for one practice location.
               </p>
-              <p className="text-[#0f172a]/80 mb-6" style={body("0.95rem")}>
-                Google ad spend is separate and paid directly to Google from your own account.
-              </p>
+              <div className="mt-5 mb-6 border-l-2 border-[#7a5c26] pl-4 py-1">
+                <ul className="list-none m-0 p-0 space-y-1 font-semibold" style={{ ...body("0.95rem", 1.5), color: GOLD_ON_CREAM }}>
+                  {waivedFees.map((fee) => <li key={fee}>{fee}</li>)}
+                </ul>
+                <p className="text-[#0f172a]/80 mt-2 mb-0" style={body("0.93rem", 1.6)}>
+                  Google ad spend is separate and paid directly to Google from your own account.
+                </p>
+              </div>
 
               <dl className="m-0 border-t border-[#0f172a]/20 divide-y divide-[#0f172a]/15">
                 <div className="py-4">
@@ -533,28 +534,29 @@ export function DentalMarketingPage() {
           </div>
 
           <div className="mt-7 pt-6 border-t border-[#0f172a]/20 flex flex-col sm:flex-row sm:items-center gap-x-7 gap-y-2">
-            <a href={`#${ASSESSMENT_ID}`} className="inline-flex self-start items-center gap-3 min-h-[52px] px-6 bg-[#0f172a] text-white hover:bg-[#1e293b] transition-colors font-semibold" style={body("0.94rem", 1.4)}>
-              Start with a free assessment
+            <a href={AGREEMENT_PATH} className="inline-flex self-start items-center gap-3 min-h-[52px] px-6 bg-[#0f172a] text-white hover:bg-[#1e293b] transition-colors font-medium" style={{ ...body("0.94rem", 1.4), letterSpacing: "0.03em" }}>
+              Review agreement &amp; checkout
               <ArrowRight size={16} className="shrink-0" aria-hidden="true" />
             </a>
-            <a href="#enroll" onClick={() => setEnrollOpen(true)} className="inline-flex self-start sm:self-auto items-center min-h-[44px] underline underline-offset-4" style={body("0.94rem")}>
-              Request enrollment
+            <a href={`#${ASSESSMENT_ID}`} className="inline-flex self-start sm:self-auto items-center min-h-[44px] underline underline-offset-4" style={body("0.94rem")}>
+              Get a free written assessment
             </a>
             <a href="#faq" className="inline-flex self-start sm:self-auto items-center min-h-[44px] underline underline-offset-4" style={body("0.94rem")}>
               Read the agreement FAQs
             </a>
           </div>
           <p className="mt-3 text-[#0f172a]/75" style={body("0.85rem")}>
-            This page summarizes the terms. The service agreement controls.
+            Review the full agreement before paying. Completing Stripe checkout confirms your
+            practice&rsquo;s acceptance and starts the six-month term.
           </p>
         </div>
       </section>
 
       {/* ============ FOUNDER ============ */}
       <section className="py-16 lg:py-20" aria-labelledby="founder-title">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid sm:grid-cols-[minmax(10rem,14rem)_1fr] gap-7 sm:gap-12 lg:gap-16 items-center">
-          <div className="aspect-[4/5] w-full max-w-[14rem] overflow-hidden">
-            <ResponsivePhoto photo={founderPhoto} sizes="224px" className="w-full h-full object-cover" />
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid sm:grid-cols-[minmax(15rem,2fr)_minmax(0,3fr)] lg:grid-cols-[26rem_1fr] gap-8 sm:gap-12 lg:gap-20 items-center">
+          <div className="aspect-[4/5] w-full max-w-sm lg:max-w-none overflow-hidden">
+            <ResponsivePhoto photo={founderPhoto} sizes="(min-width: 1024px) 416px, (min-width: 640px) clamp(240px, calc(40vw - 38px), 384px), (min-width: 432px) 384px, calc(100vw - 48px)" className="w-full h-full object-cover" />
           </div>
           <div>
             <Eyebrow>Your Point of Contact</Eyebrow>
@@ -629,28 +631,34 @@ export function DentalMarketingPage() {
           </AnimatedSection>
         </div>
 
-        {/* Secondary: enrollment */}
+        {/* Direct checkout and optional enrollment help */}
         <div id="enroll" className="max-w-7xl mx-auto px-6 lg:px-8 mt-20 scroll-mt-24">
           <div className="border-t border-white/10 pt-12 grid lg:grid-cols-12 gap-10 lg:gap-16">
             <div className="lg:col-span-5">
               <h2 className="text-white mb-4" style={display("clamp(1.8rem, 2.8vw, 2.3rem)")}>
                 Ready to enroll?
               </h2>
-              <p className="text-white/68 mb-6" style={body("0.98rem", 1.75)}>
-                Tell us about your practice. We confirm the package fits, then send the agreement to read
-                and accept, with secure Stripe checkout. Nothing is charged until you complete it.
+              <p className="text-white/75 mb-6" style={body("0.98rem", 1.75)}>
+                Read the full service agreement, confirm that you&rsquo;re authorized to enroll your practice,
+                and accept the terms to unlock secure Stripe checkout.
               </p>
-              <button
-                type="button"
-                aria-expanded={enrollOpen}
-                aria-controls="enroll-form"
-                onClick={() => setEnrollOpen((v) => !v)}
-                className="inline-flex items-center gap-3 min-h-[48px] px-7 border border-white/25 text-white hover:border-blue-400/60 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300"
-                style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.03em" }}
-              >
-                {enrollOpen ? "Hide enrollment form" : "Request enrollment"}
-                {enrollOpen ? <Minus size={15} aria-hidden="true" /> : <Plus size={15} aria-hidden="true" />}
-              </button>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                <a href={AGREEMENT_PATH} className="inline-flex items-center gap-3 min-h-[48px] px-5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-colors" style={body("0.94rem", 1.4)}>
+                  Review agreement &amp; checkout
+                  <ArrowRight size={16} className="shrink-0" aria-hidden="true" />
+                </a>
+                <button
+                  type="button"
+                  aria-expanded={enrollOpen}
+                  aria-controls="enroll-form"
+                  onClick={() => setEnrollOpen((v) => !v)}
+                  className="inline-flex items-center gap-2 min-h-[44px] text-white/80 hover:text-white underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300"
+                  style={body("0.9rem")}
+                >
+                  {enrollOpen ? "Hide enrollment form" : "Ask about enrollment"}
+                  {enrollOpen ? <Minus size={15} aria-hidden="true" /> : <Plus size={15} aria-hidden="true" />}
+                </button>
+              </div>
             </div>
             <div id="enroll-form" className="lg:col-span-7" hidden={!enrollOpen}>
               <ol className="list-none p-0 mb-10 grid sm:grid-cols-5 gap-4 sm:gap-3">
@@ -681,7 +689,7 @@ export function DentalMarketingPage() {
         </div>
       </section>
 
-      <StickyAssessmentCTA heroId={HERO_ID} targetId={ASSESSMENT_ID} />
+      <StickyEnrollmentCTA heroId={HERO_ID} assessmentId={ASSESSMENT_ID} />
     </div>
   );
 }

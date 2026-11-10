@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import logoWhite from "../../imports/kind-supply-digital-logo-white.svg";
 import { BOOKING_URL } from "../booking";
+import { AGREEMENT_PATH } from "./dental/dentalConfig";
 
 // Dental division page (React route). The Westpark case study stays linked
 // from that page and from the footer.
@@ -24,8 +25,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const isDental = location.pathname === DENTAL_URL;
-  const ctaHref = isDental ? "#assessment" : BOOKING_URL;
-  const ctaLabel = isDental ? "Free Assessment" : "Free Consultation";
+  const ctaHref = isDental ? AGREEMENT_PATH : BOOKING_URL;
+  const ctaLabel = isDental ? "Review & Enroll" : "Free Consultation";
   const ctaTarget = isDental ? undefined : "_blank";
   const ctaRel = isDental ? undefined : "noopener noreferrer";
 

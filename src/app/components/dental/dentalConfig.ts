@@ -7,9 +7,8 @@
  * the FAQ in DentalMarketingPage.tsx against the new text.
  */
 
-/** General (non-client-specific) agreement + Stripe checkout. Not linked
- *  publicly: applicants receive it after we confirm the package fits. */
-export const AGREEMENT_PATH = "/a/4xrtrhp2ltjj30";
+/** General agreement and acceptance-gated Stripe checkout for dental enrollment. */
+export const AGREEMENT_PATH = "/a/4xrtrhp2ltjj30/index";
 export const AGREEMENT_VERSION = "November 9, 2026";
 
 /** Serverless endpoint (api/dental-intake.js) for both forms on the page. */

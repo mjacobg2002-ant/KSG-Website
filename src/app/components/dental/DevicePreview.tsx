@@ -95,7 +95,7 @@ export function DevicePreview({
 
       {/* Phone frame */}
       <div className="absolute right-0 bottom-0 w-[26%] min-w-[96px] max-w-[176px] rounded-[1.4rem] border border-white/15 bg-[#0a1120] p-[5px] shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)]">
-        <div className="overflow-hidden rounded-[1.05rem] aspect-[390/700]">
+        <div className="overflow-hidden rounded-[1.05rem]">
           <Picture
             set={shots.mobile}
             alt={mobileAlt}

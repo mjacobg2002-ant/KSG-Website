@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { AGREEMENT_PATH } from "./dentalConfig";
 
 /*
- * Phone/tablet-only bar pointing to the free written assessment. Appears once
+ * Phone/tablet-only bar pointing to the agreement and checkout. Appears once
  * the hero is scrolled past and hides again as the assessment form (or
  * anything below it) comes into view, so it never covers the form or footer.
  */
-export function StickyAssessmentCTA({ heroId, targetId }: { heroId: string; targetId: string }) {
+export function StickyEnrollmentCTA({ heroId, assessmentId }: { heroId: string; assessmentId: string }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     const update = () => {
       const hero = document.getElementById(heroId);
-      const target = document.getElementById(targetId);
-      if (!hero || !target) return;
+      const assessment = document.getElementById(assessmentId);
+      if (!hero || !assessment) return;
       const pastHero = hero.getBoundingClientRect().bottom < 0;
-      const targetReached = target.getBoundingClientRect().top < window.innerHeight;
-      setShow(pastHero && !targetReached);
+      const assessmentReached = assessment.getBoundingClientRect().top < window.innerHeight;
+      setShow(pastHero && !assessmentReached);
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -25,7 +26,7 @@ export function StickyAssessmentCTA({ heroId, targetId }: { heroId: string; targ
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  }, [heroId, targetId]);
+  }, [heroId, assessmentId]);
 
   return (
     <div
@@ -36,15 +37,15 @@ export function StickyAssessmentCTA({ heroId, targetId }: { heroId: string; targ
     >
       <div className="px-4 py-3 flex items-center justify-between gap-3">
         <p className="text-white/75 leading-snug" style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem" }}>
-          Free, written, no call required.
+          Ready to start?
         </p>
         <a
-          href={`#${targetId}`}
+          href={AGREEMENT_PATH}
           tabIndex={show ? 0 : -1}
           className="shrink-0 inline-flex items-center gap-2 min-h-[44px] px-5 bg-blue-500 text-[#0f172a] font-medium"
           style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.82rem", fontWeight: 500, letterSpacing: "0.03em" }}
         >
-          Get my assessment
+          Review &amp; enroll
           <ArrowRight size={15} aria-hidden="true" />
         </a>
       </div>

@@ -40,6 +40,10 @@ import siteM780a from "../../assets/dental/wp-site-home-mobile-780.avif";
 import siteM780w from "../../assets/dental/wp-site-home-mobile-780.webp";
 import siteM390a from "../../assets/dental/wp-site-home-mobile-390.avif";
 import siteM390w from "../../assets/dental/wp-site-home-mobile-390.webp";
+import founder819a from "../../assets/dental/founder-marcel-819.avif";
+import founder819w from "../../assets/dental/founder-marcel-819.webp";
+import founder560a from "../../assets/dental/founder-marcel-560.avif";
+import founder560w from "../../assets/dental/founder-marcel-560.webp";
 
 export type PhotoSource = { avif: string; webp: string; w: number };
 export type Photo = {
@@ -105,6 +109,17 @@ export const photos = {
     ],
   },
 } satisfies Record<string, Photo>;
+
+/** Kind Supply's founder (supplied by Marcel, Nov 2026). Not Westpark imagery. */
+export const founderPhoto: Photo = {
+  alt: "Marcel Grisard, founder of Kind Supply Digital",
+  width: 819,
+  height: 1024,
+  sources: [
+    { avif: founder560a, webp: founder560w, w: 560 },
+    { avif: founder819a, webp: founder819w, w: 819 },
+  ],
+};
 
 /** Live homepage design (desktop + phone), unedited. */
 export const westparkHomeShots: ShotSet = {

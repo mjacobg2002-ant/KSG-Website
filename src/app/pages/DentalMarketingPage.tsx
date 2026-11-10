@@ -7,7 +7,7 @@ import { DevicePreview } from "../components/dental/DevicePreview";
 import { IntakeForm, type IntakeField } from "../components/dental/IntakeForm";
 import { ResponsivePhoto } from "../components/dental/ResponsivePhoto";
 import { StickyAssessmentCTA } from "../components/dental/StickyAssessmentCTA";
-import { photos, westparkHomeShots } from "../components/dental/westparkMedia";
+import { founderPhoto, photos, westparkHomeShots } from "../components/dental/westparkMedia";
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
   CONTACT_EMAIL,
@@ -655,15 +655,8 @@ export function DentalMarketingPage() {
       <section className="py-24 lg:py-32" aria-labelledby="founder-title">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <AnimatedSection className="lg:col-span-5">
-            {/* Founder portrait goes here (4:5). Until it's added, a typographic placeholder. */}
-            <div
-              className="aspect-[4/5] max-w-md bg-[#131d32] border border-white/10 flex items-end p-8"
-              role="img"
-              aria-label="Portrait of Marcel Grisard, coming soon"
-            >
-              <span className="text-blue-300/80" style={{ fontFamily: PLAYFAIR, fontSize: "6rem", lineHeight: 1 }} aria-hidden="true">
-                MG
-              </span>
+            <div className="aspect-[4/5] max-w-md overflow-hidden">
+              <ResponsivePhoto photo={founderPhoto} sizes="(min-width: 1024px) 28rem, 100vw" className="w-full h-full object-cover" />
             </div>
           </AnimatedSection>
           <AnimatedSection className="lg:col-span-7" delay={0.06}>

@@ -26,23 +26,16 @@ import { DentalSpotlight } from "../components/DentalSpotlight";
 import { ServiceArea } from "../components/ServiceArea";
 
 /* ---------- Reusable CTA with reassurance ---------- */
-function CTABlock({ label = "Get Your Free Consultation", center = false, href }: { label?: string; center?: boolean; href?: string }) {
+function CTABlock({ label = "Get Your Free Consultation", center = false }: { label?: string; center?: boolean }) {
   const btnClass =
     "inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group";
   const btnStyle = { fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" } as const;
   return (
     <div className={center ? "flex flex-col items-center" : "flex flex-col items-start"}>
-      {href ? (
-        <a href={href} target="_blank" rel="noopener noreferrer" className={btnClass} style={btnStyle}>
-          {label}
-          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-        </a>
-      ) : (
-        <Link to="/contact" className={btnClass} style={btnStyle}>
-          {label}
-          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-        </Link>
-      )}
+      <Link to="/contact" className={btnClass} style={btnStyle}>
+        {label}
+        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+      </Link>
       <p
         className="text-white/30 mt-4"
         style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em" }}
@@ -157,7 +150,7 @@ export function HomePage() {
       {/* ============ HERO — name the pain ============ */}
       {/* -mt-20 pulls the hero up under the (transparent) fixed navbar so the
           video fills to the very top — cancels the Layout's pt-20 offset. */}
-      <section className="relative min-h-screen -mt-20 pt-32 pb-24 lg:pt-28 lg:pb-20 flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen -mt-20 pt-28 pb-24 lg:pb-20 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           {/* Duotone looping video for premium background motion. The poster
               (and the reduced-motion branch above) fall back to the still image.
@@ -234,10 +227,19 @@ export function HomePage() {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
             <p
-              className="text-blue-300/50 uppercase tracking-[0.3em] mb-8 lg:mb-10"
+              className="flex flex-wrap items-center justify-center gap-x-2.5 text-blue-200/75 uppercase tracking-[0.18em] mb-5 sm:mb-8"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.75rem", fontWeight: 500 }}
             >
-              Dental Practices &middot; Behavioral Health &middot; Home Services &middot; Law Firms
+              <Link to="/dental-marketing" className="inline-flex items-center gap-2 min-h-[44px] text-blue-200 underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300">
+                Dental Practices
+                <ArrowRight size={13} aria-hidden="true" />
+              </Link>
+              <span aria-hidden="true">&middot;</span>
+              <span>Behavioral Health</span>
+              <span aria-hidden="true">&middot;</span>
+              <span>Home Services</span>
+              <span aria-hidden="true">&middot;</span>
+              <span>Law Firms</span>
             </p>
           </motion.div>
 
@@ -247,7 +249,7 @@ export function HomePage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="text-white mb-8 lg:mb-10 mx-auto lg:max-w-[62rem]"
+            className="text-white mb-6 lg:mb-8 mx-auto lg:max-w-[62rem]"
             style={{
               fontFamily: "'Playfair Display', serif",
               fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
@@ -265,36 +267,39 @@ export function HomePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="text-white/50 max-w-2xl lg:max-w-[44rem] mx-auto mb-10 lg:mb-12"
+            className="text-white/75 max-w-2xl lg:max-w-[44rem] mx-auto mb-7 lg:mb-9"
             style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.1rem", lineHeight: "1.8" }}
           >
-            You're great at the work. But the patients, jobs, and cases you never hear
-            about are going to businesses with a stronger site, better search presence,
-            and a phone that always answers. We build all three &mdash; and for one dental
-            office, that meant 46% more booked patients in under a month.
+            We build websites, improve local search visibility, and help you respond faster
+            so more of the people who find your business take the next step.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-center"
+            className="flex flex-wrap justify-center gap-3"
           >
-            <CTABlock center href={BOOKING_URL} />
+            <Link to="/dental-marketing" className="group inline-flex min-h-[52px] items-center justify-center gap-3 px-6 sm:px-8 py-3 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300" style={{ fontSize: "0.9rem", letterSpacing: "0.05em" }}>
+              Explore Dental Marketing
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+            </Link>
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[52px] items-center justify-center px-6 sm:px-8 py-3 border border-white/35 bg-[#0f172a]/65 text-white hover:border-blue-300 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300" style={{ fontSize: "0.9rem", letterSpacing: "0.05em" }}>
+              Get a Free Consultation
+            </a>
           </motion.div>
 
-          <motion.a
-            href="#dental-results"
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 border border-blue-400/20 bg-[#0f172a]/50 text-blue-200/80 hover:text-white hover:border-blue-400/40 transition-colors group"
-            style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.03em" }}
+            className="mt-5 flex justify-center"
           >
-            <span className="text-blue-300 font-semibold">+46%</span>
-            booked patients for a dental office in under a month
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </motion.a>
+            <Link to="/dental-marketing" className="group inline-flex items-center gap-3 min-h-[44px] px-4 py-2 border border-blue-400/30 bg-[#0f172a]/65 text-blue-100 hover:border-blue-400/65 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300" style={{ fontSize: "0.8rem", lineHeight: 1.5 }}>
+              <span><strong className="text-blue-300">+46% website bookings</strong> for Westpark Dental Studio &middot; Aug–Sept 2026</span>
+              <ArrowRight size={14} className="shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+            </Link>
+          </motion.div>
         </div>
 
         <motion.div

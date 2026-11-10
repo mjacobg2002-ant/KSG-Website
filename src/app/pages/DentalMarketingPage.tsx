@@ -47,10 +47,22 @@ const ASSESSMENT_ID = "assessment";
 
 const waivedFees = SHOW_STANDALONE_COMPARISON
   ? [
-      `${usd(STANDALONE.websiteBuild)} website build fee waived`,
-      `${usd(STANDALONE.adsManagementMonthly)}/month Google Ads management fee waived`,
+      `${usd(STANDALONE.websiteBuild)} website build fee`,
+      `${usd(STANDALONE.adsManagementMonthly)}/month Google Ads management fee`,
     ]
-  : ["Website build fee waived", "Separate Google Ads management fee waived"];
+  : ["Website build fee", "Separate Google Ads management fee"];
+
+function WaivedLabel() {
+  return (
+    <span className="relative inline-block">
+      waived
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 56 9" preserveAspectRatio="none" className="pointer-events-none absolute -bottom-0.5 left-0 h-[7px] w-full text-[#ca4742]" fill="none">
+        <path d="M2 6.5C14 3.5 37 3 54 5" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" />
+        <path d="M7 7.5C21 5.5 39 5.1 51 5.8" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.65" />
+      </svg>
+    </span>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /* Content                                                              */
@@ -316,7 +328,7 @@ export function DentalMarketingPage() {
             </p>
             <div className="max-w-lg mb-7 border-l-2 border-blue-500 pl-4 py-1">
               <ul className="list-none m-0 p-0 space-y-1 text-blue-200 font-semibold" style={body("1rem", 1.45)}>
-                {waivedFees.map((fee) => <li key={fee}>{fee}</li>)}
+                {waivedFees.map((fee) => <li key={fee}>{fee} <WaivedLabel /></li>)}
               </ul>
               <p className="text-white/70 mt-2 mb-0" style={body("0.88rem", 1.55)}>
                 With the {usd(PACKAGE.monthly)}/month package. You pay your ad budget directly to Google.
@@ -481,11 +493,11 @@ export function DentalMarketingPage() {
                 <span className="text-[#0f172a]/75" style={body("1.05rem")}> /month</span>
               </p>
               <p className="font-semibold mb-2" style={body("1rem", 1.55)}>
-                {usd(PACKAGE.total)} total over six months for one practice location.
+                Six-month agreement · One practice location
               </p>
               <div className="mt-5 mb-6 border-l-2 border-[#7a5c26] pl-4 py-1">
                 <ul className="list-none m-0 p-0 space-y-1 font-semibold" style={{ ...body("0.95rem", 1.5), color: GOLD_ON_CREAM }}>
-                  {waivedFees.map((fee) => <li key={fee}>{fee}</li>)}
+                  {waivedFees.map((fee) => <li key={fee}>{fee} <WaivedLabel /></li>)}
                 </ul>
                 <p className="text-[#0f172a]/80 mt-2 mb-0" style={body("0.93rem", 1.6)}>
                   Google ad spend is separate and paid directly to Google from your own account.
@@ -494,21 +506,20 @@ export function DentalMarketingPage() {
 
               <dl className="m-0 border-t border-[#0f172a]/20 divide-y divide-[#0f172a]/15">
                 <div className="py-4">
-                  <dt className="font-semibold mb-1" style={body("0.94rem")}>Website license and ownership</dt>
-                  <dd className="m-0 text-[#0f172a]/80" style={body("0.92rem", 1.65)}>
-                    The package includes a license to use the website during the agreement. Ownership
-                    is available through an optional {usd(PACKAGE.websiteFilesPurchase)} purchase of the
-                    website files after the term once the full commitment and other amounts due are
-                    paid. You keep your domain, content, and Google accounts.
-                  </dd>
-                </div>
-                <div className="py-4">
                   <dt className="font-semibold mb-1" style={body("0.94rem")}>After six months</dt>
                   <dd className="m-0 text-[#0f172a]/80" style={body("0.92rem", 1.65)}>
                     SEO and Google Ads management continue at {usd(PACKAGE.monthly)}/month unless
                     either side gives written notice at least 30 days before the initial term ends.
                     Once month to month, either side can end services with 30 days&rsquo; written notice.
-                    Hosting alone is {usd(PACKAGE.hostingOnlyMonthly)}/month.
+                  </dd>
+                </div>
+                <div className="py-4">
+                  <dt className="font-semibold mb-1" style={body("0.94rem")}>Website hosting and transfer</dt>
+                  <dd className="m-0 space-y-2 text-[#0f172a]/80" style={body("0.92rem", 1.65)}>
+                    <p className="m-0">The package includes a website license. If you end marketing services after the initial term, you have two options.</p>
+                    <p className="m-0"><strong>Keep your site live with us.</strong> Hosting and maintenance are {usd(PACKAGE.hostingOnlyMonthly)}/month.</p>
+                    <p className="m-0"><strong>Move to another host.</strong> After the initial term, once all amounts due are paid, you can purchase the website files for a one-time {usd(PACKAGE.websiteFilesPurchase)}.</p>
+                    <p className="m-0">Your domain, content, and Google accounts stay yours.</p>
                   </dd>
                 </div>
               </dl>

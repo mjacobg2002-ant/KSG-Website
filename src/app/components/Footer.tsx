@@ -128,15 +128,26 @@ export function Footer() {
               Industries We Serve
             </p>
             <div className="flex flex-col gap-3 mb-8">
-              {industryLinks.map((s) => (
-                <span
-                  key={s}
-                  className="text-white/35"
-                  style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
-                >
-                  {s}
-                </span>
-              ))}
+              {industryLinks.map((s) =>
+                s === "Dental" ? (
+                  <Link
+                    key={s}
+                    to="/dental-marketing"
+                    className="text-white/50 hover:text-blue-300 transition-colors"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
+                  >
+                    Dental Marketing
+                  </Link>
+                ) : (
+                  <span
+                    key={s}
+                    className="text-white/35"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
+                  >
+                    {s}
+                  </span>
+                )
+              )}
             </div>
             <Link
               to="/contact"

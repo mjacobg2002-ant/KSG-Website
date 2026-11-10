@@ -7,6 +7,8 @@ export function FloatingCTA() {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
   const isContact = location.pathname === "/contact";
+  // The dental page offers its own no-call next steps; skip the consult bar.
+  const isDental = location.pathname === "/dental-marketing";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,7 +18,7 @@ export function FloatingCTA() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (isContact) return null;
+  if (isContact || isDental) return null;
 
   return (
     <AnimatePresence>

@@ -8,6 +8,7 @@ import { ProcessPage } from "./pages/ProcessPage";
 import { InsightsPage } from "./pages/InsightsPage";
 import { InsightArticlePage } from "./pages/InsightArticlePage";
 import { ContactPage } from "./pages/ContactPage";
+import { DentalMarketingPage } from "./pages/DentalMarketingPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -22,6 +23,7 @@ export const routes: RouteRecord[] = [
       { index: true, Component: HomePage },
       { path: "about", Component: AboutPage },
       { path: "services", Component: ServicesPage },
+      { path: "dental-marketing", Component: DentalMarketingPage },
       { path: "case-studies", Component: CaseStudiesPage },
       { path: "process", Component: ProcessPage },
       { path: "insights", Component: InsightsPage },

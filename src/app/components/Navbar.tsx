@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from "motion/react";
 import logoWhite from "../../imports/kind-supply-digital-logo-white.svg";
 import { BOOKING_URL } from "../booking";
 
-// Static page in public/ (not a React route), so it's a plain <a>, not <Link>.
-const CASE_STUDY_URL = "/westpark-case-study";
+// Dental division page (React route). The Westpark case study stays linked
+// from that page and from the footer.
+const DENTAL_URL = "/dental-marketing";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -68,13 +69,15 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <a
-              href={CASE_STUDY_URL}
-              className="text-blue-300/90 hover:text-blue-200 transition-colors duration-300"
+            <Link
+              to={DENTAL_URL}
+              className={`transition-colors duration-300 ${
+                location.pathname === DENTAL_URL ? "text-blue-200" : "text-blue-300/90 hover:text-blue-200"
+              }`}
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 500 }}
             >
-              Dental Case Study
-            </a>
+              Dental Marketing
+            </Link>
             <a
               href={BOOKING_URL}
               target="_blank"
@@ -120,14 +123,14 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <a
-                href={CASE_STUDY_URL}
+              <Link
+                to={DENTAL_URL}
                 onClick={() => setMobileOpen(false)}
                 className="py-2 text-blue-300/90"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", letterSpacing: "0.05em", fontWeight: 500 }}
               >
-                Dental Case Study
-              </a>
+                Dental Marketing
+              </Link>
               <a
                 href={BOOKING_URL}
                 target="_blank"

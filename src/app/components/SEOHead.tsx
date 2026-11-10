@@ -26,8 +26,8 @@ const orgSchema = {
   description:
     "Web design, SEO, local search, paid growth, and lead automation for service businesses across the United States — proven in behavioral health, now serving home services, law firms, and dental. 100% remote.",
   url: `${SITE}/`,
-  logo: `${SITE}/og-image.png`,
-  image: `${SITE}/og-image.png`,
+  logo: `${SITE}/og-image-us.png`,
+  image: `${SITE}/og-image-us.png`,
   email: "partnerships@kindsupplydigital.com",
   priceRange: "$$",
   areaServed: { "@type": "Country", name: "United States" },
@@ -64,7 +64,7 @@ export function SEOHead({
   keywords,
   canonical,
   ogType = "website",
-  ogImage = `${SITE}/og-image.png`,
+  ogImage = `${SITE}/og-image-us.png`,
   structuredData,
   noIndex = false,
 }: SEOHeadProps) {
@@ -107,7 +107,7 @@ export function SEOHead({
       <meta property="og:image:type" content="image/png" />
       <meta
         property="og:image:alt"
-        content="Kind Supply Digital — Web Design, SEO & Lead Systems"
+        content="Kind Supply Digital — Web Design, SEO & Lead Systems — Serving businesses across the United States"
       />
 
       {/* Twitter */}

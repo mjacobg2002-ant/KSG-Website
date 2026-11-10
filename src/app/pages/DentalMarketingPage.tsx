@@ -71,8 +71,8 @@ const results = [
   {
     value: "13 → 19",
     label: "Website bookings (+46%)",
-    detail: "August and September 2026 actuals from the booking platform’s “Your website” channel. 25+ is the October 2026 projection.",
-    projection: "25+",
+    detail: "August to September 2026. Booking platform, “Your website” channel.",
+    goal: "30 new patients per month",
   },
   {
     value: "24",
@@ -428,10 +428,13 @@ export function DentalMarketingPage() {
               <div key={result.label} className={`py-5 md:px-6 ${i ? "border-t md:border-t-0 md:border-l border-[#0f172a]/20" : "md:pl-0"}`}>
                 <dt className="mb-2 md:min-h-[2.8em] font-semibold" style={body("0.95rem", 1.4)}>{result.label}</dt>
                 <dd className="m-0">
-                  <p className="mb-2" style={display(result.projection ? "clamp(1.7rem, 3.4vw, 3.55rem)" : "clamp(2.3rem, 4vw, 3.55rem)")}>
-                    {result.projection ? `${result.value} → ${result.projection}` : result.value}
-                  </p>
+                  <p className="mb-2" style={display("clamp(2.3rem, 4vw, 3.55rem)")}>{result.value}</p>
                   <p className="text-[#0f172a]/75 m-0" style={body("0.86rem", 1.55)}>{result.detail}</p>
+                  {result.goal && (
+                    <p className="text-[#0f172a]/80 mt-3 mb-0" style={body("0.9rem", 1.55)}>
+                      <strong>Growth goal</strong> · {result.goal}
+                    </p>
+                  )}
                 </dd>
               </div>
             ))}

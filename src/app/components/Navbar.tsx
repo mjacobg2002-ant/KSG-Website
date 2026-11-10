@@ -23,6 +23,11 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const isDental = location.pathname === DENTAL_URL;
+  const ctaHref = isDental ? "#assessment" : BOOKING_URL;
+  const ctaLabel = isDental ? "Free Assessment" : "Free Consultation";
+  const ctaTarget = isDental ? undefined : "_blank";
+  const ctaRel = isDental ? undefined : "noopener noreferrer";
 
   // Transparent over the hero at the very top; fade in the navy background once
   // the visitor scrolls (or when the mobile menu is open, for legibility).
@@ -41,7 +46,7 @@ export function Navbar() {
         hasBackground
           ? "bg-[#0f172a]/80 backdrop-blur-xl border-b border-white/5"
           : "bg-transparent border-b border-transparent"
-      }`}
+      } ${isDental ? "[&_a]:inline-flex [&_a]:items-center [&_a]:min-h-[44px] [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-blue-300" : ""}`}
       role="navigation"
       aria-label="Main navigation"
     >
@@ -79,19 +84,19 @@ export function Navbar() {
               Dental Marketing
             </Link>
             <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={ctaHref}
+              target={ctaTarget}
+              rel={ctaRel}
               className="ml-2 px-6 py-2.5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.05em", fontWeight: 500 }}
             >
-              Free Consultation
+              {ctaLabel}
             </a>
           </div>
 
           {/* Mobile Toggle */}
           <button
-            className="lg:hidden text-white p-2"
+            className={`lg:hidden text-white p-2 ${isDental ? "min-h-[44px] min-w-[44px] focus-visible:outline-2 focus-visible:outline-blue-300" : ""}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
@@ -109,7 +114,7 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-[#0f172a] border-t border-white/5 overflow-hidden"
           >
-            <div className="px-6 py-8 flex flex-col gap-4">
+            <div className={`px-6 py-8 flex flex-col gap-4 ${isDental ? "max-h-[calc(100dvh-5rem)] overflow-y-auto" : ""}`}>
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -132,14 +137,14 @@ export function Navbar() {
                 Dental Marketing
               </Link>
               <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={ctaHref}
+                target={ctaTarget}
+                rel={ctaRel}
                 onClick={() => setMobileOpen(false)}
-                className="mt-4 px-6 py-3 bg-blue-500 text-[#0f172a] font-medium text-center"
+                className="mt-4 px-6 py-3 bg-blue-500 text-[#0f172a] font-medium text-center justify-center"
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", fontWeight: 500 }}
               >
-                Free Consultation
+                {ctaLabel}
               </a>
             </div>
           </motion.div>

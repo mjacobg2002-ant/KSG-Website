@@ -52,10 +52,10 @@ const waivedFees = SHOW_STANDALONE_COMPARISON
     ]
   : ["Website build fee", "Separate Google Ads management fee"];
 
-function WaivedLabel() {
+function MarkerUnderline({ children }: { children: ReactNode }) {
   return (
     <span className="relative inline-block">
-      waived
+      {children}
       <svg aria-hidden="true" focusable="false" viewBox="0 0 56 9" preserveAspectRatio="none" className="pointer-events-none absolute -bottom-0.5 left-0 h-[7px] w-full text-[#ca4742]" fill="none">
         <path d="M2 6.5C14 3.5 37 3 54 5" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" />
         <path d="M7 7.5C21 5.5 39 5.1 51 5.8" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.65" />
@@ -69,10 +69,10 @@ function WaivedLabel() {
 /* ------------------------------------------------------------------ */
 const results = [
   {
-    value: "13 → 19",
+    value: "13 → 19 → 25+",
     label: "Website bookings (+46%)",
-    detail: "August to September 2026. Booking platform, “Your website” channel.",
-    goal: "30 new patients per month",
+    detail: "August and September 2026 actuals from the booking platform’s “Your website” channel. 25+ is the monthly website booking target.",
+    goal: "30 new patients a month",
   },
   {
     value: "24",
@@ -329,7 +329,7 @@ export function DentalMarketingPage() {
             </p>
             <div className="max-w-lg mb-7 border-l-2 border-blue-500 pl-4 py-1">
               <ul className="list-none m-0 p-0 space-y-1 text-blue-200 font-semibold" style={body("1rem", 1.45)}>
-                {waivedFees.map((fee) => <li key={fee}>{fee} <WaivedLabel /></li>)}
+                {waivedFees.map((fee) => <li key={fee}>{fee} <MarkerUnderline>waived</MarkerUnderline></li>)}
               </ul>
               <p className="text-white/70 mt-2 mb-0" style={body("0.88rem", 1.55)}>
                 With the {usd(PACKAGE.monthly)}/month package. You pay your ad budget directly to Google.
@@ -428,11 +428,11 @@ export function DentalMarketingPage() {
               <div key={result.label} className={`py-5 md:px-6 ${i ? "border-t md:border-t-0 md:border-l border-[#0f172a]/20" : "md:pl-0"}`}>
                 <dt className="mb-2 md:min-h-[2.8em] font-semibold" style={body("0.95rem", 1.4)}>{result.label}</dt>
                 <dd className="m-0">
-                  <p className="mb-2" style={display("clamp(2.3rem, 4vw, 3.55rem)")}>{result.value}</p>
+                  <p className="mb-2" style={display(result.goal ? "clamp(1.7rem, 3.4vw, 3.55rem)" : "clamp(2.3rem, 4vw, 3.55rem)")}>{result.value}</p>
                   <p className="text-[#0f172a]/75 m-0" style={body("0.86rem", 1.55)}>{result.detail}</p>
                   {result.goal && (
                     <p className="text-[#0f172a]/80 mt-3 mb-0" style={body("0.9rem", 1.55)}>
-                      <strong>Growth goal</strong> · {result.goal}
+                      <strong>Growth goal</strong> · <MarkerUnderline>{result.goal}</MarkerUnderline>
                     </p>
                   )}
                 </dd>
@@ -503,7 +503,7 @@ export function DentalMarketingPage() {
               </p>
               <div className="mt-5 mb-6 border-l-2 border-[#7a5c26] pl-4 py-1">
                 <ul className="list-none m-0 p-0 space-y-1 font-semibold" style={{ ...body("0.95rem", 1.5), color: GOLD_ON_CREAM }}>
-                  {waivedFees.map((fee) => <li key={fee}>{fee} <WaivedLabel /></li>)}
+                  {waivedFees.map((fee) => <li key={fee}>{fee} <MarkerUnderline>waived</MarkerUnderline></li>)}
                 </ul>
                 <p className="text-[#0f172a]/80 mt-2 mb-0" style={body("0.93rem", 1.6)}>
                   Google ad spend is separate and paid directly to Google from your own account.

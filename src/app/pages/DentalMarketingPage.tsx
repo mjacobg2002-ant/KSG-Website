@@ -7,10 +7,6 @@ import { DevicePreview } from "../components/dental/DevicePreview";
 import { IntakeForm, type IntakeField } from "../components/dental/IntakeForm";
 import { westparkServicePage, westparkTechnologyPage } from "../components/dental/westparkShots";
 import { dentalFaqs } from "../components/dental/dentalFaq";
-import heroCity1672a from "../assets/dental/hero-city-1672.avif";
-import heroCity1672w from "../assets/dental/hero-city-1672.webp";
-import heroCity960a from "../assets/dental/hero-city-960.avif";
-import heroCity960w from "../assets/dental/hero-city-960.webp";
 import {
   CONTACT_EMAIL,
   CONTACT_PHONE_DISPLAY,
@@ -368,40 +364,12 @@ export function DentalMarketingPage() {
 
       {/* ============ HERO ============ */}
       <section
-        className="relative isolate pt-16 sm:pt-24 pb-24 lg:pb-32 lg:min-h-[calc(100vh-5rem)] lg:flex lg:items-center border-b border-white/5 overflow-hidden"
+        className="relative pt-16 sm:pt-24 pb-24 lg:pb-32 border-b border-white/5 overflow-hidden"
         aria-labelledby="dental-hero-title"
+        style={{ background: "radial-gradient(ellipse at 20% 0%, rgba(202,163,78,0.09) 0%, transparent 60%)" }}
       >
-        {/* City skyline background (decorative). Navy fades keep the copy readable. */}
-        <picture className="absolute inset-0 -z-20" aria-hidden="true">
-          <source type="image/avif" srcSet={`${heroCity960a} 960w, ${heroCity1672a} 1672w`} sizes="100vw" />
-          <source type="image/webp" srcSet={`${heroCity960w} 960w, ${heroCity1672w} 1672w`} sizes="100vw" />
-          <img
-            src={heroCity1672w}
-            alt=""
-            width={1672}
-            height={941}
-            loading="eager"
-            decoding="sync"
-            {...{ fetchpriority: "high" }}
-            className="w-full h-full object-cover object-[65%_40%]"
-          />
-        </picture>
-        <div
-          className="absolute inset-0 -z-10 lg:hidden"
-          aria-hidden="true"
-          style={{ background: "linear-gradient(180deg, rgba(15,23,42,0.6) 0%, rgba(15,23,42,0.78) 40%, rgba(15,23,42,0.9) 70%, #0f172a 100%)" }}
-        />
-        <div
-          className="absolute inset-0 -z-10 hidden lg:block"
-          aria-hidden="true"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(15,23,42,0.97) 0%, rgba(15,23,42,0.9) 36%, rgba(15,23,42,0.5) 62%, rgba(15,23,42,0.18) 100%), linear-gradient(180deg, rgba(15,23,42,0.35) 0%, transparent 25%, transparent 72%, #0f172a 100%)",
-          }}
-        />
-
-        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-2xl">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-16 lg:gap-14 items-center">
+          <div>
             <Eyebrow>Dental Practice Marketing</Eyebrow>
             <h1
               id="dental-hero-title"
@@ -410,12 +378,12 @@ export function DentalMarketingPage() {
             >
               More Booked Patients. <span className="text-blue-200/90">Not Just More Clicks.</span>
             </h1>
-            <p className="text-white/80 max-w-xl mb-10" style={{ fontFamily: INTER, fontSize: "1.08rem", lineHeight: 1.8 }}>
+            <p className="text-white/70 max-w-xl mb-10" style={{ fontFamily: INTER, fontSize: "1.08rem", lineHeight: 1.8 }}>
               Custom dental websites, local SEO, and Google Ads management&mdash;working together to help
               independent practices attract patients and turn interest into scheduled appointments.
             </p>
 
-            <div className="border border-white/10 bg-[#0c1525]/90 backdrop-blur-sm mb-10 max-w-xl">
+            <div className="border border-white/10 bg-[#0c1525]/80 mb-10 max-w-xl">
               <div className="p-6 sm:p-7 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-white/[0.07]">
                 <div>
                   <p className="text-blue-300/75 uppercase tracking-[0.2em] mb-2" style={{ ...eyebrow, fontSize: "0.66rem" }}>
@@ -462,6 +430,19 @@ export function DentalMarketingPage() {
               </a>
             </div>
           </div>
+
+          <figure className="m-0">
+            <DevicePreview
+              shots={westparkServicePage}
+              url="westparkdds.com/services/dental-implants"
+              desktopAlt="Westpark Dental Studio's dental implants page on desktop, designed and built by Kind Supply Digital"
+              mobileAlt="The same Westpark Dental Studio service page on a phone, with a sticky call and book bar"
+              eager
+            />
+            <figcaption className="text-white/50 mt-2" style={{ fontFamily: INTER, fontSize: "0.76rem", letterSpacing: "0.02em" }}>
+              Westpark Dental Studio, Tysons, VA &middot; website by Kind Supply Digital, launched September 2026 &middot; hero photo updated for this preview
+            </figcaption>
+          </figure>
         </div>
       </section>
 
@@ -576,7 +557,7 @@ export function DentalMarketingPage() {
             </h2>
             <p className="text-white/60 max-w-2xl mb-16" style={leadStyle}>
               Every page answers a specific question a patient is asking, and every page makes booking
-              easy. This is completed client work, shown as it was built.
+              easy. This is completed client work.
             </p>
           </AnimatedSection>
 

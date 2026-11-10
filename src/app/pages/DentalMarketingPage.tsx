@@ -72,6 +72,7 @@ const results = [
     value: "13 → 19",
     label: "Website bookings (+46%)",
     detail: "August to September 2026. Booking platform, “Your website” channel.",
+    projection: "19 → 25+",
   },
   {
     value: "24",
@@ -429,6 +430,12 @@ export function DentalMarketingPage() {
                 <dd className="m-0">
                   <p className="mb-2" style={display("clamp(2.3rem, 4vw, 3.55rem)")}>{result.value}</p>
                   <p className="text-[#0f172a]/75 m-0" style={body("0.86rem", 1.55)}>{result.detail}</p>
+                  {result.projection && (
+                    <div className="mt-4 pt-3 border-t border-[#0f172a]/20">
+                      <p className="font-semibold mb-1" style={body("0.85rem")}>October 2026 projection</p>
+                      <p className="m-0" style={display("1.5rem")}>{result.projection}</p>
+                    </div>
+                  )}
                 </dd>
               </div>
             ))}

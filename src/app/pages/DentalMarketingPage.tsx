@@ -1,11 +1,13 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import { ArrowRight, ArrowDown, Plus, Minus } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { DevicePreview } from "../components/dental/DevicePreview";
 import { IntakeForm, type IntakeField } from "../components/dental/IntakeForm";
-import { westparkServicePage, westparkTechnologyPage } from "../components/dental/westparkShots";
+import { ResponsivePhoto } from "../components/dental/ResponsivePhoto";
+import { StickyAssessmentCTA } from "../components/dental/StickyAssessmentCTA";
+import { photos, westparkHomeShots } from "../components/dental/westparkMedia";
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
   CONTACT_EMAIL,
@@ -19,175 +21,101 @@ import {
 } from "../components/dental/dentalConfig";
 
 /* ------------------------------------------------------------------ */
-/* Shared type styles — the same system as the rest of the site.       */
+/* Type system — same families as the rest of the site                 */
 /* ------------------------------------------------------------------ */
 const INTER = "'Inter', sans-serif";
 const PLAYFAIR = "'Playfair Display', serif";
-const eyebrow = { fontFamily: INTER, fontSize: "0.7rem", fontWeight: 500 } as const;
-const h2Style = { fontFamily: PLAYFAIR, fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 400, lineHeight: 1.2 } as const;
-const leadStyle = { fontFamily: INTER, fontSize: "1rem", lineHeight: 1.8 } as const;
-const bodySm = { fontFamily: INTER, fontSize: "0.9rem", lineHeight: 1.75 } as const;
+const CREAM = "#f4f0e7";
+const NAVY = "#0f172a";
+/** Gold dark enough for text on cream (5.4:1). */
+const GOLD_ON_CREAM = "#7a5c26";
 
-function Eyebrow({ children }: { children: ReactNode }) {
+const eyebrowStyle = { fontFamily: INTER, fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.28em" } as const;
+const display = (size: string) => ({ fontFamily: PLAYFAIR, fontSize: size, fontWeight: 400, lineHeight: 1.08, letterSpacing: "-0.015em" }) as const;
+const body = (size = "1rem", lh = 1.75) => ({ fontFamily: INTER, fontSize: size, lineHeight: lh }) as const;
+
+function Eyebrow({ children, onCream = false }: { children: ReactNode; onCream?: boolean }) {
   return (
-    <p className="text-blue-300/70 uppercase tracking-[0.3em] mb-5" style={eyebrow}>
+    <p className={`uppercase mb-6 ${onCream ? "" : "text-blue-300/80"}`} style={{ ...eyebrowStyle, color: onCream ? GOLD_ON_CREAM : undefined }}>
       {children}
     </p>
   );
 }
 
 const PAGE_URL = `${SITE}/dental-marketing`;
+const HERO_ID = "dental-hero";
+const ASSESSMENT_ID = "assessment";
 
 /* ------------------------------------------------------------------ */
 /* Content                                                              */
 /* ------------------------------------------------------------------ */
-const indicators = ["Custom Website Included", "Ongoing SEO", "Google Ads Management", "Transparent Monthly Reporting"];
-
-const caseMetrics = [
+const results = [
   {
-    value: "13 → 19",
+    value: "+46%",
     label: "Online bookings from the practice website",
-    detail:
-      "August 2026 vs. September 2026 — a 46% month-over-month increase. Calendar months, from the practice’s booking platform (“Your website” channel).",
+    detail: "13 in August → 19 in September 2026, the month the new site launched",
   },
   {
     value: "24",
-    label: "Non-branded searches averaging Page 1",
-    detail:
-      "Searches such as “tooth extractions near me” and “dentist 22102.” Google Search Console, 7-day window ending October 5, 2026.",
+    label: "Non-branded searches averaging page one of Google",
+    detail: "Search Console, 7 days ending October 5, 2026",
   },
   {
     value: "2.2×",
     label: "Daily Google impressions in one week",
-    detail: "From 122 on September 26 to 268 on October 2, 2026. Google Search Console.",
+    detail: "122 on September 26 → 268 on October 2, 2026",
   },
-];
-
-const caseNotes = [
-  "Website bookings are appointments booked online through the practice’s booking platform and attributed to its website. They don’t include phone calls or bookings from other channels.",
-  "September includes 11 days before the new site went live on September 12. Seasonality and the practice’s own efforts also affect bookings, so we present this as what happened — not as proof that the website alone caused it.",
-  "These are website-booking and organic search figures. They are not Google Ads results, and we don’t combine them with advertising data.",
-  "Search Console positions are averages and vary by searcher location and device. No projections are shown here.",
-];
-
-type Included = { title: string; standalone?: string; note?: string; items: string[] };
-const included: Included[] = [
-  {
-    title: "Custom Dental Website",
-    standalone: SHOW_STANDALONE_COMPARISON ? `Separately: ${usd(STANDALONE.websiteBuild)} build fee — waived` : undefined,
-    items: [
-      "Custom, mobile-responsive design",
-      "Up to 20 pages, including doctor and individual service pages",
-      "Conversion-focused layouts with a clear path to booking",
-      "Online appointment-request or booking integration",
-      "Technical SEO foundations",
-      "Analytics and conversion tracking",
-      "Two rounds of design revisions",
-    ],
-    note: "Provided under license during the agreement — see the website ownership note below.",
-  },
-  {
-    title: "Ongoing Search Engine Optimization",
-    standalone: SHOW_STANDALONE_COMPARISON ? `Separately: ${usd(STANDALONE.seoMonthly)}/month` : undefined,
-    items: [
-      "Technical and on-page SEO",
-      "Local SEO for the neighborhoods you serve",
-      "Google Business Profile optimization",
-      "Local citation management",
-      "Indexing monitoring",
-      "Ongoing service-page improvements",
-    ],
-  },
-  {
-    title: "Google Ads Management",
-    standalone: SHOW_STANDALONE_COMPARISON ? `Separately: ${usd(STANDALONE.adsManagementMonthly)}/month management — waived` : undefined,
-    items: [
-      "Account audit and configuration",
-      "Campaign strategy and setup",
-      "Keyword and negative-keyword management",
-      "Ad groups aligned with your service pages",
-      "Search ad copy and ongoing testing",
-      "Conversion tracking",
-      "Bid and budget optimization within the budget you approve",
-    ],
-  },
-  {
-    title: "Reporting, Hosting & Support",
-    items: [
-      "Monthly written marketing report",
-      "SEO and Google Ads performance review",
-      "Hosting, security, and platform updates",
-      "Minor website edits, up to five hours a month",
-      "Lead and appointment tracking where your booking system allows it",
-    ],
-  },
-];
-
-const optionalServices = [
-  {
-    title: "Practice photography",
-    body: "Original photographs of your office, treatment rooms, and reception — so patients see your actual practice, not stock images.",
-  },
-  {
-    title: "Dentist & team portraits",
-    body: "Consistent, professional portraits for your doctor and team pages.",
-  },
-  {
-    title: "Office video & brand content",
-    body: "Short videos for your website, Google Business Profile, and social channels.",
-  },
-];
-
-const optionalTerms = [
-  "On-site work may require travel. Travel, lodging, and production needs are part of the quote.",
-  "Every additional charge is approved by you in writing before any work begins.",
-  "Additional office locations are scoped and priced under their own agreement.",
-  "Large custom functionality — patient portals, e-commerce, custom software — is quoted separately.",
-];
-
-const principles = [
-  { title: "A direct line", body: "You talk to the person accountable for your results, not an account manager relaying messages." },
-  { title: "Scope in writing", body: "What’s included, what isn’t, and what happens after six months are all in the agreement — and on this page." },
-  { title: "Reporting you can read", body: "A monthly written report in plain language, with actual numbers and estimates clearly labeled." },
-  { title: "One integrated plan", body: "Your website, search, and Google Ads are built to work together — ad groups land on the matching service pages." },
-  { title: "Your practice’s brand", body: "We design around your identity and your real office, not a template with your logo dropped in." },
-  { title: "Measured by booked patients", body: "Traffic matters only when it turns into appointment requests. That’s what we track and report." },
 ];
 
 const processSteps = [
   {
     n: "01",
-    title: "Discovery and Onboarding",
-    body: "We learn your practice, location, goals, services, current digital presence, and the resources available. You share materials and account access within the first ten business days.",
+    title: "Discovery and onboarding",
+    body: "Your practice, location, goals, services, and current presence. You share materials and account access within the first ten business days.",
   },
   {
     n: "02",
-    title: "Website Design and Development",
-    body: "We build the approved website around your practice’s identity, content, and authorized imagery. We aim to launch within 30 days of receiving your materials and approvals.",
+    title: "Website design and development",
+    body: "Built around your identity, content, and authorized photography. We aim to launch within 30 days of receiving your materials and approvals.",
   },
   {
     n: "03",
-    title: "Search and Advertising Foundations",
-    body: "Local SEO, Google Business Profile, conversion tracking, and a Google Ads structure that matches your service pages.",
+    title: "Search and advertising foundations",
+    body: "Local SEO, Google Business Profile, conversion tracking, and Google Ads ad groups that land on the matching service pages.",
   },
   {
     n: "04",
-    title: "Ongoing Optimization",
-    body: "We review campaign performance and search visibility and keep improving the website and acquisition strategy throughout the agreement.",
+    title: "Ongoing optimization",
+    body: "We review campaign performance and search visibility every month and keep improving the website and strategy.",
   },
   {
     n: "05",
-    title: "Transparent Reporting",
-    body: "A monthly report on what actually happened — never estimates presented as outcomes, and never guarantees we can’t keep.",
+    title: "Transparent reporting",
+    body: "A written monthly report on what actually happened. Estimates are labeled as estimates; nothing is guaranteed that can’t be.",
   },
 ];
 
-const enrollmentSteps = [
-  "Tell us about your practice and the location you want covered.",
-  "We review it personally and confirm the package is the right fit.",
-  "You receive the agreement to read in full and accept explicitly.",
-  "You pay securely through Stripe — card details never touch our site.",
-  "You get a receipt and our onboarding checklist, and we begin.",
+const newPractice = [
+  {
+    title: "A website ready before opening day",
+    body: "Designed, written, and taking appointment requests before the first patient walks in — so early word of mouth has somewhere to land.",
+  },
+  {
+    title: "Local search groundwork",
+    body: "Service pages, citations, and your Google Business Profile prepared in advance, so the practice can start building visibility as soon as its address can be verified.",
+  },
+  {
+    title: "Launch advertising, timed to your schedule",
+    body: "Google Ads campaigns built ahead of time and switched on when you’re ready to see patients, on a budget you approve and pay to Google directly.",
+  },
+];
+
+const included = [
+  ["Custom dental website", "Up to 20 pages, online booking or appointment requests, analytics, two rounds of revisions"],
+  ["Ongoing local SEO", "Technical and on-page SEO, Google Business Profile optimization, local citations"],
+  ["Google Ads management", "Setup, keywords and negatives, ad copy, conversion tracking, budget optimization"],
+  ["Hosting and maintenance", "Security and platform updates, plus up to five hours of minor edits a month"],
+  ["Monthly written report", "Website traffic, search visibility, and Google Ads performance"],
 ];
 
 const STATES = [
@@ -262,14 +190,15 @@ const assessmentFields: IntakeField[] = [
   },
 ];
 
+
 /* ------------------------------------------------------------------ */
 /* FAQ item                                                             */
 /* ------------------------------------------------------------------ */
 function FaqItem({ q, a, refText, index }: { q: string; a: string[]; refText?: string; index: number }) {
-  const [open, setOpen] = useState(index === 0);
+  const [open, setOpen] = useState(false);
   const id = `faq-${index}`;
   return (
-    <div className="border-b border-white/[0.07]">
+    <div className="border-b border-white/10">
       <h3 className="m-0">
         <button
           type="button"
@@ -279,25 +208,22 @@ function FaqItem({ q, a, refText, index }: { q: string; a: string[]; refText?: s
           onClick={() => setOpen((v) => !v)}
           className="w-full flex items-start justify-between gap-6 py-6 text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
         >
-          <span
-            className="text-white group-hover:text-blue-100 transition-colors"
-            style={{ fontFamily: PLAYFAIR, fontSize: "clamp(1.1rem, 2vw, 1.3rem)", fontWeight: 400, lineHeight: 1.4 }}
-          >
+          <span className="text-white group-hover:text-blue-100 transition-colors" style={{ fontFamily: PLAYFAIR, fontSize: "clamp(1.1rem, 2vw, 1.35rem)", fontWeight: 400, lineHeight: 1.4 }}>
             {q}
           </span>
-          <span className="shrink-0 mt-1 w-7 h-7 border border-white/15 flex items-center justify-center text-blue-300" aria-hidden="true">
-            {open ? <Minus size={14} /> : <Plus size={14} />}
+          <span className="shrink-0 mt-1 text-blue-300" aria-hidden="true">
+            {open ? <Minus size={18} /> : <Plus size={18} />}
           </span>
         </button>
       </h3>
-      <div id={`${id}-panel`} role="region" aria-labelledby={`${id}-btn`} hidden={!open} className="pb-7 pr-2 sm:pr-14">
+      <div id={`${id}-panel`} role="region" aria-labelledby={`${id}-btn`} hidden={!open} className="pb-8 pr-2 sm:pr-16">
         {a.map((p, i) => (
-          <p key={i} className="text-white/65 mb-3 last:mb-0" style={{ ...bodySm, fontSize: "0.94rem" }}>
+          <p key={i} className="text-white/70 mb-3 last:mb-0" style={body("0.98rem", 1.8)}>
             {p}
           </p>
         ))}
         {refText ? (
-          <p className="text-white/40 mt-3" style={{ fontFamily: INTER, fontSize: "0.72rem", letterSpacing: "0.04em" }}>
+          <p className="text-white/45 mt-3" style={body("0.78rem")}>
             {refText} of the service agreement
           </p>
         ) : null}
@@ -310,6 +236,17 @@ function FaqItem({ q, a, refText, index }: { q: string; a: string[]; refText?: s
 /* Page                                                                 */
 /* ------------------------------------------------------------------ */
 export function DentalMarketingPage() {
+  // Enrollment is the secondary path: collapsed until asked for (or linked to).
+  const [enrollOpen, setEnrollOpen] = useState(false);
+  useEffect(() => {
+    const sync = () => {
+      if (window.location.hash === "#enroll") setEnrollOpen(true);
+    };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
+
   return (
     <div>
       <SEOHead
@@ -361,571 +298,421 @@ export function DentalMarketingPage() {
           },
         ]}
       />
-
       {/* ============ HERO ============ */}
-      <section
-        className="relative pt-16 sm:pt-24 pb-24 lg:pb-32 border-b border-white/5 overflow-hidden"
-        aria-labelledby="dental-hero-title"
-        style={{ background: "radial-gradient(ellipse at 20% 0%, rgba(202,163,78,0.09) 0%, transparent 60%)" }}
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-16 lg:gap-14 items-center">
-          <div>
-            <Eyebrow>Dental Practice Marketing</Eyebrow>
-            <h1
-              id="dental-hero-title"
-              className="text-white mb-7"
-              style={{ fontFamily: PLAYFAIR, fontSize: "clamp(2.6rem, 5.6vw, 4.5rem)", fontWeight: 400, lineHeight: 1.08, letterSpacing: "-0.01em" }}
-            >
-              More Booked Patients. <span className="text-blue-200/90">Not Just More Clicks.</span>
-            </h1>
-            <p className="text-white/70 max-w-xl mb-10" style={{ fontFamily: INTER, fontSize: "1.08rem", lineHeight: 1.8 }}>
-              Custom dental websites, local SEO, and Google Ads management&mdash;working together to help
-              independent practices attract patients and turn interest into scheduled appointments.
-            </p>
-
-            <div className="border border-white/10 bg-[#0c1525]/80 mb-10 max-w-xl">
-              <div className="p-6 sm:p-7 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-white/[0.07]">
-                <div>
-                  <p className="text-blue-300/75 uppercase tracking-[0.2em] mb-2" style={{ ...eyebrow, fontSize: "0.66rem" }}>
-                    {PACKAGE.name}
-                  </p>
-                  <p className="text-white/65" style={{ fontFamily: INTER, fontSize: "0.86rem", lineHeight: 1.6 }}>
-                    Six-month agreement. One dental practice location.
-                  </p>
-                </div>
-                <p className="text-white whitespace-nowrap" style={{ fontFamily: PLAYFAIR, fontSize: "2.4rem", fontWeight: 400, lineHeight: 1 }}>
-                  {usd(PACKAGE.monthly)}
-                  <span className="text-white/55" style={{ fontFamily: INTER, fontSize: "0.9rem" }}>
-                    {" "}
-                    /month
-                  </span>
-                </p>
+      <section id={HERO_ID} className="relative overflow-hidden" aria-labelledby="dental-hero-title">
+        <div className="lg:grid lg:grid-cols-12 lg:min-h-[calc(100svh-5rem)]">
+          <div className="lg:col-span-7 flex items-center">
+            <div className="w-full max-w-3xl px-6 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-14 pt-16 sm:pt-20 pb-14 lg:py-24">
+              <p className="uppercase mb-8 text-blue-300/80" style={eyebrowStyle}>
+                Dental Practice Marketing
+              </p>
+              <h1 id="dental-hero-title" className="text-white mb-8" style={display("clamp(3rem, 6.6vw, 6.2rem)")}>
+                More Booked Patients.
+                <span className="block text-blue-200/90">
+                  Not Just More Clicks.
+                </span>
+              </h1>
+              <p className="text-white/75 max-w-xl mb-10" style={body("1.15rem", 1.7)}>
+                Websites, local search, and Google Ads built to work together for independent dental
+                practices&mdash;and measured by appointments, not traffic.
+              </p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8 mb-12">
+                <a
+                  href={`#${ASSESSMENT_ID}`}
+                  className="inline-flex items-center justify-center gap-3 min-h-[52px] px-9 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-colors duration-300 group"
+                  style={{ fontFamily: INTER, fontSize: "0.92rem", fontWeight: 500, letterSpacing: "0.04em" }}
+                >
+                  Get a Free Written Assessment
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                </a>
+                <a
+                  href="#package"
+                  className="inline-flex items-center justify-center sm:justify-start gap-2 min-h-[44px] text-white/80 hover:text-white transition-colors"
+                  style={{ fontFamily: INTER, fontSize: "0.92rem", fontWeight: 500, letterSpacing: "0.03em" }}
+                >
+                  Explore the package
+                  <ArrowDown size={15} aria-hidden="true" />
+                </a>
               </div>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.06]" aria-label="Included in the package">
-                {indicators.map((t) => (
-                  <li key={t} className="bg-[#0c1525] px-6 py-3.5 flex items-center gap-2.5 text-white/75" style={{ fontFamily: INTER, fontSize: "0.8rem" }}>
-                    <span className="w-1 h-1 bg-blue-400 shrink-0" aria-hidden="true" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
-              <a
-                href="#package"
-                className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group"
-                style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
-              >
-                Explore the Package
-                <ArrowDown size={16} className="group-hover:translate-y-0.5 transition-transform" aria-hidden="true" />
-              </a>
-              <a
-                href="#work"
-                className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-white/15 text-white/85 hover:border-blue-400/50 hover:text-white transition-all duration-300 group"
-                style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
-              >
-                View Our Dental Work
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-              </a>
+              <p className="text-white/60 border-t border-white/10 pt-6 max-w-xl" style={body("0.9rem", 1.65)}>
+                <span className="text-white">{PACKAGE.name}</span> &middot; {usd(PACKAGE.monthly)}/month &middot; six-month
+                agreement &middot; one practice location
+              </p>
             </div>
           </div>
-
-          <figure className="m-0">
-            <DevicePreview
-              shots={westparkServicePage}
-              url="westparkdds.com/services/dental-implants"
-              desktopAlt="Westpark Dental Studio's dental implants page on desktop, designed and built by Kind Supply Digital"
-              mobileAlt="The same Westpark Dental Studio service page on a phone, with a sticky call and book bar"
-              eager
-            />
-            <figcaption className="text-white/50 mt-2" style={{ fontFamily: INTER, fontSize: "0.76rem", letterSpacing: "0.02em" }}>
-              Westpark Dental Studio, Tysons, VA &middot; website by Kind Supply Digital, launched September 2026 &middot; hero photo updated for this preview
+          <figure className="relative m-0 lg:col-span-5">
+            <div className="aspect-[3/2] lg:aspect-auto lg:absolute lg:inset-0">
+              <ResponsivePhoto
+                photo={photos.roomWide}
+                sizes="100vw"
+                eager
+                className="w-full h-full object-cover"
+                art={{ media: "(min-width: 1024px)", photo: photos.roomPortrait, sizes: "42vw" }}
+              />
+            </div>
+            <figcaption
+              className="absolute left-0 bottom-0 m-4 lg:m-6 px-3 py-1.5 bg-[#0f172a]/80 backdrop-blur-sm text-white/85"
+              style={body("0.74rem", 1.4)}
+            >
+              Westpark Dental Studio, Tysons Corner &middot; website by Kind Supply Digital
             </figcaption>
           </figure>
         </div>
       </section>
 
-      {/* ============ CASE STUDY ============ */}
-      <section id="work" className="py-28 lg:py-32 border-b border-white/5 scroll-mt-20" aria-labelledby="case-title">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <AnimatedSection>
-            <Eyebrow>Case Study &middot; Westpark Dental Studio &middot; Tysons, VA</Eyebrow>
-            <h2 id="case-title" className="text-white mb-6 max-w-3xl" style={h2Style}>
-              Real Dental Work. Measurable Results.
-            </h2>
-            <p className="text-white/60 max-w-2xl mb-16" style={leadStyle}>
-              A general and cosmetic practice in Tysons Corner, Virginia. The new website went live on
-              September 12, 2026. Here is what changed, with the source and dates for every number.
-            </p>
+      {/* ============ FEATURED PROJECT (cream) ============ */}
+      <section id="work" className="scroll-mt-20 text-[#0f172a]" style={{ background: CREAM }} aria-labelledby="work-title">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 lg:pt-32">
+          <AnimatedSection className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-14 lg:mb-20">
+            <div className="lg:col-span-7">
+              <Eyebrow onCream>Featured Project</Eyebrow>
+              <h2 id="work-title" style={display("clamp(2.6rem, 5.5vw, 4.6rem)")}>
+                Westpark Dental Studio
+              </h2>
+            </div>
+            <div className="lg:col-span-5">
+              <p style={{ ...body("1.02rem", 1.75), color: "rgba(15,23,42,0.75)" }}>
+                A general and cosmetic practice in Tysons Corner, Virginia. We designed and built a new
+                website with a page for each of its 22 services and online booking on every page. It
+                launched on September 12, 2026.
+              </p>
+            </div>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 mb-px">
-            <AnimatedSection className="bg-[#0f172a] p-8 lg:p-10">
-              <p className="text-blue-300/70 uppercase tracking-[0.2em] mb-4" style={{ ...eyebrow, fontSize: "0.64rem" }}>
-                The challenge
-              </p>
-              <p className="text-white/70" style={bodySm}>
-                Patients rarely search for a practice by name. They search for a treatment and a
-                place &mdash; &ldquo;tooth extractions near me,&rdquo; &ldquo;dentist 22102.&rdquo; The goal was
-                to make Westpark findable for the services it offers in Tysons and McLean, and to make
-                booking the obvious next step on every page.
-              </p>
-            </AnimatedSection>
-            <AnimatedSection className="bg-[#0f172a] p-8 lg:p-10" delay={0.08}>
-              <p className="text-blue-300/70 uppercase tracking-[0.2em] mb-4" style={{ ...eyebrow, fontSize: "0.64rem" }}>
-                What we built
-              </p>
-              <ul className="space-y-2.5">
-                {[
-                  "A new custom website with a dedicated page for each of 22 services",
-                  "Online booking linked from every page, plus a sticky call-and-book bar on phones",
-                  "Billing, financing, technology, and sterilization pages that answer patients’ questions",
-                  "Technical SEO foundations and Google Search Console indexing from day one",
-                ].map((t) => (
-                  <li key={t} className="flex gap-3 text-white/70" style={bodySm}>
-                    <span className="text-blue-400/60 shrink-0" aria-hidden="true">&mdash;</span>
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </AnimatedSection>
-          </div>
+          {/* Practice photography */}
+          <AnimatedSection className="grid grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+            <div className="relative col-span-2 lg:col-span-5 lg:row-span-2 aspect-[4/5] lg:aspect-auto overflow-hidden">
+              <div className="absolute inset-0">
+                <ResponsivePhoto photo={photos.exterior} sizes="(min-width: 1024px) 38vw, 100vw" className="w-full h-full object-cover" />
+              </div>
+            </div>
+            <div className="col-span-2 lg:col-span-7 aspect-[16/9] overflow-hidden">
+              <ResponsivePhoto photo={photos.reception} sizes="(min-width: 1024px) 55vw, 100vw" className="w-full h-full object-cover" />
+            </div>
+            <div className="col-span-1 lg:col-span-3 aspect-square overflow-hidden">
+              <ResponsivePhoto photo={photos.sterilization} sizes="(min-width: 1024px) 24vw, 50vw" className="w-full h-full object-cover" />
+            </div>
+            <div className="relative col-span-1 lg:col-span-4 aspect-square lg:aspect-auto overflow-hidden">
+              <div className="absolute inset-0">
+              <ResponsivePhoto photo={photos.cerec} sizes="(min-width: 1024px) 31vw, 50vw" className="w-full h-full object-cover" />
+              </div>
+            </div>
+          </AnimatedSection>
+          <p className="mt-4" style={{ ...body("0.8rem"), color: "rgba(15,23,42,0.6)" }}>
+            Practice photography from the Westpark Dental Studio website, shown with the practice&rsquo;s permission.
+          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 mb-12">
-            {caseMetrics.map((m, i) => (
-              <AnimatedSection key={m.label} delay={i * 0.08} className="bg-[#0c1525] p-8 lg:p-10">
-                <p className="text-blue-300/60 uppercase tracking-[0.15em] mb-4" style={{ fontFamily: INTER, fontSize: "0.62rem", fontWeight: 600 }}>
-                  Actual
-                </p>
-                <p className="text-blue-200 mb-4 whitespace-nowrap" style={{ fontFamily: PLAYFAIR, fontSize: "clamp(2.4rem, 4.4vw, 3.2rem)", fontWeight: 400, lineHeight: 1 }}>
-                  {m.value}
-                </p>
-                <p className="text-white/85 mb-3" style={{ fontFamily: INTER, fontSize: "0.98rem", fontWeight: 500, lineHeight: 1.4 }}>
-                  {m.label}
-                </p>
-                <p className="text-white/55" style={{ fontFamily: INTER, fontSize: "0.8rem", lineHeight: 1.65 }}>
-                  {m.detail}
-                </p>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start">
-            <AnimatedSection>
-              <h3 className="text-white mb-5" style={{ fontFamily: PLAYFAIR, fontSize: "1.45rem", fontWeight: 400 }}>
-                What these numbers are &mdash; and aren&rsquo;t
+          {/* Verified results */}
+          <div className="mt-24 lg:mt-32 grid lg:grid-cols-12 gap-10 lg:gap-12">
+            <AnimatedSection className="lg:col-span-4">
+              <Eyebrow onCream>Verified Results</Eyebrow>
+              <h3 className="mb-6" style={display("clamp(2rem, 3.4vw, 2.8rem)")}>
+                What changed after launch.
               </h3>
-              <ul className="space-y-4 mb-10">
-                {caseNotes.map((n) => (
-                  <li key={n} className="flex gap-3 text-white/60" style={{ ...bodySm, fontSize: "0.86rem" }}>
-                    <span className="text-blue-400/60 shrink-0" aria-hidden="true">&mdash;</span>
-                    {n}
-                  </li>
+              <p style={{ ...body("0.95rem", 1.75), color: "rgba(15,23,42,0.72)" }}>
+                Every number below has a source and a date. Website bookings come from the practice&rsquo;s
+                booking platform (its &ldquo;Your website&rdquo; channel) and don&rsquo;t include phone calls.
+                September includes 11 days before launch, and seasonality also affects bookings, so we
+                present this as what happened &mdash; not as proof the website alone caused it. These are
+                not Google Ads figures, and no projections are shown.
+              </p>
+            </AnimatedSection>
+            <div className="lg:col-span-8">
+              {results.map((r, i) => (
+                <AnimatedSection key={r.label} delay={i * 0.06}>
+                  <div className={`grid sm:grid-cols-[minmax(9rem,13rem)_1fr] gap-x-10 gap-y-2 items-baseline py-8 ${i ? "border-t border-[#0f172a]/15" : ""}`}>
+                    <p className="whitespace-nowrap" style={{ ...display("clamp(3rem, 5.6vw, 4.6rem)"), lineHeight: 1 }}>
+                      {r.value}
+                    </p>
+                    <div>
+                      <p className="mb-1.5" style={{ fontFamily: INTER, fontSize: "1.08rem", fontWeight: 500, lineHeight: 1.45 }}>
+                        {r.label}
+                      </p>
+                      <p style={{ ...body("0.92rem", 1.6), color: "rgba(15,23,42,0.65)" }}>{r.detail}</p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Website design — navy band inside the featured project */}
+        <div className="mt-24 lg:mt-32 bg-[#0f172a]">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-28 grid lg:grid-cols-12 gap-14 lg:gap-12 items-center">
+            <AnimatedSection className="lg:col-span-4 order-2 lg:order-1">
+              <Eyebrow>The Website</Eyebrow>
+              <h3 className="text-white mb-8" style={display("clamp(1.9rem, 3vw, 2.5rem)")}>
+                Calm, editorial, and built to book.
+              </h3>
+              <dl className="space-y-6 mb-10">
+                {[
+                  ["Booking", "Online booking from every page, and a sticky call-and-book bar on phones."],
+                  ["Structure", "A dedicated page for each of 22 services, plus billing and financing, technology, and sterilization pages."],
+                  ["Design", "A warm palette and serif typography drawn from the practice’s own identity — not a dental template."],
+                ].map(([k, v]) => (
+                  <div key={k}>
+                    <dt className="text-blue-300/85 uppercase mb-1.5" style={{ ...eyebrowStyle, fontSize: "0.66rem", letterSpacing: "0.2em" }}>
+                      {k}
+                    </dt>
+                    <dd className="m-0 text-white/75" style={body("0.95rem", 1.7)}>
+                      {v}
+                    </dd>
+                  </div>
                 ))}
-              </ul>
+              </dl>
               <a
                 href="/westpark-case-study"
-                className="inline-flex items-center gap-3 text-blue-300 hover:text-blue-200 transition-colors group"
-                style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.03em" }}
+                className="inline-flex items-center gap-3 min-h-[44px] text-blue-300 hover:text-blue-200 transition-colors group"
+                style={{ fontFamily: INTER, fontSize: "0.95rem", fontWeight: 500, letterSpacing: "0.02em" }}
               >
-                Read the complete case study, with source screenshots
+                Read the full case study, with source screenshots
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </a>
             </AnimatedSection>
-            <AnimatedSection delay={0.1}>
-              <figure className="m-0">
-                <DevicePreview
-                  shots={westparkTechnologyPage}
-                  url="westparkdds.com/technology"
-                  desktopAlt="Westpark Dental Studio technology page on desktop"
-                  mobileAlt="Westpark Dental Studio technology page on a phone"
-                />
-              </figure>
+            <AnimatedSection className="lg:col-span-8 order-1 lg:order-2" delay={0.08}>
+              <DevicePreview
+                shots={westparkHomeShots}
+                url="westparkdds.com"
+                desktopAlt="The Westpark Dental Studio homepage on desktop, designed and built by Kind Supply Digital"
+                mobileAlt="The Westpark Dental Studio homepage on a phone, with a sticky call and book bar"
+              />
             </AnimatedSection>
           </div>
         </div>
       </section>
 
-      {/* ============ PORTFOLIO ============ */}
-      <section id="portfolio" className="py-28 lg:py-32 border-b border-white/5 bg-[#0c1525] scroll-mt-20" aria-labelledby="portfolio-title">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <AnimatedSection>
-            <Eyebrow>Dental Website Work</Eyebrow>
-            <h2 id="portfolio-title" className="text-white mb-6 max-w-3xl" style={h2Style}>
-              Built for the way patients choose a dentist.
-            </h2>
-            <p className="text-white/60 max-w-2xl mb-16" style={leadStyle}>
-              Every page answers a specific question a patient is asking, and every page makes booking
-              easy. This is completed client work.
-            </p>
-          </AnimatedSection>
-
-          <AnimatedSection>
-            <article className="grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-px bg-white/5 border border-white/5">
-              <div className="bg-[#0f172a] p-6 sm:p-10 flex items-center">
-                <div className="w-full">
-                <DevicePreview
-                  shots={westparkServicePage}
-                  url="westparkdds.com/services/dental-implants"
-                  desktopAlt="Westpark Dental Studio service page design on desktop"
-                  mobileAlt="Westpark Dental Studio service page design on mobile"
-                />
-                </div>
-              </div>
-              <div className="bg-[#0f172a] p-8 sm:p-10 flex flex-col">
-                <p className="inline-flex self-start items-center gap-2 border border-blue-400/30 text-blue-200 px-3 py-1 mb-6 uppercase tracking-[0.18em]" style={{ fontFamily: INTER, fontSize: "0.62rem", fontWeight: 600 }}>
-                  Client project
-                </p>
-                <h3 className="text-white mb-2" style={{ fontFamily: PLAYFAIR, fontSize: "1.9rem", fontWeight: 400, lineHeight: 1.2 }}>
-                  Westpark Dental Studio
-                </h3>
-                <p className="text-white/55 mb-8" style={{ fontFamily: INTER, fontSize: "0.85rem" }}>
-                  General &amp; cosmetic dentistry &middot; Tysons Corner, VA &middot; Launched September 2026
-                </p>
-                <dl className="space-y-5 mb-8">
-                  {[
-                    ["Services", "Website design and development, local SEO"],
-                    ["Site", "Homepage, 22 service pages, doctor, billing & financing, technology, and sterilization pages"],
-                    ["Booking", "Online booking from every page; a sticky call-and-book bar on phones; financing options surfaced on each service page"],
-                    ["Design", "A warm, editorial palette and serif typography drawn from the practice’s own identity — not a dental template"],
-                  ].map(([k, v]) => (
-                    <div key={k}>
-                      <dt className="text-blue-300/70 uppercase tracking-[0.18em] mb-1.5" style={{ fontFamily: INTER, fontSize: "0.62rem", fontWeight: 600 }}>
-                        {k}
-                      </dt>
-                      <dd className="m-0 text-white/70" style={{ ...bodySm, fontSize: "0.88rem" }}>
-                        {v}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-                <a
-                  href="/westpark-case-study"
-                  className="mt-auto inline-flex items-center gap-2 text-blue-300 hover:text-blue-200 transition-colors group"
-                  style={{ fontFamily: INTER, fontSize: "0.86rem", fontWeight: 500, letterSpacing: "0.03em" }}
-                >
-                  View the case study
-                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </a>
-              </div>
-            </article>
-          </AnimatedSection>
-
-          <AnimatedSection delay={0.1}>
-            <p className="text-white/50 mt-8 max-w-3xl" style={{ fontFamily: INTER, fontSize: "0.82rem", lineHeight: 1.75 }}>
-              We also design concept sites for practices we&rsquo;re in conversation with. Those belong to
-              practices that aren&rsquo;t clients, so we show them privately rather than here.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ============ PACKAGE & PRICING ============ */}
-      <section id="package" className="py-28 lg:py-32 border-b border-white/5 scroll-mt-20" aria-labelledby="package-title">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <AnimatedSection>
-            <Eyebrow>Transparent Pricing</Eyebrow>
-            <h2 id="package-title" className="text-white mb-6 max-w-3xl" style={h2Style}>
-              One package. One price. Published.
-            </h2>
-            <p className="text-white/60 max-w-2xl mb-16" style={leadStyle}>
-              You shouldn&rsquo;t need a sales call to find out what dental marketing costs. Here is
-              everything that&rsquo;s included, what isn&rsquo;t, and the terms behind it.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 lg:grid-cols-[0.82fr_1.18fr] gap-12 lg:gap-14 items-start">
-            {/* Price panel */}
-            <AnimatedSection className="lg:sticky lg:top-28">
-              <div className="border border-blue-400/25 bg-[#0c1525]">
-                <div className="p-8 sm:p-10 border-b border-white/[0.07]">
-                  <p className="text-blue-300/80 uppercase tracking-[0.2em] mb-5" style={{ ...eyebrow, fontSize: "0.66rem" }}>
-                    {PACKAGE.name}
-                  </p>
-                  <p className="text-white mb-2" style={{ fontFamily: PLAYFAIR, fontSize: "clamp(3rem, 6vw, 3.8rem)", fontWeight: 400, lineHeight: 1 }}>
-                    {usd(PACKAGE.monthly)}
-                    <span className="text-white/55" style={{ fontFamily: INTER, fontSize: "1rem" }}>
-                      {" "}
-                      /month
-                    </span>
-                  </p>
-                  <p className="text-white/60 mb-0" style={{ fontFamily: INTER, fontSize: "0.88rem" }}>
-                    Google ad spend is paid directly to Google, separately.
-                  </p>
-                </div>
-                <dl className="divide-y divide-white/[0.07]">
-                  {[
-                    ["Agreement", "Six months"],
-                    ["Total initial commitment", usd(PACKAGE.total)],
-                    ["Scope", "One dental practice location"],
-                    ["Billing", "Monthly, from your enrollment date"],
-                  ].map(([k, v]) => (
-                    <div key={k} className="flex items-baseline justify-between gap-6 px-8 sm:px-10 py-4">
-                      <dt className="text-white/55" style={{ fontFamily: INTER, fontSize: "0.84rem" }}>
-                        {k}
-                      </dt>
-                      <dd className="m-0 text-white text-right" style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500 }}>
-                        {v}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-                <div className="p-8 sm:p-10 border-t border-white/[0.07]">
-                  <a
-                    href="#get-started"
-                    className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group"
-                    style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" }}
-                  >
-                    Get Started
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                  </a>
-                  <p className="text-white/55 mt-4 text-center" style={{ fontFamily: INTER, fontSize: "0.78rem", lineHeight: 1.6 }}>
-                    We confirm the package fits your practice before you see an agreement or pay anything.
-                  </p>
-                </div>
-              </div>
-            </AnimatedSection>
-
-            {/* What's included */}
-            <div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 border border-white/5 mb-10">
-                {included.map((block, i) => (
-                  <AnimatedSection key={block.title} delay={(i % 2) * 0.06} className="bg-[#0f172a] p-7 lg:p-8">
-                    <h3 className="text-white mb-2" style={{ fontFamily: PLAYFAIR, fontSize: "1.3rem", fontWeight: 400, lineHeight: 1.3 }}>
-                      {block.title}
-                    </h3>
-                    {block.standalone ? (
-                      <p className="text-white/45 mb-5" style={{ fontFamily: INTER, fontSize: "0.74rem", letterSpacing: "0.02em" }}>
-                        {block.standalone}
-                      </p>
-                    ) : (
-                      <p className="text-white/45 mb-5" style={{ fontFamily: INTER, fontSize: "0.74rem", letterSpacing: "0.02em" }}>
-                        Included
-                      </p>
-                    )}
-                    <ul className="space-y-2">
-                      {block.items.map((it) => (
-                        <li key={it} className="flex gap-3 text-white/70" style={{ fontFamily: INTER, fontSize: "0.85rem", lineHeight: 1.6 }}>
-                          <span className="mt-[0.6em] w-1 h-1 bg-blue-400/80 shrink-0" aria-hidden="true" />
-                          {it}
-                        </li>
-                      ))}
-                    </ul>
-                    {block.note ? (
-                      <p className="text-white/50 mt-5" style={{ fontFamily: INTER, fontSize: "0.76rem", lineHeight: 1.6 }}>
-                        {block.note}
-                      </p>
-                    ) : null}
-                  </AnimatedSection>
-                ))}
-              </div>
-
-              <AnimatedSection>
-                <div className="border-l-2 border-blue-400/60 bg-blue-500/[0.05] px-6 py-5 mb-10">
-                  <p className="text-white mb-1.5" style={{ fontFamily: INTER, fontSize: "0.92rem", fontWeight: 600 }}>
-                    Google&rsquo;s advertising charges are not included.
-                  </p>
-                  <p className="text-white/65" style={{ fontFamily: INTER, fontSize: "0.86rem", lineHeight: 1.7 }}>
-                    You pay your ad budget directly to Google from your own account. We set the budget with you
-                    and manage it &mdash; we never mark it up or bill it through us.
-                  </p>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection>
-                <div className="border border-white/10 p-7 lg:p-8 mb-10">
-                  <h3 className="text-white mb-3" style={{ fontFamily: PLAYFAIR, fontSize: "1.25rem", fontWeight: 400 }}>
-                    About website ownership
-                  </h3>
-                  <p className="text-white/65 mb-3" style={{ fontFamily: INTER, fontSize: "0.86rem", lineHeight: 1.75 }}>
-                    The website is provided to you under license while the agreement is in effect; it is not
-                    transferred to you automatically. After the six-month commitment is paid, you can keep it
-                    hosted with us for {usd(PACKAGE.hostingOnlyMonthly)}/month, continue SEO and Ads month to month,
-                    or purchase the website files for a one-time {usd(PACKAGE.websiteFilesPurchase)}. Your domain,
-                    content, and Google accounts are always yours.
-                  </p>
-                  <a href="#faq" className="inline-flex items-center gap-2 text-blue-300 hover:text-blue-200 transition-colors" style={{ fontFamily: INTER, fontSize: "0.82rem", fontWeight: 500 }}>
-                    Ownership, renewal, and transfer details
-                    <ArrowRight size={14} aria-hidden="true" />
-                  </a>
-                </div>
-              </AnimatedSection>
-
-              {SHOW_STANDALONE_COMPARISON ? (
-                <AnimatedSection>
-                  <h3 className="text-white mb-2" style={{ fontFamily: PLAYFAIR, fontSize: "1.25rem", fontWeight: 400 }}>
-                    The same services, priced separately
-                  </h3>
-                  <p className="text-white/55 mb-6" style={{ fontFamily: INTER, fontSize: "0.84rem", lineHeight: 1.7 }}>
-                    Over the same six months, at our standard standalone rates.
-                  </p>
-                  <table className="w-full border-collapse" style={{ fontFamily: INTER, fontSize: "0.88rem" }}>
-                    <caption className="sr-only">Standalone pricing compared with the six-month package</caption>
-                    <tbody>
-                      {[
-                        ["Website build", usd(STANDALONE.websiteBuild)],
-                        [`SEO (${usd(STANDALONE.seoMonthly)} × 6 months)`, usd(STANDALONE.seoMonthly * PACKAGE.months)],
-                        [`Google Ads management (${usd(STANDALONE.adsManagementMonthly)} × 6 months)`, usd(STANDALONE.adsManagementMonthly * PACKAGE.months)],
-                      ].map(([k, v]) => (
-                        <tr key={k} className="border-b border-white/[0.07]">
-                          <th scope="row" className="text-left font-normal text-white/65 py-3 pr-4">
-                            {k}
-                          </th>
-                          <td className="text-right text-white/80 py-3 whitespace-nowrap">{v}</td>
-                        </tr>
-                      ))}
-                      <tr className="border-b border-white/[0.07]">
-                        <th scope="row" className="text-left font-normal text-white/65 py-3 pr-4">
-                          Separately, six months
-                        </th>
-                        <td className="text-right text-white/80 py-3 whitespace-nowrap">{usd(standaloneSixMonthTotal)}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row" className="text-left font-medium text-white py-4 pr-4">
-                          {PACKAGE.name}, six months
-                        </th>
-                        <td className="text-right text-white font-medium py-4 whitespace-nowrap">{usd(PACKAGE.total)}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </AnimatedSection>
-              ) : null}
+      {/* ============ PROCESS + NEW PRACTICES ============ */}
+      <section id="process" className="py-24 lg:py-32 scroll-mt-20" aria-labelledby="process-title">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <AnimatedSection className="lg:col-span-4">
+            <div className="lg:sticky lg:top-28">
+              <Eyebrow>How the Six Months Work</Eyebrow>
+              <h2 id="process-title" className="text-white mb-6" style={display("clamp(2.3rem, 4vw, 3.4rem)")}>
+                One plan, clearly sequenced.
+              </h2>
+              <p className="text-white/65" style={body("1rem", 1.75)}>
+                Launch timing depends on receiving your content, access, and approvals. We don&rsquo;t promise a
+                patient count, a ranking, or a date for results.
+              </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ OPTIONAL SERVICES ============ */}
-      <section className="py-24 lg:py-28 border-b border-white/5 bg-[#0c1525]" aria-labelledby="optional-title">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-16">
-          <AnimatedSection>
-            <Eyebrow>Optional &middot; Quoted Separately</Eyebrow>
-            <h2 id="optional-title" className="text-white mb-6" style={{ ...h2Style, fontSize: "clamp(1.9rem, 3.4vw, 2.6rem)" }}>
-              Original photography and video, when you want it.
-            </h2>
-            <p className="text-white/60 mb-8" style={leadStyle}>
-              The package doesn&rsquo;t require new photography. For practices that want original, branded
-              imagery of their real office and team, we can add it.
-            </p>
-            <ul className="space-y-3">
-              {optionalTerms.map((t) => (
-                <li key={t} className="flex gap-3 text-white/60" style={{ ...bodySm, fontSize: "0.86rem" }}>
-                  <span className="text-blue-400/60 shrink-0" aria-hidden="true">&mdash;</span>
-                  {t}
-                </li>
-              ))}
-            </ul>
           </AnimatedSection>
-          <div className="grid grid-cols-1 gap-px bg-white/5 border border-white/5 self-start">
-            {optionalServices.map((s, i) => (
-              <AnimatedSection key={s.title} delay={i * 0.06} className="bg-[#0f172a] p-7 lg:p-8">
-                <h3 className="text-white mb-2" style={{ fontFamily: PLAYFAIR, fontSize: "1.25rem", fontWeight: 400 }}>
-                  {s.title}
-                </h3>
-                <p className="text-white/60" style={{ ...bodySm, fontSize: "0.88rem" }}>
-                  {s.body}
-                </p>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ PROCESS ============ */}
-      <section id="process" className="py-28 lg:py-32 border-b border-white/5 scroll-mt-20" aria-labelledby="process-title">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <AnimatedSection>
-            <Eyebrow>How the Six Months Work</Eyebrow>
-            <h2 id="process-title" className="text-white mb-16 max-w-3xl" style={h2Style}>
-              A clear process, start to finish.
-            </h2>
-          </AnimatedSection>
-          <AnimatedSection>
-          <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-px bg-white/5 border border-white/5 list-none p-0 m-0">
-            {processSteps.map((s) => (
-                <li key={s.n} className="bg-[#0f172a] p-7 lg:p-6 xl:p-7">
-                  <p className="text-blue-300/80 mb-6" style={{ fontFamily: PLAYFAIR, fontSize: "1.6rem", fontWeight: 400 }}>
-                    {s.n}
-                  </p>
-                  <h3 className="text-white mb-3" style={{ fontFamily: INTER, fontSize: "0.98rem", fontWeight: 600, lineHeight: 1.4 }}>
+          <ol className="lg:col-span-8 list-none p-0 m-0">
+            {processSteps.map((s, i) => (
+              <li key={s.n} className={`grid grid-cols-[3.5rem_1fr] sm:grid-cols-[5rem_1fr] gap-4 py-8 ${i ? "border-t border-white/10" : "pt-0 lg:pt-2"}`}>
+                <span className="text-blue-300/90" style={{ fontFamily: PLAYFAIR, fontSize: "1.9rem", lineHeight: 1 }}>
+                  {s.n}
+                </span>
+                <div>
+                  <h3 className="text-white mb-2" style={{ fontFamily: PLAYFAIR, fontSize: "1.45rem", fontWeight: 400, lineHeight: 1.3 }}>
                     {s.title}
                   </h3>
-                  <p className="text-white/60" style={{ fontFamily: INTER, fontSize: "0.84rem", lineHeight: 1.7 }}>
+                  <p className="text-white/68 max-w-2xl" style={body("0.98rem", 1.75)}>
                     {s.body}
                   </p>
-                </li>
+                </div>
+              </li>
             ))}
           </ol>
-          </AnimatedSection>
+        </div>
+
+        {/* New practices */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-24 lg:mt-32">
           <AnimatedSection>
-            <p className="text-white/50 mt-8 max-w-3xl" style={{ fontFamily: INTER, fontSize: "0.8rem", lineHeight: 1.7 }}>
-              Launch timing depends on receiving your content, access, and approvals. We don&rsquo;t promise a
-              specific patient count, ranking, or date by which results will appear.
-            </p>
+            <div className="border-t border-blue-400/30 pt-14 grid lg:grid-cols-12 gap-10 lg:gap-12">
+              <div className="lg:col-span-4">
+                <Eyebrow>Opening a New Practice?</Eyebrow>
+                <h2 className="text-white mb-5" style={display("clamp(1.9rem, 3vw, 2.5rem)")}>
+                  Ready before your doors open.
+                </h2>
+                <p className="text-white/65" style={body("0.95rem", 1.75)}>
+                  The six-month agreement starts with your first payment, so we plan the start date around
+                  your opening.
+                </p>
+              </div>
+              <div className="lg:col-span-8 grid sm:grid-cols-3 gap-10 sm:gap-8">
+                {newPractice.map((n) => (
+                  <div key={n.title}>
+                    <h3 className="text-white mb-3" style={{ fontFamily: INTER, fontSize: "1rem", fontWeight: 600, lineHeight: 1.45 }}>
+                      {n.title}
+                    </h3>
+                    <p className="text-white/65" style={body("0.92rem", 1.75)}>
+                      {n.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* ============ FOUNDER / AGENCY ============ */}
-      <section className="py-28 lg:py-32 border-b border-white/5 bg-[#0c1525]" aria-labelledby="founder-title">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-14 lg:gap-16">
-          <AnimatedSection>
-            <Eyebrow>Who You&rsquo;ll Work With</Eyebrow>
-            <h2 id="founder-title" className="text-white mb-6" style={{ ...h2Style, fontSize: "clamp(1.9rem, 3.4vw, 2.6rem)" }}>
-              An accountable agency, not an account queue.
-            </h2>
-            <p className="text-white/65 mb-6" style={leadStyle}>
-              Kind Supply Digital is led by its founder, Marcel Grisard. When your practice works with us,
-              you have a direct line to the person who oversees your strategy and is responsible for the
-              work &mdash; your website, your search visibility, and your advertising, as one plan.
-            </p>
-            <div className="border-t border-white/[0.07] pt-6 mt-8">
-              <p className="text-white mb-1" style={{ fontFamily: PLAYFAIR, fontSize: "1.3rem", fontWeight: 400 }}>
-                Marcel Grisard
+      {/* ============ PRICING (cream) ============ */}
+      <section id="package" className="scroll-mt-20 text-[#0f172a] py-24 lg:py-32" style={{ background: CREAM }} aria-labelledby="package-title">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-14 lg:gap-16">
+            <AnimatedSection className="lg:col-span-5">
+              <Eyebrow onCream>Transparent Pricing</Eyebrow>
+              <h2 id="package-title" className="mb-10" style={display("clamp(2.4rem, 4.4vw, 3.6rem)")}>
+                One package. One published price.
+              </h2>
+              <p className="mb-3" style={{ fontFamily: INTER, fontSize: "0.82rem", fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD_ON_CREAM }}>
+                {PACKAGE.name}
               </p>
-              <p className="text-white/55 mb-4" style={{ fontFamily: INTER, fontSize: "0.84rem" }}>
-                Founder, Kind Supply Digital
+              <p className="mb-5" style={{ fontFamily: PLAYFAIR, fontSize: "clamp(3.6rem, 7vw, 5.4rem)", fontWeight: 400, lineHeight: 1 }}>
+                {usd(PACKAGE.monthly)}
+                <span style={{ fontFamily: INTER, fontSize: "1.05rem", color: "rgba(15,23,42,0.6)" }}> /month</span>
               </p>
-              <p className="flex flex-col sm:flex-row sm:gap-6 gap-1" style={{ fontFamily: INTER, fontSize: "0.84rem" }}>
-                <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-300 hover:text-blue-200 transition-colors break-all">
-                  {CONTACT_EMAIL}
+              <p className="mb-10" style={{ ...body("1rem", 1.7), color: "rgba(15,23,42,0.75)" }}>
+                Six-month agreement &middot; {usd(PACKAGE.total)} total initial commitment &middot; one dental practice
+                location. Google ad spend is separate and paid directly to Google.
+              </p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8">
+                <a
+                  href={`#${ASSESSMENT_ID}`}
+                  className="inline-flex items-center justify-center gap-3 min-h-[52px] px-8 whitespace-nowrap bg-[#0f172a] text-white hover:bg-[#1e293b] transition-colors group"
+                  style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.04em" }}
+                >
+                  Start with a free assessment
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </a>
-                <a href={CONTACT_PHONE_HREF} className="text-blue-300 hover:text-blue-200 transition-colors">
-                  {CONTACT_PHONE_DISPLAY}
+                <a
+                  href="#enroll"
+                  onClick={() => setEnrollOpen(true)}
+                  className="inline-flex items-center justify-center sm:justify-start gap-2 min-h-[44px] whitespace-nowrap underline underline-offset-4 decoration-[#0f172a]/30 hover:decoration-[#0f172a]"
+                  style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500 }}
+                >
+                  Or request enrollment
                 </a>
-              </p>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection className="lg:col-span-7" delay={0.06}>
+              <h3 className="mb-2" style={{ fontFamily: PLAYFAIR, fontSize: "1.6rem", fontWeight: 400 }}>
+                Included
+              </h3>
+              <dl className="m-0">
+                {included.map(([k, v]) => (
+                  <div key={k} className="grid sm:grid-cols-[14rem_1fr] gap-x-8 gap-y-1 py-5 border-b border-[#0f172a]/12">
+                    <dt style={{ fontFamily: INTER, fontSize: "1rem", fontWeight: 600 }}>{k}</dt>
+                    <dd className="m-0" style={{ ...body("0.95rem", 1.65), color: "rgba(15,23,42,0.7)" }}>
+                      {v}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {SHOW_STANDALONE_COMPARISON ? (
+                <p className="mt-6" style={{ ...body("0.9rem", 1.7), color: "rgba(15,23,42,0.68)" }}>
+                  Priced separately at our standard rates &mdash; website build {usd(STANDALONE.websiteBuild)}, SEO{" "}
+                  {usd(STANDALONE.seoMonthly)}/month, Google Ads management {usd(STANDALONE.adsManagementMonthly)}/month &mdash;
+                  the same six months would total {usd(standaloneSixMonthTotal)}.
+                </p>
+              ) : null}
+            </AnimatedSection>
+          </div>
+
+          {/* Material terms — all of them, in plain language */}
+          <AnimatedSection className="mt-20 lg:mt-24 pt-12 border-t border-[#0f172a]/15">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
+              <div className="lg:col-span-4">
+                <h3 className="mb-4" style={display("clamp(1.8rem, 2.8vw, 2.3rem)")}>
+                  The terms, plainly.
+                </h3>
+                <p style={{ ...body("0.92rem", 1.7), color: "rgba(15,23,42,0.68)" }}>
+                  A summary of the service agreement. Where this and the agreement differ, the agreement
+                  controls.{" "}
+                  <a href="#faq" className="underline underline-offset-4 decoration-[#0f172a]/30 hover:decoration-[#0f172a]">
+                    Full details in the FAQ
+                  </a>
+                  .
+                </p>
+              </div>
+              <dl className="lg:col-span-8 grid sm:grid-cols-2 gap-x-12 gap-y-9 m-0">
+                {[
+                  ["Commitment", `Six monthly payments of ${usd(PACKAGE.monthly)}, charged automatically from your enrollment date. The agreement can’t be cancelled for convenience during those six months.`],
+                  ["Google ad spend", "Not included. You pay your ad budget directly to Google from your own account. We never mark it up or bill it."],
+                  ["The website", `Provided under license while the agreement is in effect — ownership does not transfer automatically. After the six-month commitment is paid, you may purchase the website files for a one-time ${usd(PACKAGE.websiteFilesPurchase)}.`],
+                  ["After six months", `SEO and Google Ads continue month to month at ${usd(PACKAGE.monthly)} unless either side gives 30 days’ written notice. You can instead keep hosting only for ${usd(PACKAGE.hostingOnlyMonthly)}/month, or purchase the files.`],
+                  ["Photography and video", "Optional and quoted separately. Travel, lodging, and production affect the quote, and nothing is charged without your written approval."],
+                  ["Additional locations", "This package covers one location. Each additional office needs its own agreement, scope, and pricing."],
+                ].map(([k, v]) => (
+                  <div key={k}>
+                    <dt className="mb-2" style={{ fontFamily: INTER, fontSize: "0.98rem", fontWeight: 600 }}>
+                      {k}
+                    </dt>
+                    <dd className="m-0" style={{ ...body("0.93rem", 1.7), color: "rgba(15,23,42,0.72)" }}>
+                      {v}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 border border-white/5 self-start">
-            {principles.map((p, i) => (
-              <AnimatedSection key={p.title} delay={(i % 2) * 0.06} className="bg-[#0f172a] p-7">
-                <h3 className="text-white mb-2" style={{ fontFamily: INTER, fontSize: "0.95rem", fontWeight: 600 }}>
-                  {p.title}
-                </h3>
-                <p className="text-white/60" style={{ fontFamily: INTER, fontSize: "0.84rem", lineHeight: 1.7 }}>
-                  {p.body}
-                </p>
-              </AnimatedSection>
-            ))}
-          </div>
+        </div>
+      </section>
+
+      {/* ============ FOUNDER ============ */}
+      <section className="py-24 lg:py-32" aria-labelledby="founder-title">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <AnimatedSection className="lg:col-span-5">
+            {/* Founder portrait goes here (4:5). Until it's added, a typographic placeholder. */}
+            <div
+              className="aspect-[4/5] max-w-md bg-[#131d32] border border-white/10 flex items-end p-8"
+              role="img"
+              aria-label="Portrait of Marcel Grisard, coming soon"
+            >
+              <span className="text-blue-300/80" style={{ fontFamily: PLAYFAIR, fontSize: "6rem", lineHeight: 1 }} aria-hidden="true">
+                MG
+              </span>
+            </div>
+          </AnimatedSection>
+          <AnimatedSection className="lg:col-span-7" delay={0.06}>
+            <Eyebrow>Who You&rsquo;ll Work With</Eyebrow>
+            <h2 id="founder-title" className="text-white mb-2" style={display("clamp(2.4rem, 4.4vw, 3.6rem)")}>
+              Marcel Grisard
+            </h2>
+            <p className="text-blue-300/85 mb-8" style={body("0.95rem")}>
+              Founder, Kind Supply Digital
+            </p>
+            <div className="space-y-5 max-w-2xl mb-10">
+              <p className="text-white/78" style={body("1.08rem", 1.8)}>
+                Kind Supply Digital is a small, founder-led agency. When your practice works with us, you
+                have a direct line to the person who oversees your strategy and is accountable for the
+                work &mdash; your website, your search visibility, and your advertising, as one plan.
+              </p>
+              <p className="text-white/68" style={body("1rem", 1.8)}>
+                The scope is in writing, the price is on this page, and the monthly report says what actually
+                happened. We measure the work by booked patients, not traffic.
+              </p>
+            </div>
+            <p className="flex flex-col sm:flex-row gap-3 sm:gap-8" style={body("0.95rem")}>
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-300 hover:text-blue-200 transition-colors break-all min-h-[44px] sm:min-h-0 inline-flex items-center">
+                {CONTACT_EMAIL}
+              </a>
+              <a href={CONTACT_PHONE_HREF} className="text-blue-300 hover:text-blue-200 transition-colors min-h-[44px] sm:min-h-0 inline-flex items-center">
+                {CONTACT_PHONE_DISPLAY}
+              </a>
+            </p>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* ============ FAQ ============ */}
-      <section id="faq" className="py-28 lg:py-32 border-b border-white/5 scroll-mt-20" aria-labelledby="faq-title">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <AnimatedSection>
-            <Eyebrow>Questions, Answered Plainly</Eyebrow>
-            <h2 id="faq-title" className="text-white mb-6" style={h2Style}>
-              The details, before you ask.
-            </h2>
-            <p className="text-white/60 mb-12 max-w-2xl" style={leadStyle}>
-              Each answer summarizes the service agreement and notes the section it comes from. If an
-              answer and the agreement ever differ, the agreement controls.
-            </p>
+      <section id="faq" className="py-24 lg:py-32 bg-[#0c1525] scroll-mt-20" aria-labelledby="faq-title">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <AnimatedSection className="lg:col-span-4">
+            <div className="lg:sticky lg:top-28">
+              <Eyebrow>Questions, Answered Plainly</Eyebrow>
+              <h2 id="faq-title" className="text-white mb-6" style={display("clamp(2.3rem, 4vw, 3.4rem)")}>
+                The details, before you ask.
+              </h2>
+              <p className="text-white/65" style={body("0.98rem", 1.75)}>
+                Each answer summarizes the service agreement and cites the section it comes from. If an answer
+                and the agreement ever differ, the agreement controls.
+              </p>
+            </div>
           </AnimatedSection>
-          <div className="border-t border-white/[0.07]">
+          <div className="lg:col-span-8 border-t border-white/10">
             {dentalFaqs.map((f, i) => (
               <FaqItem key={f.q} q={f.q} a={f.a} refText={f.ref} index={i} />
             ))}
@@ -933,87 +720,103 @@ export function DentalMarketingPage() {
         </div>
       </section>
 
-      {/* ============ NEXT STEPS ============ */}
-      <section id="get-started" className="py-28 lg:py-32 scroll-mt-20" aria-labelledby="next-title">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <AnimatedSection>
-            <Eyebrow>Next Steps</Eyebrow>
-            <h2 id="next-title" className="text-white mb-6 max-w-3xl" style={h2Style}>
-              Two ways to begin. Neither requires a sales call.
+      {/* ============ ASSESSMENT (primary) + ENROLLMENT (secondary) ============ */}
+      <section id={ASSESSMENT_ID} className="scroll-mt-20 py-24 lg:py-32" aria-labelledby="assessment-title">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-12 gap-14 lg:gap-16">
+          <AnimatedSection className="lg:col-span-5">
+            <Eyebrow>Free &middot; Written &middot; No Call Required</Eyebrow>
+            <h2 id="assessment-title" className="text-white mb-8" style={display("clamp(2.4rem, 4.6vw, 3.8rem)")}>
+              Request a free written practice growth assessment.
             </h2>
-            <p className="text-white/60 max-w-2xl mb-16" style={leadStyle}>
-              Ready to enroll? Tell us about your practice. Still deciding? Ask for a written assessment
-              and read it on your own time.
+            <p className="text-white/75 mb-10" style={body("1.05rem", 1.8)}>
+              We review your website, local search presence, and any visible Google Ads, then send a written
+              summary of what we&rsquo;d change and why. Read it on your own time.
             </p>
+            <ul className="space-y-4 list-none p-0">
+              {[
+                "No phone number needed, and no sales call",
+                "Specific to your practice, not a template",
+                "Useful whether or not you work with us",
+              ].map((t) => (
+                <li key={t} className="flex gap-4 text-white/75" style={body("0.98rem", 1.6)}>
+                  <span className="mt-[0.7em] w-5 h-px bg-blue-400 shrink-0" aria-hidden="true" />
+                  {t}
+                </li>
+              ))}
+            </ul>
           </AnimatedSection>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5 border border-white/5">
-            <AnimatedSection className="bg-[#0f172a] p-7 sm:p-10">
-              <div>
-                <p className="text-blue-300/75 uppercase tracking-[0.2em] mb-4" style={{ ...eyebrow, fontSize: "0.64rem" }}>
-                  Get Started
-                </p>
-                <h3 className="text-white mb-5" style={{ fontFamily: PLAYFAIR, fontSize: "1.7rem", fontWeight: 400, lineHeight: 1.25 }}>
-                  Enroll in the {PACKAGE.name}
-                </h3>
-                <ol className="space-y-2.5 mb-9 list-none p-0">
-                  {enrollmentSteps.map((s, i) => (
-                    <li key={s} className="flex gap-4 text-white/65" style={{ fontFamily: INTER, fontSize: "0.86rem", lineHeight: 1.6 }}>
-                      <span className="text-blue-300/80 shrink-0 w-5" style={{ fontFamily: PLAYFAIR }}>
-                        {i + 1}
-                      </span>
-                      {s}
-                    </li>
-                  ))}
-                </ol>
-                <IntakeForm
-                  kind="enrollment"
-                  fields={enrollmentFields}
-                  submitLabel="Request Enrollment"
-                  successTitle="Thank you. We have your request."
-                  successBody="We’ll review your practice and reply by email to confirm the package is the right fit. If it is, you’ll receive the service agreement to read and accept, with a secure Stripe checkout. Nothing is charged until you complete that checkout."
-                />
-              </div>
-            </AnimatedSection>
-
-            <AnimatedSection className="bg-[#0f172a] p-7 sm:p-10" delay={0.08}>
-              <div id="assessment" className="scroll-mt-28">
-                <p className="text-blue-300/75 uppercase tracking-[0.2em] mb-4" style={{ ...eyebrow, fontSize: "0.64rem" }}>
-                  No call required
-                </p>
-                <h3 className="text-white mb-5" style={{ fontFamily: PLAYFAIR, fontSize: "1.7rem", fontWeight: 400, lineHeight: 1.25 }}>
-                  Request a Written Practice Growth Assessment
-                </h3>
-                <p className="text-white/65 mb-9" style={{ fontFamily: INTER, fontSize: "0.88rem", lineHeight: 1.75 }}>
-                  We&rsquo;ll review your website, local search presence, and any visible Google Ads, then send
-                  a written summary of what we&rsquo;d change and why. No phone number needed.
-                </p>
-                <IntakeForm
-                  kind="assessment"
-                  fields={assessmentFields}
-                  submitLabel="Request My Assessment"
-                  successTitle="Thank you. Your assessment request is in."
-                  successBody="We’ll review your practice’s online presence and send your written assessment to the email you provided."
-                />
-              </div>
-            </AnimatedSection>
-          </div>
-
-          <AnimatedSection>
-            <p className="text-white/50 mt-10" style={{ fontFamily: INTER, fontSize: "0.82rem", lineHeight: 1.7 }}>
-              Prefer to talk it through? Email{" "}
-              <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-300 hover:text-blue-200 underline underline-offset-2">
-                {CONTACT_EMAIL}
-              </a>{" "}
-              or see{" "}
-              <Link to="/services" className="text-blue-300 hover:text-blue-200 underline underline-offset-2">
-                all of our services
-              </Link>
-              .
-            </p>
+          <AnimatedSection className="lg:col-span-7" delay={0.06}>
+            <div className="bg-[#131d32] p-7 sm:p-10 lg:p-12">
+              <IntakeForm
+                kind="assessment"
+                fields={assessmentFields}
+                submitLabel="Request My Free Assessment"
+                successTitle="Thank you. Your assessment request is in."
+                successBody="We’ll review your practice’s online presence and send your written assessment to the email you provided."
+              />
+            </div>
           </AnimatedSection>
         </div>
+
+        {/* Secondary: enrollment */}
+        <div id="enroll" className="max-w-7xl mx-auto px-6 lg:px-8 mt-20 scroll-mt-24">
+          <div className="border-t border-white/10 pt-12 grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-5">
+              <h2 className="text-white mb-4" style={display("clamp(1.8rem, 2.8vw, 2.3rem)")}>
+                Ready to enroll?
+              </h2>
+              <p className="text-white/68 mb-6" style={body("0.98rem", 1.75)}>
+                Tell us about your practice. We confirm the package fits, then send the agreement to read
+                and accept, with secure Stripe checkout. Nothing is charged until you complete it.
+              </p>
+              <button
+                type="button"
+                aria-expanded={enrollOpen}
+                aria-controls="enroll-form"
+                onClick={() => setEnrollOpen((v) => !v)}
+                className="inline-flex items-center gap-3 min-h-[48px] px-7 border border-white/25 text-white hover:border-blue-400/60 transition-colors"
+                style={{ fontFamily: INTER, fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.03em" }}
+              >
+                {enrollOpen ? "Hide enrollment form" : "Request enrollment"}
+                {enrollOpen ? <Minus size={15} aria-hidden="true" /> : <Plus size={15} aria-hidden="true" />}
+              </button>
+            </div>
+            <div id="enroll-form" className="lg:col-span-7" hidden={!enrollOpen}>
+              <ol className="list-none p-0 mb-10 grid sm:grid-cols-5 gap-4 sm:gap-3">
+                {["Tell us about your practice", "We confirm the fit", "You read and accept the agreement", "Secure Stripe checkout", "Receipt and onboarding"].map((s, i) => (
+                  <li key={s} className="text-white/70" style={body("0.82rem", 1.5)}>
+                    <span className="block text-blue-300/90 mb-1" style={{ fontFamily: PLAYFAIR, fontSize: "1.2rem" }}>
+                      {i + 1}
+                    </span>
+                    {s}
+                  </li>
+                ))}
+              </ol>
+              <IntakeForm
+                kind="enrollment"
+                fields={enrollmentFields}
+                submitLabel="Request Enrollment"
+                successTitle="Thank you. We have your request."
+                successBody="We’ll review your practice and reply by email to confirm the package is the right fit. If it is, you’ll receive the service agreement to read and accept, with a secure Stripe checkout. Nothing is charged until you complete that checkout."
+              />
+            </div>
+          </div>
+        </div>
+
+        <p className="max-w-7xl mx-auto px-6 lg:px-8 mt-16 text-white/55" style={body("0.88rem", 1.7)}>
+          Prefer to talk it through? Email{" "}
+          <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-300 hover:text-blue-200 underline underline-offset-2">
+            {CONTACT_EMAIL}
+          </a>{" "}
+          or see{" "}
+          <Link to="/services" className="text-blue-300 hover:text-blue-200 underline underline-offset-2">
+            all of our services
+          </Link>
+          .
+        </p>
       </section>
+
+      <StickyAssessmentCTA heroId={HERO_ID} targetId={ASSESSMENT_ID} />
     </div>
   );
 }

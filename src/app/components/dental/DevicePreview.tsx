@@ -61,7 +61,7 @@ export function DevicePreview({
   shots: ShotSet;
   desktopAlt: string;
   mobileAlt: string;
-  url: string;
+  url?: string;
   eager?: boolean;
 }) {
   return (

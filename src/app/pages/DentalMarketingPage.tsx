@@ -3,11 +3,10 @@ import { Link } from "react-router";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
 import { SEOHead, SITE } from "../components/SEOHead";
-import { DevicePreview } from "../components/dental/DevicePreview";
 import { IntakeForm, type IntakeField } from "../components/dental/IntakeForm";
 import { ResponsivePhoto } from "../components/dental/ResponsivePhoto";
 import { StickyEnrollmentCTA } from "../components/dental/StickyEnrollmentCTA";
-import { founderPhoto, photos, westparkHomeShots } from "../components/dental/westparkMedia";
+import { founderPhoto, photos } from "../components/dental/westparkMedia";
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
   AGREEMENT_PATH,
@@ -316,8 +315,8 @@ export function DentalMarketingPage() {
         className="relative border-b border-white/10 bg-[radial-gradient(ellipse_at_top_right,#1c2940,transparent_64%)]"
         aria-labelledby="dental-hero-title"
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 sm:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 sm:py-20 lg:py-24">
+          <div className="max-w-3xl">
             <Eyebrow>Dental Marketing for Independent Practices</Eyebrow>
             <h1 id="dental-hero-title" className="text-white mb-6" style={display("clamp(2.1rem, 4.1vw, 3.75rem)")}>
               <span className="block text-balance">More Booked Patients.</span>{" "}
@@ -357,19 +356,6 @@ export function DentalMarketingPage() {
               </a>
             </div>
           </div>
-
-          <figure className="m-0 min-w-0">
-            <DevicePreview
-              shots={westparkHomeShots}
-              url="westparkdds.com"
-              desktopAlt="Westpark Dental Studio homepage on desktop, with a Book an Appointment button"
-              mobileAlt="Westpark Dental Studio homepage on a phone, with a fixed Call and Book Appointment bar"
-              eager
-            />
-            <figcaption className="mt-3 text-white/65" style={body("0.83rem")}>
-              Westpark Dental Studio · Website design by Kind Supply Digital
-            </figcaption>
-          </figure>
         </div>
       </section>
 

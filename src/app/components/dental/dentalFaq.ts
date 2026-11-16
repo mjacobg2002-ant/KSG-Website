@@ -1,8 +1,8 @@
-import { PACKAGE, usd } from "./dentalConfig";
+import { GUARANTEE, PACKAGE, usd } from "./dentalConfig";
 
 /*
  * FAQ for /dental-marketing. Each answer paraphrases the general agreement
- * (Version November 9, 2026) and cites the section it comes from, so it can be
+ * (Version November 16, 2026) and cites the section it comes from, so it can be
  * checked line by line. Plain strings: rendered on the page and emitted as
  * FAQPage JSON-LD.
  */
@@ -110,10 +110,20 @@ export const dentalFaqs: Faq[] = [
     ref: "§9.1",
   },
   {
+    q: "What is the first-month guarantee?",
+    a: [
+      `If the Google Ads campaign we manage doesn’t produce at least ${GUARANTEE.bookedNewPatients} new booked patients in its first ${GUARANTEE.periodDays} days, you can ask for your first ${usd(GUARANTEE.refund)} payment back in full, and the agreement ends with nothing more owed. The ${GUARANTEE.periodDays} days start the day the ads start running, not the day you enroll.`,
+      "A booked patient is a new patient who schedules an appointment after coming through the ads: by calling from an ad, or by clicking through to your website and then booking, requesting an appointment, or calling from the site. It counts when it is scheduled, even if the patient later cancels or doesn’t show. A campaign call your office doesn’t answer during office hours, or an appointment request not answered within one business day, also counts, because answering is your side of the arrangement.",
+      `The conditions: your first ${usd(PACKAGE.monthly)} payment is made before any work or advertising begins; you fund a Google Ads budget of at least ${usd(GUARANTEE.minAdBudget)} for that period, paid directly to Google, and don’t pause or cut the campaign; you send materials, account access, and approvals on time; the website, booking path, and tracking stay as installed; and your office is open to new patients.`,
+      "If you take the refund, you keep your domain, your content, and your Google accounts. The website we built and the ad campaigns we created stay with us. We count from conversion tracking and your schedule, by number and date only — no patient details. You request the refund in writing within 15 days after the period ends.",
+    ],
+    ref: "§17, §4.1",
+  },
+  {
     q: "Do you guarantee rankings or new patients?",
     a: [
-      "No. Search and advertising results build over time and depend on competition, budget, and Google’s own systems. What we commit to is the work in the agreement, done well, and honest monthly reporting on what it produces.",
+      "Beyond the first-month guarantee above, no. Search and advertising results build over time and depend on competition, budget, and Google’s own systems. What we commit to is the work in the agreement, done well, and honest monthly reporting on what it produces.",
     ],
-    ref: "§13.1, §13.2",
+    ref: "§13.1, §13.2, §17",
   },
 ];

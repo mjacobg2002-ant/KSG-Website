@@ -11,9 +11,11 @@ import { founderPhoto, photos, westparkHomeShots } from "../components/dental/we
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
   AGREEMENT_PATH,
+  BOOK_CALL_URL,
   CONTACT_EMAIL,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_HREF,
+  GUARANTEE,
   PACKAGE,
   SHOW_STANDALONE_COMPARISON,
   STANDALONE,
@@ -69,9 +71,9 @@ function MarkerUnderline({ children }: { children: ReactNode }) {
 /* ------------------------------------------------------------------ */
 const results = [
   {
-    value: "13 → 19 → 25+",
-    label: "Website bookings (+46%)",
-    detail: "August and September 2026 actuals from the booking platform’s “Your website” channel. 25+ is the monthly website booking target.",
+    value: "13 → 19 → 39",
+    label: "Website bookings: August, September, October (+46% in the launch month)",
+    detail: "August 2026 was the month before the new site. September, the launch month, rose 46%, from 13 to 19. August and September are from the booking platform’s “Your website” channel; October is the practice-reported count.",
     goal: "30 new patients a month",
   },
   {
@@ -335,14 +337,25 @@ export function DentalMarketingPage() {
                 With the {usd(PACKAGE.monthly)}/month package. You pay your ad budget directly to Google.
               </p>
             </div>
+            <p className="max-w-lg mb-7 text-white/85" style={body("0.98rem", 1.6)}>
+              <strong className="text-white">First-month guarantee:</strong> {GUARANTEE.bookedNewPatients} new booked
+              patients from Google Ads in the first {GUARANTEE.periodDays} days the ads run, or your first{" "}
+              {usd(GUARANTEE.refund)} payment is refunded and you can walk away.{" "}
+              <a href="#faq" className="underline underline-offset-4 text-blue-200 hover:text-white">See the conditions</a>
+            </p>
             <div className="flex flex-wrap items-center gap-x-7 gap-y-2">
               <a
-                href={AGREEMENT_PATH}
+                href={BOOK_CALL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 min-h-[52px] px-5 sm:px-7 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-colors"
                 style={{ ...body("0.94rem", 1.4), letterSpacing: "0.03em" }}
               >
-                Review agreement &amp; checkout
+                Book 15 minutes
                 <ArrowRight size={16} className="shrink-0" aria-hidden="true" />
+              </a>
+              <a href={AGREEMENT_PATH} className="inline-flex items-center min-h-[44px] text-white/80 hover:text-white underline underline-offset-4" style={body("0.94rem")}>
+                Review agreement &amp; checkout
               </a>
               <a href={`#${ASSESSMENT_ID}`} className="inline-flex items-center min-h-[44px] text-white/80 hover:text-white underline underline-offset-4" style={body("0.94rem")}>
                 Get a free written assessment
@@ -509,6 +522,24 @@ export function DentalMarketingPage() {
                 </p>
               </div>
 
+              <div className="mb-6 border border-[#7a5c26]/50 bg-white/60 p-5">
+                <p className="font-semibold mb-2" style={{ ...body("0.78rem", 1.4), letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD_ON_CREAM }}>
+                  First-month guarantee
+                </p>
+                <p className="m-0 mb-2 font-semibold" style={body("1.02rem", 1.5)}>
+                  {GUARANTEE.bookedNewPatients} new booked patients in {GUARANTEE.periodDays} days, or your first{" "}
+                  {usd(GUARANTEE.refund)} back.
+                </p>
+                <p className="m-0 text-[#0f172a]/80" style={body("0.9rem", 1.6)}>
+                  Counted from the day your ads start running. A booking counts when a new patient schedules,
+                  and a campaign call your office doesn&rsquo;t answer counts too. Requires a Google Ads budget of at
+                  least {usd(GUARANTEE.minAdBudget)} for that period, paid to Google, with your first payment made
+                  before work begins. If you take the refund, the agreement ends: you keep your domain and accounts,
+                  and the website and campaigns we built stay with us. Full conditions are in the agreement
+                  (&sect;17) and the FAQ.
+                </p>
+              </div>
+
               <dl className="m-0 border-t border-[#0f172a]/20 divide-y divide-[#0f172a]/15">
                 <div className="py-4">
                   <dt className="font-semibold mb-1" style={body("0.94rem")}>After six months</dt>
@@ -550,9 +581,12 @@ export function DentalMarketingPage() {
           </div>
 
           <div className="mt-7 pt-6 border-t border-[#0f172a]/20 flex flex-col sm:flex-row sm:items-center gap-x-7 gap-y-2">
-            <a href={AGREEMENT_PATH} className="inline-flex self-start items-center gap-3 min-h-[52px] px-6 bg-[#0f172a] text-white hover:bg-[#1e293b] transition-colors font-medium" style={{ ...body("0.94rem", 1.4), letterSpacing: "0.03em" }}>
+            <a href={BOOK_CALL_URL} target="_blank" rel="noopener noreferrer" className="inline-flex self-start items-center gap-3 min-h-[52px] px-6 bg-[#0f172a] text-white hover:bg-[#1e293b] transition-colors font-medium" style={{ ...body("0.94rem", 1.4), letterSpacing: "0.03em" }}>
+              Book 15 minutes
+              <ArrowRight size={16} aria-hidden="true" />
+            </a>
+            <a href={AGREEMENT_PATH} className="inline-flex self-start items-center min-h-[44px] underline underline-offset-4 font-medium" style={body("0.94rem", 1.4)}>
               Review agreement &amp; checkout
-              <ArrowRight size={16} className="shrink-0" aria-hidden="true" />
             </a>
             <a href={`#${ASSESSMENT_ID}`} className="inline-flex self-start sm:self-auto items-center min-h-[44px] underline underline-offset-4" style={body("0.94rem")}>
               Get a free written assessment

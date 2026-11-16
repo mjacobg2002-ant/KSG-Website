@@ -73,7 +73,7 @@ const results = [
   {
     value: "13 → 19 → 39",
     label: "Website bookings: August, September, October (+46% in the launch month)",
-    detail: "August 2026 was the month before the new site. September, the launch month, rose 46%, from 13 to 19. August and September are from the booking platform’s “Your website” channel; October is the practice-reported count.",
+    detail: "August 2026 was the month before the new site. September, the launch month, rose 46%, from 13 to 19. August and September are from the booking platform’s “Your website” channel",
     goal: "30 new patients a month",
   },
   {

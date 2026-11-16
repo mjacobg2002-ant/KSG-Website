@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { AGREEMENT_PATH } from "./dentalConfig";
+import { AGREEMENT_PATH, BOOK_CALL_URL } from "./dentalConfig";
 
 /*
  * Phone/tablet-only bar pointing to the agreement and checkout. Appears once
@@ -37,15 +37,19 @@ export function StickyEnrollmentCTA({ heroId, assessmentId }: { heroId: string; 
     >
       <div className="px-4 py-3 flex items-center justify-between gap-3">
         <p className="text-white/75 leading-snug" style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem" }}>
-          Ready to start?
+          <a href={AGREEMENT_PATH} tabIndex={show ? 0 : -1} className="underline underline-offset-4 text-white/80">
+            Review agreement
+          </a>
         </p>
         <a
-          href={AGREEMENT_PATH}
+          href={BOOK_CALL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           tabIndex={show ? 0 : -1}
           className="shrink-0 inline-flex items-center gap-2 min-h-[44px] px-5 bg-blue-500 text-[#0f172a] font-medium"
           style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.82rem", fontWeight: 500, letterSpacing: "0.03em" }}
         >
-          Review &amp; enroll
+          Book 15 minutes
           <ArrowRight size={15} aria-hidden="true" />
         </a>
       </div>

@@ -14,6 +14,9 @@ export const AGREEMENT_VERSION = "November 16, 2026";
 /** Serverless endpoint (api/dental-intake.js) for both forms on the page. */
 export const INTAKE_ENDPOINT = "/api/dental-intake";
 
+/** Founder call booking (Google Calendar). Primary action on the dental page. */
+export const BOOK_CALL_URL = "https://calendar.app.google/xTjcBRJKfehHL3gh9";
+
 export const CONTACT_EMAIL = "marcel.grisard@kindsupplyco.org";
 export const CONTACT_PHONE_DISPLAY = "(925) 775-8253";
 export const CONTACT_PHONE_HREF = "tel:+19257758253";
@@ -31,8 +34,8 @@ export const PACKAGE = {
 /** First-month new-patient guarantee: Agreement §17. Keep in step with the agreement text. */
 export const GUARANTEE = {
   bookedNewPatients: 3,
-  periodDays: 30, // from the day the Google Ads campaign goes live (§17.2)
-  minAdBudget: 1000, // paid by the practice directly to Google (§17.2(d))
+  periodDays: 30, // from the day the ads start running (§17.2)
+  minAdBudget: 1200, // paid by the practice directly to Google (§17.2(d))
   refund: 2000, // the first Monthly Fee
 };
 

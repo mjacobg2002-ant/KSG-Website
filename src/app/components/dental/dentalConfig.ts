@@ -35,7 +35,7 @@ export const PACKAGE = {
 export const GUARANTEE = {
   bookedNewPatients: 3,
   periodDays: 30, // from the day the ads start running (§17.2)
-  minAdBudget: 1200, // paid by the practice directly to Google (§17.2(d))
+  minAdBudget: 1200, // paid by the practice directly to Google (§17.2(d)); never refunded (§17.6)
   refund: 2000, // the first Monthly Fee
 };
 

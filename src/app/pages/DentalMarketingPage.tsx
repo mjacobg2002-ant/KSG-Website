@@ -534,8 +534,10 @@ export function DentalMarketingPage() {
                   Counted from the day your ads start running. A booking counts when a new patient schedules,
                   and a campaign call your office doesn&rsquo;t answer counts too. Requires a Google Ads budget of at
                   least {usd(GUARANTEE.minAdBudget)} for that period, paid to Google, with your first payment made
-                  before work begins. If you take the refund, the agreement ends: you keep your domain and accounts,
-                  and the website and campaigns we built stay with us. Full conditions are in the agreement
+                  before work begins. If the guarantee is missed, we refund your first payment within 15 days with no request
+                  needed, and the agreement ends: you keep your domain and accounts, and the website and campaigns we
+                  built stay with us. Ad spend paid to Google is not refunded. If 3 patients are booked, the six-month
+                  agreement is binding. Full conditions are in the agreement
                   (&sect;17) and the FAQ.
                 </p>
               </div>

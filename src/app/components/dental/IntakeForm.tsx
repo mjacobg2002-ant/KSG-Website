@@ -4,10 +4,12 @@ import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { CONTACT_EMAIL, INTAKE_ENDPOINT } from "./dentalConfig";
 
 /*
- * Shared intake form for the two paths on /dental-marketing:
+ * Shared intake form for the two paths on /dental-marketing, and for the
+ * ROI calculator hand-off on /contact:
  *   - "enrollment": Get Started with the package (we confirm fit, then send
  *     the agreement and secure Stripe checkout).
  *   - "assessment": request a written practice growth assessment.
+ *   - "roi": send the numbers a practice entered in the /dental-roi calculator.
  *
  * Posts JSON to api/dental-intake.js. Spam protection: a hidden honeypot
  * field, a minimum time-on-form, and server-side validation + rate limiting.
@@ -31,12 +33,24 @@ export type IntakeField = {
   half?: boolean;
 };
 
+/** A value sent with the form that the visitor doesn't type (shown elsewhere on the page). */
+export type IntakeExtra = { name: string; label: string; value: string };
+
 type Props = {
-  kind: "enrollment" | "assessment";
+  kind: "enrollment" | "assessment" | "roi";
   fields: IntakeField[];
   submitLabel: string;
   successTitle: string;
   successBody: string;
+  /** Starting values by field name. Read once, when the form mounts. */
+  initialValues?: Record<string, string>;
+  extras?: IntakeExtra[];
+};
+
+const MAILTO_SUBJECT: Record<Props["kind"], [string, string]> = {
+  enrollment: ["Complete Dental Growth Package", "enrollment request"],
+  assessment: ["Written Practice Growth Assessment", "request"],
+  roi: ["Dental ROI calculator", "my numbers"],
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -66,12 +80,12 @@ const labelStyle = { fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", font
 const inputClass =
   "w-full bg-white/[0.03] border border-white/15 px-4 py-3 text-white placeholder:text-white/35 transition-colors duration-200 hover:border-white/25 focus:border-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40 aria-[invalid=true]:border-red-400/70";
 
-export function IntakeForm({ kind, fields, submitLabel, successTitle, successBody }: Props) {
+export function IntakeForm({ kind, fields, submitLabel, successTitle, successBody, initialValues, extras = [] }: Props) {
   const uid = useId();
   const formRef = useRef<HTMLFormElement>(null);
   const startedAt = useRef<number>(Date.now());
   const [values, setValues] = useState<Record<string, string>>(() =>
-    Object.fromEntries(fields.map((f) => [f.name, ""]))
+    Object.fromEntries(fields.map((f) => [f.name, initialValues?.[f.name] ?? ""]))
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "fallback">("idle");
@@ -91,13 +105,12 @@ export function IntakeForm({ kind, fields, submitLabel, successTitle, successBod
   };
 
   const mailtoHref = () => {
-    const subject =
-      kind === "enrollment"
-        ? `Complete Dental Growth Package — ${values.practiceName || "enrollment request"}`
-        : `Written Practice Growth Assessment — ${values.practiceName || "request"}`;
-    const body = fields
-      .map((f) => `${f.label}: ${values[f.name]?.trim() || "—"}`)
-      .join("\n");
+    const [title, fallback] = MAILTO_SUBJECT[kind];
+    const subject = `${title} — ${values.practiceName || fallback}`;
+    const body = [
+      ...fields.map((f) => `${f.label}: ${values[f.name]?.trim() || "—"}`),
+      ...extras.map((x) => `\n${x.label}:\n${x.value}`),
+    ].join("\n");
     return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
@@ -123,7 +136,10 @@ export function IntakeForm({ kind, fields, submitLabel, successTitle, successBod
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           kind,
-          fields: Object.fromEntries(fields.map((f) => [f.name, (values[f.name] ?? "").trim()])),
+          fields: {
+            ...Object.fromEntries(fields.map((f) => [f.name, (values[f.name] ?? "").trim()])),
+            ...Object.fromEntries(extras.map((x) => [x.name, x.value])),
+          },
           company_site: honeypot,
           elapsedMs: Date.now() - startedAt.current,
           page: typeof window !== "undefined" ? window.location.pathname : "",

@@ -1,6 +1,7 @@
 import { ArrowRight, Mail, Calendar, MessageCircle } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
 import { SEOHead } from "../components/SEOHead";
+import { RoiHandoff } from "../components/dental/RoiHandoff";
 
 const BOOKING_URL = "https://calendar.app.google/SWzpdnhRzBQ5JfPp9";
 const EMAIL = "partnerships@kindsupplydigital.com";
@@ -29,6 +30,9 @@ export function ContactPage() {
           },
         }}
       />
+      {/* Arrivals from the dental ROI calculator: their numbers and a short form */}
+      <RoiHandoff />
+
       {/* Header */}
       <section className="pt-32 pb-20 border-b border-white/5">
         <div className="max-w-5xl mx-auto px-6 lg:px-8">

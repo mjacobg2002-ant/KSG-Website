@@ -1,8 +1,9 @@
 // Vercel Function: POST /api/dental-intake
 //
-// Receives the two forms on /dental-marketing:
+// Receives the two forms on /dental-marketing and the calculator hand-off on /contact:
 //   kind "enrollment"  -> request to enroll in the Complete Dental Growth Package
 //   kind "assessment"  -> request for a written practice growth assessment
+//   kind "roi"         -> numbers a practice entered in the /dental-roi calculator
 //
 // Delivery (configure at least one in Vercel → Project → Settings → Environment
 // Variables; until then this returns 503 and the page offers a pre-filled
@@ -63,6 +64,17 @@ const SCHEMAS = {
         ],
       },
     },
+  },
+};
+
+SCHEMAS.roi = {
+  label: "Dental ROI calculator — guarantee request",
+  source: "kindsupplydigital.com/dental-roi",
+  fields: {
+    practiceName: { label: "Practice name", required: true, max: 160 },
+    contactName: { label: "Contact name", required: true, max: 120 },
+    email: { label: "Business email", required: true, max: 200, email: true },
+    calculator: { label: "Calculator inputs and results", required: true, max: 900 },
   },
 };
 
@@ -169,7 +181,7 @@ export default async function handler(req, res) {
 
   const submittedAt = new Date().toISOString();
   const page = clean(body.page).slice(0, 120);
-  const payload = { source: "kindsupplydigital.com/dental-marketing", kind, formLabel: schema.label, submittedAt, ...data };
+  const payload = { source: schema.source || "kindsupplydigital.com/dental-marketing", kind, formLabel: schema.label, submittedAt, ...data };
 
   if (!process.env.RESEND_API_KEY && !process.env.INTAKE_WEBHOOK_URL) {
     console.error("dental-intake: no delivery configured (set RESEND_API_KEY or INTAKE_WEBHOOK_URL)");

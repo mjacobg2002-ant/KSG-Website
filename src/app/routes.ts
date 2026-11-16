@@ -9,6 +9,7 @@ import { InsightsPage } from "./pages/InsightsPage";
 import { InsightArticlePage } from "./pages/InsightArticlePage";
 import { ContactPage } from "./pages/ContactPage";
 import { DentalMarketingPage } from "./pages/DentalMarketingPage";
+import { DentalRoiPage } from "./pages/DentalRoiPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -24,6 +25,7 @@ export const routes: RouteRecord[] = [
       { path: "about", Component: AboutPage },
       { path: "services", Component: ServicesPage },
       { path: "dental-marketing", Component: DentalMarketingPage },
+      { path: "dental-roi", Component: DentalRoiPage },
       { path: "case-studies", Component: CaseStudiesPage },
       { path: "process", Component: ProcessPage },
       { path: "insights", Component: InsightsPage },

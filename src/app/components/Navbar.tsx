@@ -9,6 +9,8 @@ import { AGREEMENT_PATH } from "./dental/dentalConfig";
 // Dental division page (React route). The Westpark case study stays linked
 // from that page and from the footer.
 const DENTAL_URL = "/dental-marketing";
+// Dental patient leak & ROI calculator. Styled and treated as part of the dental division.
+const DENTAL_ROI_URL = "/dental-roi";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -24,7 +26,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const isDental = location.pathname === DENTAL_URL;
+  const isDental = location.pathname === DENTAL_URL || location.pathname === DENTAL_ROI_URL;
   const ctaHref = isDental ? AGREEMENT_PATH : BOOKING_URL;
   const ctaLabel = isDental ? "Review & Enroll" : "Free Consultation";
   const ctaTarget = isDental ? undefined : "_blank";
@@ -84,6 +86,16 @@ export function Navbar() {
             >
               Dental Marketing
             </Link>
+            {/* Shown from xl up: at lg the row is already full. */}
+            <Link
+              to={DENTAL_ROI_URL}
+              className={`hidden xl:inline-flex transition-colors duration-300 ${
+                location.pathname === DENTAL_ROI_URL ? "text-blue-200" : "text-blue-300/90 hover:text-blue-200"
+              }`}
+              style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 500 }}
+            >
+              Dental ROI Calculator
+            </Link>
             <a
               href={ctaHref}
               target={ctaTarget}
@@ -136,6 +148,14 @@ export function Navbar() {
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", letterSpacing: "0.05em", fontWeight: 500 }}
               >
                 Dental Marketing
+              </Link>
+              <Link
+                to={DENTAL_ROI_URL}
+                onClick={() => setMobileOpen(false)}
+                className="py-2 text-blue-300/90"
+                style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", letterSpacing: "0.05em", fontWeight: 500 }}
+              >
+                Dental ROI Calculator
               </Link>
               <a
                 href={ctaHref}

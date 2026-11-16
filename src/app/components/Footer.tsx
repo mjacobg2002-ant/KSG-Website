@@ -130,14 +130,22 @@ export function Footer() {
             <div className="flex flex-col gap-3 mb-8">
               {industryLinks.map((s) =>
                 s === "Dental" ? (
-                  <Link
-                    key={s}
-                    to="/dental-marketing"
-                    className="text-white/50 hover:text-blue-300 transition-colors"
-                    style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
-                  >
-                    Dental Marketing
-                  </Link>
+                  <div key={s} className="flex flex-col gap-3">
+                    <Link
+                      to="/dental-marketing"
+                      className="text-white/50 hover:text-blue-300 transition-colors"
+                      style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
+                    >
+                      Dental Marketing
+                    </Link>
+                    <Link
+                      to="/dental-roi"
+                      className="pl-3 border-l border-white/15 text-white/50 hover:text-blue-300 transition-colors"
+                      style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
+                    >
+                      Dental ROI Calculator
+                    </Link>
+                  </div>
                 ) : (
                   <span
                     key={s}

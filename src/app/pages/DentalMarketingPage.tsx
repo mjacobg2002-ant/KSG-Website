@@ -7,6 +7,7 @@ import { DevicePreview } from "../components/dental/DevicePreview";
 import { IntakeForm, type IntakeField } from "../components/dental/IntakeForm";
 import { ResponsivePhoto } from "../components/dental/ResponsivePhoto";
 import { StickyEnrollmentCTA } from "../components/dental/StickyEnrollmentCTA";
+import { RoiPreviewCard } from "../components/dental/RoiPreviewCard";
 import { founderPhoto, photos, westparkHomeShots } from "../components/dental/westparkMedia";
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
@@ -368,6 +369,9 @@ export function DentalMarketingPage() {
               <a href="#package" className="inline-flex items-center min-h-[44px] text-white/70 hover:text-white underline underline-offset-4">
                 View pricing and terms
               </a>
+              <Link to="/dental-roi" className="inline-flex items-center min-h-[44px] text-white/70 hover:text-white underline underline-offset-4">
+                Dental ROI Calculator
+              </Link>
             </div>
           </div>
 
@@ -495,6 +499,9 @@ export function DentalMarketingPage() {
           </div>
         </div>
       </section>
+
+      {/* ============ ROI CALCULATOR PREVIEW ============ */}
+      <RoiPreviewCard headingId="dental-roi-preview-title" />
 
       {/* ============ PRICING ============ */}
       <section id="package" className="scroll-mt-20 text-[#0f172a] py-20 lg:py-24 border-t border-[#0f172a]/15 [--dental-link-focus:#7a5c26]" style={{ background: CREAM }} aria-labelledby="package-title">

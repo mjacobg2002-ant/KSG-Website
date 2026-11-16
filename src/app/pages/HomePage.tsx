@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { RoiPreviewCard } from "../components/dental/RoiPreviewCard";
 import { BOOKING_URL } from "../booking";
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
@@ -390,6 +391,9 @@ export function HomePage() {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* ============ DENTAL ROI CALCULATOR — interactive preview ============ */}
+      <RoiPreviewCard />
 
       {/* ============ POSITION — the way out ============ */}
       <section className="py-32 border-b border-white/5">

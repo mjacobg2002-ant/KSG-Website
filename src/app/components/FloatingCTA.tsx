@@ -8,7 +8,7 @@ export function FloatingCTA() {
   const location = useLocation();
   const isContact = location.pathname === "/contact";
   // The dental page offers its own no-call next steps; skip the consult bar.
-  const isDental = location.pathname === "/dental-marketing";
+  const isDental = location.pathname === "/dental-marketing" || location.pathname === "/dental-roi";
 
   useEffect(() => {
     const handleScroll = () => {

@@ -1,8 +1,8 @@
-import { PACKAGE, usd } from "./dentalConfig";
+import { GUARANTEE, PACKAGE, usd } from "./dentalConfig";
 
 /*
  * FAQ for /dental-marketing. Each answer paraphrases the general agreement
- * (Version November 9, 2026) and cites the section it comes from, so it can be
+ * (Version November 16, 2026) and cites the section it comes from, so it can be
  * checked line by line. Plain strings: rendered on the page and emitted as
  * FAQPage JSON-LD.
  */
@@ -110,10 +110,19 @@ export const dentalFaqs: Faq[] = [
     ref: "§9.1",
   },
   {
+    q: "What is the first-month guarantee?",
+    a: [
+      `If the Google Ads campaign we manage doesn’t produce at least ${GUARANTEE.bookedNewPatients} new booked patients through your website in its first ${GUARANTEE.periodDays} days, we refund your first ${usd(GUARANTEE.refund)} payment in full. The ${GUARANTEE.periodDays} days start the day the campaign goes live to your new website, not the day you enroll.`,
+      `The conditions: your first ${usd(PACKAGE.monthly)} payment is made before any work or advertising begins; you fund a Google Ads budget of at least ${usd(GUARANTEE.minAdBudget)} for that period, paid directly to Google, and don’t pause or cut the campaign; you send materials, account access, and approvals on time; the website, booking path, and tracking stay as installed; and your office is open to new patients and answers or returns campaign calls and appointment requests within one business day. A campaign call or request that isn’t returned within one business day counts as a booking.`,
+      "A booking counts when a new patient schedules, even if they later cancel or don’t show. We count from conversion tracking and your schedule, by number and date only — no patient details. You request the refund in writing within 15 days after the period ends. The refund is the remedy; the six-month agreement and the remaining payments continue.",
+    ],
+    ref: "§17, §4.1",
+  },
+  {
     q: "Do you guarantee rankings or new patients?",
     a: [
-      "No. Search and advertising results build over time and depend on competition, budget, and Google’s own systems. What we commit to is the work in the agreement, done well, and honest monthly reporting on what it produces.",
+      "Beyond the first-month guarantee above, no. Search and advertising results build over time and depend on competition, budget, and Google’s own systems. What we commit to is the work in the agreement, done well, and honest monthly reporting on what it produces.",
     ],
-    ref: "§13.1, §13.2",
+    ref: "§13.1, §13.2, §17",
   },
 ];

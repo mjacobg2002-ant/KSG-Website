@@ -3,13 +3,13 @@
  *
  * Every pricing and terms statement on /dental-marketing must match the
  * general agreement published at AGREEMENT_PATH (Agreement Version:
- * November 9, 2026). If the agreement changes, update this file and re-check
+ * November 16, 2026). If the agreement changes, update this file and re-check
  * the FAQ in DentalMarketingPage.tsx against the new text.
  */
 
 /** General agreement and acceptance-gated Stripe checkout for dental enrollment. */
 export const AGREEMENT_PATH = "/a/4xrtrhp2ltjj30/index";
-export const AGREEMENT_VERSION = "November 9, 2026";
+export const AGREEMENT_VERSION = "November 16, 2026";
 
 /** Serverless endpoint (api/dental-intake.js) for both forms on the page. */
 export const INTAKE_ENDPOINT = "/api/dental-intake";
@@ -26,6 +26,14 @@ export const PACKAGE = {
   total: 2000 * 6,
   hostingOnlyMonthly: 99, // §3.2
   websiteFilesPurchase: 4500, // §8.4
+};
+
+/** First-month new-patient guarantee: Agreement §17. Keep in step with the agreement text. */
+export const GUARANTEE = {
+  bookedNewPatients: 3,
+  periodDays: 30, // from the day the Google Ads campaign goes live (§17.2)
+  minAdBudget: 1000, // paid by the practice directly to Google (§17.2(d))
+  refund: 2000, // the first Monthly Fee
 };
 
 /*

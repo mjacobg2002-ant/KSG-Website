@@ -14,6 +14,7 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_HREF,
+  GUARANTEE,
   PACKAGE,
   SHOW_STANDALONE_COMPARISON,
   STANDALONE,
@@ -335,6 +336,12 @@ export function DentalMarketingPage() {
                 With the {usd(PACKAGE.monthly)}/month package. You pay your ad budget directly to Google.
               </p>
             </div>
+            <p className="max-w-lg mb-7 text-white/85" style={body("0.98rem", 1.6)}>
+              <strong className="text-white">First-month guarantee:</strong> {GUARANTEE.bookedNewPatients} new booked
+              patients from Google Ads through your new site in the campaign&rsquo;s first {GUARANTEE.periodDays} days,
+              or your first {usd(GUARANTEE.refund)} payment is refunded.{" "}
+              <a href="#faq" className="underline underline-offset-4 text-blue-200 hover:text-white">See the conditions</a>
+            </p>
             <div className="flex flex-wrap items-center gap-x-7 gap-y-2">
               <a
                 href={AGREEMENT_PATH}
@@ -506,6 +513,23 @@ export function DentalMarketingPage() {
                 </ul>
                 <p className="text-[#0f172a]/80 mt-2 mb-0" style={body("0.93rem", 1.6)}>
                   Google ad spend is separate and paid directly to Google from your own account.
+                </p>
+              </div>
+
+              <div className="mb-6 border border-[#7a5c26]/50 bg-white/60 p-5">
+                <p className="font-semibold mb-2" style={{ ...body("0.78rem", 1.4), letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD_ON_CREAM }}>
+                  First-month guarantee
+                </p>
+                <p className="m-0 mb-2 font-semibold" style={body("1.02rem", 1.5)}>
+                  {GUARANTEE.bookedNewPatients} new booked patients in {GUARANTEE.periodDays} days, or your first{" "}
+                  {usd(GUARANTEE.refund)} back.
+                </p>
+                <p className="m-0 text-[#0f172a]/80" style={body("0.9rem", 1.6)}>
+                  Counted from the day your Google Ads campaign goes live to your new website. Requires a Google Ads
+                  budget of at least {usd(GUARANTEE.minAdBudget)} for that period, paid to Google, and an office that
+                  answers or returns campaign calls and requests within one business day. Your first payment is due
+                  before work begins, and the six-month agreement continues either way. Full conditions are in the
+                  agreement (&sect;17) and the FAQ.
                 </p>
               </div>
 

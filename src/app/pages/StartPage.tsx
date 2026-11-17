@@ -3,13 +3,13 @@ import { Link } from "react-router";
 import { ArrowRight, Check } from "lucide-react";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { AGREEMENT_PATH, BOOK_CALL_URL, GUARANTEE, PACKAGE, usd } from "../components/dental/dentalConfig";
-import { TerritoryChecker } from "../components/funnel/TerritoryChecker";
+import { SLOTS_PER_ZIP, TerritoryChecker } from "../components/funnel/TerritoryChecker";
 import { Eyebrow, body, buttonText, cleanText, display, focusScope, ghostButton, goldButton, useQueryParams } from "../components/funnel/ui";
 
 const PAGE_URL = `${SITE}/start`;
 
 const STEPS = [
-  ["Confirm your territory", "One practice per ZIP code. Check that yours is open below."],
+  ["Confirm your territory", `We take ${SLOTS_PER_ZIP} partner practices per ZIP code. Check that yours still has a slot below.`],
   ["Talk it through, or go straight to the agreement", "A 15-minute call with the founder, or read the full terms and check out online."],
   [`Your ${GUARANTEE.periodDays}-day guarantee window`, `Once your ads go live: ${GUARANTEE.bookedNewPatients} booked new patients in ${GUARANTEE.periodDays} days, or your first ${usd(GUARANTEE.refund)} payment is refunded. Conditions are in Section 17.`],
 ];

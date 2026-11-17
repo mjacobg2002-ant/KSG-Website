@@ -160,6 +160,7 @@ const tags = (html, name) => (html.match(new RegExp(`<${name}\\b[^>]*>`, "gi")) 
 
 function schemaTypes(html) {
   const types = new Set();
+  const nodes = [];
   let blocks = 0;
   let invalid = 0;
   const re = /<script\b[^>]*type\s*=\s*["']?application\/ld\+json["']?[^>]*>([\s\S]*?)<\/script>/gi;
@@ -168,7 +169,9 @@ function schemaTypes(html) {
     if (Array.isArray(node)) return node.forEach((n) => walk(n, depth + 1));
     if (typeof node !== "object") return;
     const t = node["@type"];
-    (Array.isArray(t) ? t : [t]).forEach((x) => typeof x === "string" && types.add(x.replace(/^https?:\/\/schema\.org\//, "")));
+    const list = (Array.isArray(t) ? t : [t]).filter((x) => typeof x === "string").map((x) => x.replace(/^https?:\/\/schema\.org\//, ""));
+    list.forEach((x) => types.add(x));
+    if (list.length) nodes.push({ types: list, node });
     Object.values(node).forEach((v) => typeof v === "object" && walk(v, depth + 1));
   };
   let m;
@@ -182,7 +185,7 @@ function schemaTypes(html) {
       (m[1].match(/"@type"\s*:\s*"([^"]+)"/g) || []).forEach((s) => types.add(s.replace(/.*"([^"]+)"$/, "$1")));
     }
   }
-  return { types: [...types], blocks, invalid };
+  return { types: [...types], nodes, blocks, invalid };
 }
 
 const CMS = [
@@ -258,8 +261,10 @@ async function pageSpeed(targetUrl) {
   q.append("category", "performance");
   q.append("category", "seo");
   if (process.env.PAGESPEED_API_KEY) q.set("key", process.env.PAGESPEED_API_KEY);
-  const res = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${q}`, { signal: AbortSignal.timeout(PSI_TIMEOUT_MS) });
-  if (!res.ok) throw new Error(`PSI ${res.status}`);
+  const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${q}`;
+  let res = await fetch(endpoint, { signal: AbortSignal.timeout(PSI_TIMEOUT_MS) });
+  if (res.status >= 500) res = await fetch(endpoint, { signal: AbortSignal.timeout(PSI_TIMEOUT_MS) });
+  if (!res.ok) throw new Error(`PSI ${res.status}${process.env.PAGESPEED_API_KEY ? "" : " (no PAGESPEED_API_KEY set; the shared keyless quota is usually exhausted)"}`);
   const json = await res.json();
   const lh = json.lighthouseResult;
   const perf = lh?.categories?.performance?.score;
@@ -273,24 +278,48 @@ async function pageSpeed(targetUrl) {
   };
 }
 
-/** Rough stand-in when PSI is unavailable. Always labeled as an estimate in the UI. */
-export function estimateSpeed(page) {
-  let s = 88;
-  if (page.ttfbMs > 2500) s -= 40;
-  else if (page.ttfbMs > 1200) s -= 26;
-  else if (page.ttfbMs > 600) s -= 12;
-  if (page.bytes > 800_000) s -= 18;
-  else if (page.bytes > 300_000) s -= 9;
-  const scripts = (page.html.match(/<script\b/gi) || []).length;
-  if (scripts > 50) s -= 18;
-  else if (scripts > 25) s -= 9;
-  return { source: "estimate", performance: Math.max(20, Math.min(90, s)), seo: null, lcpSeconds: null, scripts };
+/*
+ * Stand-in when PageSpeed Insights is unavailable. Deliberately conservative:
+ * it can't see real load behaviour, so it never reports a passing score, and
+ * drag-and-drop builders (which ship heavy runtime JS) start lower. Always
+ * labeled as an estimate in the UI.
+ */
+const SLOW_BUILDERS = /^(Wix|Weebly|Squarespace|GoDaddy Website Builder|Duda|ProSites|Officite|Dental Sesame|PBHS|Shopify)/;
+export function estimateSpeed(page, cms = "") {
+  const html = page.html;
+  const scripts = (html.match(/<script\b/gi) || []).length;
+  const head = (html.match(/<head\b[\s\S]*?<\/head>/i) || [""])[0];
+  const blockingCss = (head.match(/<link\b[^>]*rel\s*=\s*["']?stylesheet/gi) || []).length;
+  const blockingJs = (head.match(/<script\b(?![^>]*\b(async|defer|type\s*=\s*["']?(module|application\/ld\+json)))[^>]*\bsrc=/gi) || []).length;
+  const imgs = html.match(/<img\b[^>]*>/gi) || [];
+  const eagerImgs = imgs.filter((t) => !/loading\s*=\s*["']?lazy/i.test(t)).length;
+  let s = 78;
+  if (SLOW_BUILDERS.test(cms)) s -= 26;
+  else if (cms === "WordPress") s -= 12;
+  if (page.ttfbMs > 2500) s -= 30;
+  else if (page.ttfbMs > 1200) s -= 18;
+  else if (page.ttfbMs > 600) s -= 8;
+  if (page.bytes > 800_000) s -= 14;
+  else if (page.bytes > 300_000) s -= 7;
+  if (scripts > 50) s -= 14;
+  else if (scripts > 25) s -= 7;
+  if (blockingCss + blockingJs > 6) s -= 8;
+  else if (blockingCss + blockingJs > 3) s -= 4;
+  if (eagerImgs > 12) s -= 6;
+  return { source: "estimate", performance: Math.max(15, Math.min(70, s)), seo: null, lcpSeconds: null, scripts, blocking: blockingCss + blockingJs };
 }
 
 /* ------------------------------------------------------------------ */
 /* Analysis                                                             */
 /* ------------------------------------------------------------------ */
-export function analyze(page, city) {
+const GENERIC_WORDS = new Set(["dental", "dentistry", "dentist", "dentists", "the", "and", "of", "family", "studio", "care", "center", "centre", "group", "associates", "practice", "smile", "smiles", "office", "clinic", "pc", "llc", "dds", "dmd", "pllc", "&", "cosmetic", "general"]);
+
+/** The distinctive words of the practice name ("Westpark Dental Studio" → ["westpark"]). */
+function brandWords(practiceName) {
+  return clean(practiceName).toLowerCase().replace(/[^a-z0-9\s'&-]/g, " ").split(/\s+/).filter((w) => w.length > 2 && !GENERIC_WORDS.has(w));
+}
+
+export function analyze(page, city, practiceName = "") {
   const html = page.html;
   const lower = html.toLowerCase();
   const metas = tags(html, "meta");
@@ -300,7 +329,7 @@ export function analyze(page, city) {
 
   const title = text((html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i) || [])[1]);
   const description = meta("description");
-  const h1s = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => text(m[1]));
+  const h1s = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => text(m[1])).filter(Boolean);
   const canonical = links.find((l) => (l.rel || "").toLowerCase().split(/\s+/).includes("canonical"))?.href || "";
   const ogTitle = meta("og:title");
   const ogImage = meta("og:image");
@@ -308,12 +337,35 @@ export function analyze(page, city) {
   const schema = schemaTypes(html);
 
   const cityName = clean(city).split(",")[0].trim().toLowerCase();
-  const titleHasDental = DENTAL_WORDS.test(title);
-  const titleHasCity = cityName.length > 1 && title.toLowerCase().includes(cityName);
+  const hasCity = (s) => cityName.length > 1 && s.toLowerCase().includes(cityName);
+  const brand = brandWords(practiceName);
+  const hasBrand = (s) => brand.length > 0 && brand.some((w) => s.toLowerCase().includes(w));
 
-  // Click-to-call: is a tel: link in the header/nav, or at least near the top of the page?
-  const telCount = anchors.filter((a) => /^tel:/i.test(a.href || "")).length;
+  // Visible page text (scripts, styles and hidden templates removed).
   const bodyStart = Math.max(0, lower.indexOf("<body"));
+  const visible = text(html.slice(bodyStart).replace(/<(script|style|noscript|template|svg)\b[\s\S]*?<\/\1>/gi, " "));
+  const words = visible ? visible.split(/\s+/).length : 0;
+  const phoneShown = /(\(?\b\d{3}\)?[\s.-]?\d{3}[\s.-]\d{4}\b)/.test(visible);
+
+  // Images without useful alt text.
+  const imgs = tags(html, "img").filter((i) => !/^data:image\/(gif|svg)/i.test(i.src || "") && !/(pixel|spacer|tracking)/i.test(i.src || ""));
+  const imgsNoAlt = imgs.filter((i) => !(i.alt || "").trim() || /^(image|img|photo|picture|untitled)[\s\d_-]*$/i.test(i.alt.trim())).length;
+
+  // Local schema detail: the most specific type and whether it carries the facts Google looks for.
+  const localNodes = schema.nodes.filter((n) => n.types.some((t) => LOCAL_TYPES.includes(t)));
+  const dentistNode = localNodes.find((n) => n.types.some((t) => DENTAL_TYPES.includes(t)));
+  const best = dentistNode || localNodes[0];
+  const field = (k) => Boolean(best && best.node[k] && (typeof best.node[k] !== "string" || best.node[k].trim()));
+  const schemaFacts = best ? {
+    name: field("name"),
+    address: field("address"),
+    telephone: field("telephone"),
+    hours: field("openingHours") || field("openingHoursSpecification"),
+    url: field("url") || field("@id"),
+  } : null;
+
+  // Click-to-call: in the header/nav, or at least near the top of the page?
+  const telCount = anchors.filter((a) => /^tel:/i.test(a.href || "")).length;
   const headerHtml = [...html.matchAll(/<(header|nav)\b[\s\S]*?<\/\1>/gi)].map((m) => m[0]).join(" ");
   const topSlice = html.slice(bodyStart, bodyStart + Math.max(6000, Math.round((html.length - bodyStart) * 0.3)));
   const telInHeader = /href\s*=\s*["']?tel:/i.test(headerHtml) || /href\s*=\s*["']?tel:/i.test(topSlice);
@@ -321,7 +373,7 @@ export function analyze(page, city) {
   // Online booking: a real scheduling widget vs. a link to a request form.
   const bookingVendor = BOOKING_VENDORS.find(([, re]) => re.test(html))?.[0] || "";
   const bookingLink = anchors.some((a) => /\/(book|booking|appointments?|schedule|scheduling|request-an?-appointment)\b/i.test(a.href || "")) ||
-    /(book|schedule|request)\s+(an?\s+)?(appointment|online|now|a visit)/i.test(text(html.slice(bodyStart)).slice(0, 60000));
+    /(book|schedule|request)\s+(an?\s+)?(appointment|online|now|a visit)/i.test(visible.slice(0, 60000));
   const hasForm = /<form\b/i.test(html);
 
   const trackers = TRACKERS.filter(([, , re]) => re.test(html)).map(([id, name, , ad]) => ({ id, name, ad }));
@@ -329,77 +381,141 @@ export function analyze(page, city) {
   const patientFacing = hasForm || Boolean(bookingVendor) || bookingLink;
 
   return {
-    title, description, h1s, canonical, ogTitle, ogImage, viewport, schema, titleHasDental, titleHasCity, cityName,
+    title, description, h1s, canonical, ogTitle, ogImage, viewport, schema, cityName, brand,
+    titleHasDental: DENTAL_WORDS.test(title), titleHasCity: hasCity(title), titleHasBrand: hasBrand(title),
+    descHasCity: hasCity(description), descHasDental: DENTAL_WORDS.test(description),
+    h1HasCity: h1s.some(hasCity), h1HasDental: h1s.some((h) => DENTAL_WORDS.test(h)),
+    bodyHasCity: hasCity(visible), cityMentions: cityName.length > 1 ? visible.toLowerCase().split(cityName).length - 1 : 0,
+    words, phoneShown, imgs: imgs.length, imgsNoAlt,
+    localTypes: localNodes.flatMap((n) => n.types.filter((t) => LOCAL_TYPES.includes(t))), hasDentistType: Boolean(dentistNode), schemaFacts,
     telCount, telInHeader, bookingVendor, bookingLink, hasForm, trackers, adTrackers, patientFacing,
     viewportOk: /width\s*=\s*device-width/i.test(viewport),
     cms: detectCms(html, page),
   };
 }
 
-const LOCAL_TYPES = ["Dentist", "DentalClinic", "MedicalBusiness", "MedicalClinic", "LocalBusiness", "Physician", "MedicalOrganization"];
+const DENTAL_TYPES = ["Dentist", "DentalClinic"];
+const LOCAL_TYPES = ["Dentist", "DentalClinic", "MedicalBusiness", "MedicalClinic", "LocalBusiness", "Physician", "MedicalOrganization", "ProfessionalService", "HealthAndBeautyBusiness"];
+const GENERIC_TITLES = /^(home|homepage|welcome|index|untitled|home page|main)$/i;
 
+/*
+ * Scoring: start at 10.0 and subtract. Each area has a cap; the caps add up
+ * to more than 10 so one strong area can't hide several weak ones. Floor 1.0.
+ *   Mobile speed 2.5 · Title 1.5 · Meta description 1.0 · H1 0.5
+ *   Local schema 1.5 · Local content & NAP 1.0 · Image alt text 0.5
+ *   Canonical/Open Graph 0.5 · Click-to-call 1.0 · Online booking 1.0
+ *   HTTPS/viewport 1.0 · Ad pixels near patient forms 1.0
+ */
 export function score(a, speed, page) {
   const deductions = [];
-  const cut = (id, label, points, max) => deductions.push({ id, label, points, max });
+  const cut = (id, label, points, max) => deductions.push({ id, label, points: Math.round(Math.min(points, max) * 100) / 100, max });
   const checks = { local: [], speed: [], conversion: [], privacy: [] };
   const add = (group, id, label, status, detail) => checks[group].push({ id, label, status, detail });
+  const statusFor = (points, max) => (points === 0 ? "pass" : points >= max * 0.6 ? "fail" : "warn");
+  const cityLabel = a.cityName ? titleCase(a.cityName) : "your city";
 
   /* --- Mobile page speed: up to -2.5 --- */
   const p = speed.performance;
   const speedCut = p < 50 ? 2.5 : p < 75 ? 1.5 : p < 90 ? 0.5 : 0;
   cut("speed", `Mobile page speed (${p}/100${speed.source === "estimate" ? ", estimated" : ""})`, speedCut, 2.5);
-  add("speed", "pagespeed", "Mobile performance score", p >= 90 ? "pass" : p >= 50 ? "warn" : "fail",
+  add("speed", "pagespeed", "Mobile performance score", statusFor(speedCut, 2.5),
     speed.source === "psi"
-      ? `Google PageSpeed Insights scored the mobile site ${p}/100.${speed.seo !== null ? ` Google's SEO audit: ${speed.seo}/100.` : ""}`
-      : `Google PageSpeed Insights didn't respond in time, so this is an estimate (${p}/100) from server response time (${page.ttfbMs} ms) and page weight (${Math.round(page.bytes / 1024)} KB of HTML, ${speed.scripts} scripts). Run it again for the measured score.`);
+      ? `Google PageSpeed Insights scored the mobile site ${p}/100.${speed.seo !== null ? ` Google's SEO audit: ${speed.seo}/100.` : ""} Google treats 90+ as good.`
+      : `Estimated ${p}/100. Google's own speed test didn't answer, so this is worked out from the page itself: ${a.cms.startsWith("Custom") ? "" : `built on ${a.cms}, `}server response ${page.ttfbMs} ms, ${Math.round(page.bytes / 1024)} KB of HTML, ${speed.scripts} scripts, ${speed.blocking} render-blocking files. An estimate never counts as a pass.`);
   if (speed.lcpSeconds !== null) {
     add("speed", "lcp", "Largest Contentful Paint (LCP)", speed.lcpSeconds <= 2.5 ? "pass" : speed.lcpSeconds <= 4 ? "warn" : "fail",
       `The main content takes ${speed.lcpSeconds}s to appear on a phone. Google's "good" threshold is 2.5s.`);
   }
 
-  /* --- Title + meta description: up to -2.0 --- */
+  /* --- Title tag: up to -1.5 --- */
+  let tCut = 0;
+  const tNotes = [];
   const tLen = a.title.length;
-  let titleCut = 0;
-  let titleStatus = "pass";
-  let titleDetail = `"${a.title}" (${tLen} characters).`;
-  if (!a.title) {
-    titleCut = 1; titleStatus = "fail"; titleDetail = "No <title> tag found. This is the headline Google shows in search results.";
-  } else if (!a.titleHasDental && !a.titleHasCity) {
-    titleCut = 1; titleStatus = "fail"; titleDetail += " It names neither a dental keyword nor your city, so Google has little to match against local searches.";
-  } else if (!a.titleHasDental || !a.titleHasCity) {
-    titleCut = 0.5; titleStatus = "warn"; titleDetail += a.titleHasCity ? " It names your city but no dental keyword (dentist, dental)." : ` It has a dental keyword but doesn't name ${a.cityName ? titleCase(a.cityName) : "your city"}.`;
-  } else if (tLen < 30 || tLen > 65) {
-    titleStatus = "warn"; titleDetail += " It has the right keywords, but the ideal length is 30–65 characters so it isn't cut off.";
+  if (!a.title || GENERIC_TITLES.test(a.title)) {
+    tCut = 1.5;
+    tNotes.push(a.title ? `"${a.title}" tells Google nothing about who you are or where.` : "No <title> tag found. This is the headline Google shows in search results.");
   } else {
-    titleDetail += " Names the city and a dental keyword at a good length.";
+    if (!a.titleHasCity) (tCut += 0.75), tNotes.push(`doesn't name ${cityLabel}, so it can't match "dentist in ${cityLabel}" searches`);
+    if (!a.titleHasDental) (tCut += 0.5), tNotes.push("has no dental keyword (dentist, dental)");
+    if (a.brand.length && !a.titleHasBrand) (tCut += 0.25), tNotes.push("doesn't include the practice name");
+    if (tLen < 30 || tLen > 65) (tCut += 0.25), tNotes.push(`is ${tLen} characters (30–65 is ideal so it isn't cut off)`);
   }
-  cut("title", "Title tag local optimization", titleCut, 1);
-  add("local", "title", "Title tag", titleStatus, titleDetail);
+  cut("title", "Title tag local optimization", tCut, 1.5);
+  add("local", "title", "Title tag", statusFor(Math.min(tCut, 1.5), 1.5),
+    !a.title || GENERIC_TITLES.test(a.title) ? tNotes[0]
+      : `"${a.title}". ${tNotes.length ? `It ${joinList(tNotes)}.` : "Names the city, a dental keyword and the practice at a good length."}`);
 
+  /* --- Meta description: up to -1.0 --- */
+  let dCut = 0;
+  const dNotes = [];
   const dLen = a.description.length;
-  const descCut = !a.description ? 1 : dLen < 70 || dLen > 160 ? 0.5 : 0;
-  cut("description", "Meta description", descCut, 1);
-  add("local", "description", "Meta description", !a.description ? "fail" : descCut ? "warn" : "pass",
+  if (!a.description) dCut = 1;
+  else {
+    if (!a.descHasCity) (dCut += 0.5), dNotes.push(`never mentions ${cityLabel}`);
+    if (!a.descHasDental) (dCut += 0.25), dNotes.push("has no dental keyword");
+    if (dLen < 70 || dLen > 160) (dCut += 0.25), dNotes.push(`is ${dLen} characters (70–160 is ideal)`);
+  }
+  cut("description", "Meta description", dCut, 1);
+  add("local", "description", "Meta description", statusFor(dCut, 1),
     !a.description ? "No meta description. Google will pull a random line of page text into your search listing."
-      : `${dLen} characters${descCut ? " (ideal is 70–160)" : ""}: "${a.description.slice(0, 170)}${dLen > 170 ? "…" : ""}"`);
+      : `"${a.description.slice(0, 170)}${dLen > 170 ? "…" : ""}" ${dNotes.length ? `It ${joinList(dNotes)}, so it reads as generic copy that could belong to any practice.` : "Local, specific and a good length."}`);
 
-  const h1Count = a.h1s.filter(Boolean).length;
-  add("local", "h1", "Main heading (H1)", h1Count === 1 ? "pass" : h1Count === 0 ? "fail" : h1Count <= 3 ? "warn" : "fail",
-    h1Count === 0 ? "No H1 heading with text. Google uses it to confirm what the page is about."
-      : h1Count === 1 ? `One H1: "${a.h1s.find(Boolean).slice(0, 120)}"` : `${h1Count} H1 headings on one page. One clear main heading reads better to Google.`);
+  /* --- H1: up to -0.5 --- */
+  const h1Count = a.h1s.length;
+  let hCut = 0;
+  let hDetail;
+  if (h1Count === 0) (hCut = 0.5), (hDetail = "No H1 heading with text. Google uses it to confirm what the page is about.");
+  else if (h1Count > 3) (hCut = 0.5), (hDetail = `${h1Count} H1 headings on one page. One clear main heading reads better to Google.`);
+  else {
+    const notes = [];
+    if (!a.h1HasCity) (hCut += 0.25), notes.push(`doesn't mention ${cityLabel}`);
+    if (!a.h1HasDental) (hCut += 0.25), notes.push("has no dental keyword");
+    if (h1Count > 1) notes.push(`and there are ${h1Count} H1s instead of one`);
+    hDetail = `"${a.h1s[0].slice(0, 120)}"${notes.length ? `: it ${joinList(notes)}.` : ". Clear, local and on-topic."}`;
+  }
+  cut("h1", "Main heading (H1)", hCut, 0.5);
+  add("local", "h1", "Main heading (H1)", statusFor(hCut, 0.5), hDetail);
 
-  /* --- Local schema: -1.5 --- */
-  const localTypes = a.schema.types.filter((t) => LOCAL_TYPES.includes(t));
-  const orgOnly = !localTypes.length && a.schema.types.includes("Organization");
-  const schemaCut = localTypes.length || orgOnly ? 0 : 1.5;
-  cut("schema", "Local dental schema (JSON-LD)", schemaCut, 1.5);
-  add("local", "schema", "Local dental schema (JSON-LD)", localTypes.length ? "pass" : orgOnly ? "warn" : "fail",
-    localTypes.length ? `Found ${localTypes.join(", ")} schema.${localTypes.includes("Dentist") ? "" : " Dentist is the most specific type for a dental practice."}`
-      : orgOnly ? "Only generic Organization schema found. Dentist or LocalBusiness schema states your address, hours and services directly."
-        : "Missing Local Search Schema (Hurts Google Map Pack & AI Search Visibility). No Dentist, MedicalBusiness, LocalBusiness or Organization markup found.");
+  /* --- Local schema: up to -1.5 --- */
+  let sCut = 0;
+  let sDetail;
+  if (!a.localTypes.length) {
+    sCut = a.schema.types.includes("Organization") ? 1.25 : 1.5;
+    sDetail = a.schema.types.includes("Organization")
+      ? "Only generic Organization schema. Google gets no structured address, phone, hours or the fact that this is a dental practice."
+      : "Missing Local Search Schema (Hurts Google Map Pack & AI Search Visibility). No Dentist or LocalBusiness markup found.";
+  } else {
+    const missing = Object.entries(a.schemaFacts || {}).filter(([, ok]) => !ok).map(([k]) => (k === "hours" ? "opening hours" : k));
+    if (!a.hasDentistType) sCut += 0.75;
+    sCut += Math.min(0.75, missing.length * 0.25);
+    sDetail = `${a.hasDentistType ? "Dentist schema found" : `Found generic ${[...new Set(a.localTypes)].join(", ")} schema, not Dentist. Site builders add this automatically; it doesn't tell Google this is a dental practice`}.${missing.length ? ` Missing from it: ${missing.join(", ")}.` : " Name, address, phone and hours are all included."}`;
+  }
+  cut("schema", "Local dental schema (JSON-LD)", sCut, 1.5);
+  add("local", "schema", "Local dental schema (JSON-LD)", statusFor(Math.min(sCut, 1.5), 1.5), sDetail);
 
+  /* --- Local content & NAP: up to -1.0 --- */
+  let cCut = 0;
+  const cNotes = [];
+  if (!a.bodyHasCity) (cCut += 0.5), cNotes.push(`${cityLabel} isn't mentioned anywhere in the page text`);
+  else if (a.cityMentions < 2) (cCut += 0.25), cNotes.push(`${cityLabel} is mentioned only once`);
+  if (!a.phoneShown) (cCut += 0.25), cNotes.push("no phone number appears in the page text");
+  if (a.words < 300) (cCut += 0.25), cNotes.push(`only about ${a.words} words of text, thin for Google to rank`);
+  cut("content", "Local content & phone on the page", cCut, 1);
+  add("local", "content", "Local content & contact details", statusFor(cCut, 1),
+    cNotes.length ? `${cNotes.join("; ").replace(/^./, (c) => c.toUpperCase())}. Google ranks pages that clearly say what you do and where.` : `About ${a.words} words, ${cityLabel} mentioned ${a.cityMentions} times, phone number shown.`);
+
+  /* --- Image alt text: up to -0.5 --- */
+  const altShare = a.imgs ? a.imgsNoAlt / a.imgs : 0;
+  const altCut = a.imgs >= 3 && altShare > 0.5 ? 0.5 : a.imgs >= 3 && altShare > 0.2 ? 0.25 : 0;
+  cut("alt", "Image alt text", altCut, 0.5);
+  add("local", "alt", "Image descriptions (alt text)", statusFor(altCut, 0.5),
+    !a.imgs ? "No images found in the page source." : `${a.imgsNoAlt} of ${a.imgs} images have no useful description. Alt text helps image search and screen readers.`);
+
+  /* --- Canonical & Open Graph: up to -0.5 --- */
   const social = [a.canonical && "canonical", a.ogTitle && "og:title", a.ogImage && "og:image"].filter(Boolean);
-  add("local", "social", "Canonical & Open Graph tags", social.length === 3 ? "pass" : social.length ? "warn" : "fail",
+  const socialCut = (a.canonical ? 0 : 0.25) + (a.ogTitle && a.ogImage ? 0 : 0.25);
+  cut("social", "Canonical & Open Graph tags", socialCut, 0.5);
+  add("local", "social", "Canonical & Open Graph tags", statusFor(socialCut, 0.5),
     social.length === 3 ? "Canonical URL, og:title and og:image are all set." : `Missing ${["canonical", "og:title", "og:image"].filter((x) => !social.includes(x)).join(", ")}. These control duplicate-page handling and how links look when shared.`);
 
   /* --- Conversion: up to -2.0 --- */
@@ -420,8 +536,8 @@ export function score(a, speed, page) {
     "A website scan can't see your phones. Any call that rings out after hours or during a busy front desk is a patient who usually dials the next practice. See how a text-back closes that gap at /demo-call.");
 
   /* --- SSL / viewport / pixels: up to -2.0 --- */
-  const baseOk = page.httpsOk && a.viewportOk;
-  cut("basics", "HTTPS and mobile viewport", baseOk ? 0 : 1, 1);
+  const basicsCut = (page.httpsOk ? 0 : 0.5) + (a.viewportOk ? 0 : 0.5);
+  cut("basics", "HTTPS and mobile viewport", basicsCut, 1);
   add("speed", "https", "HTTPS security", page.httpsOk ? "pass" : "fail",
     page.httpsOk ? "The site loads over a valid HTTPS connection." : page.sslError ? "The secure (https) version failed to load, so browsers show a \"Not secure\" warning." : "The site loads over plain http. Browsers show a \"Not secure\" warning.");
   add("speed", "viewport", "Mobile viewport", a.viewportOk ? "pass" : "fail",
@@ -436,9 +552,7 @@ export function score(a, speed, page) {
       : a.trackers.length
         ? `Found ${names(a.trackers)}. No advertising pixel was detected next to a patient form on this page. Tag managers can load other tags that a source scan can't see, so confirm what fires on your booking pages.`
         : "No advertising or analytics trackers were found in this page's source.");
-  if (pixelRisk || a.trackers.length) {
-    add("privacy", "tracker-list", "Trackers found in the source", "info", names(a.trackers));
-  }
+  if (pixelRisk || a.trackers.length) add("privacy", "tracker-list", "Trackers found in the source", "info", names(a.trackers));
 
   const total = deductions.reduce((s, d) => s + d.points, 0);
   const value = Math.round(Math.max(1, Math.min(10, 10 - total)) * 10) / 10;
@@ -460,6 +574,8 @@ export function score(a, speed, page) {
     ],
   };
 }
+
+const joinList = (xs) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
 
 const titleCase = (s) => s.replace(/\b[a-z]/g, (c) => c.toUpperCase());
 
@@ -524,13 +640,13 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: false, error: reason, websiteUrl });
   }
 
-  const analysis = analyze(page, city);
+  const analysis = analyze(page, city, practiceName);
   let speed;
   try {
     speed = await pageSpeed(page.finalUrl.href);
   } catch (err) {
     console.error("audit: PageSpeed unavailable:", err?.message);
-    speed = estimateSpeed(page);
+    speed = estimateSpeed(page, analysis.cms);
   }
   const result = score(analysis, speed, page);
   const scoreText = `${result.score.toFixed(1)} / 10 — ${result.verdict.short}`;

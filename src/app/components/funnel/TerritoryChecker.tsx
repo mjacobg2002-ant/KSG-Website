@@ -4,17 +4,23 @@ import territories from "../../../../data/territories.json";
 import { GUARANTEE } from "../dental/dentalConfig";
 import { INTER, PLAYFAIR, body, buttonText, cleanText, goldButton, inputClass, labelClass, labelStyle, mailto, postLead } from "./ui";
 
-type Entry = { zip: string; area?: string };
+type Entry = { zip: string; area?: string; partners?: number };
+/** Partner practices accepted per ZIP code. */
+export const SLOTS_PER_ZIP = Math.max(1, Number(territories.slotsPerZip) || 3);
 const claimed = territories.claimedZips as Entry[];
 const highDemand = territories.highDemandZips as Entry[];
 
-export type TerritoryStatus = { zip: string; state: "claimed" | "open"; area?: string; highDemand: boolean };
+export type TerritoryStatus = { zip: string; state: "claimed" | "open"; area?: string; highDemand: boolean; taken: number; open: number };
 
 export function lookupTerritory(zip: string): TerritoryStatus {
   const hit = claimed.find((c) => c.zip === zip);
   const hot = highDemand.find((c) => c.zip === zip);
-  return { zip, state: hit ? "claimed" : "open", area: hit?.area ?? hot?.area, highDemand: Boolean(hot) };
+  const taken = hit ? Math.min(SLOTS_PER_ZIP, Math.max(1, Math.round(hit.partners ?? SLOTS_PER_ZIP))) : 0;
+  const open = SLOTS_PER_ZIP - taken;
+  return { zip, state: open > 0 ? "open" : "claimed", area: hit?.area ?? hot?.area, highDemand: Boolean(hot), taken, open };
 }
+
+const slotWord = (n: number) => `${n} Partner Slot${n === 1 ? "" : "s"}`;
 
 /**
  * ZIP territory exclusivity checker, driven by data/territories.json.
@@ -70,7 +76,7 @@ export function TerritoryChecker({ initialZip = "", practice = "", headingId }: 
             Is your ZIP code still open?
           </h3>
           <p className="text-white/60" style={body("0.95rem")}>
-            We partner with one dental practice per ZIP code, so we never run ads for you and the office down the block.
+            We cap every ZIP code at {SLOTS_PER_ZIP} partner practices, so you aren&rsquo;t bidding against a dozen offices on the same block for the same patients.
           </p>
         </div>
       </div>
@@ -112,8 +118,8 @@ export function TerritoryChecker({ initialZip = "", practice = "", headingId }: 
               <Lock size={13} aria-hidden="true" /> Territory Locked
             </p>
             <p className="text-white/85" style={body("1rem")}>
-              Another practice currently holds exclusive rights in <strong className="text-white">{result.zip}</strong>
-              {result.area ? ` (${result.area})` : ""}. Join the waitlist if a spot opens.
+              All {SLOTS_PER_ZIP} partner slots in <strong className="text-white">{result.zip}</strong>
+              {result.area ? ` (${result.area})` : ""} are taken. Join the waitlist if a spot opens.
             </p>
             {wait === "done" ? (
               <p className="text-[#a9d7b0] mt-4" style={body("0.92rem")}>You're on the waitlist for {result.zip}. We'll email you if it opens.</p>
@@ -145,8 +151,11 @@ export function TerritoryChecker({ initialZip = "", practice = "", headingId }: 
             </p>
             <p className="text-white/90" style={body("1rem")}>
               Territory Open in <strong className="text-white">{result.zip}</strong>
-              {result.area ? ` (${result.area})` : ""} &mdash; 1 Exclusive Partner Slot Available (Eligible for {GUARANTEE.bookedNewPatients}-Patient Guarantee)
+              {result.area ? ` (${result.area})` : ""} &mdash; {result.taken ? `${result.open} of ${SLOTS_PER_ZIP} Partner Slots Left` : `${slotWord(SLOTS_PER_ZIP)} Available`} (Eligible for {GUARANTEE.bookedNewPatients}-Patient Guarantee)
             </p>
+            {result.open === 1 && (
+              <p className="text-[#e8d4a1] mt-2" style={body("0.88rem")}>Last slot in this ZIP code.</p>
+            )}
             {result.highDemand && (
               <p className="text-[#e8d4a1] mt-2" style={body("0.88rem")}>High-demand area: we get more inquiries from this ZIP than most.</p>
             )}

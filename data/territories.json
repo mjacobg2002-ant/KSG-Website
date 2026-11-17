@@ -1,7 +1,8 @@
 {
-  "_readme": "One partner practice per ZIP. Add a ZIP to claimedZips when a practice signs; remove it when the engagement ends. highDemandZips only adds a 'high-demand' note to an open result. Redeploy after editing.",
+  "_readme": "Each ZIP takes up to slotsPerZip partner practices. List a ZIP under claimedZips with how many partners it has; at slotsPerZip it shows as locked. Raise or lower 'partners' when a practice signs or leaves. highDemandZips only adds a 'high-demand' note. Redeploy after editing.",
+  "slotsPerZip": 3,
   "claimedZips": [
-    { "zip": "22102", "area": "Tysons, VA" }
+    { "zip": "22102", "area": "Tysons, VA", "partners": 1 }
   ],
   "highDemandZips": [
     { "zip": "21204", "area": "Towson, MD" },

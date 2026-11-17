@@ -1,0 +1,14 @@
+{
+  "_readme": "One partner practice per ZIP. Add a ZIP to claimedZips when a practice signs; remove it when the engagement ends. highDemandZips only adds a 'high-demand' note to an open result. Redeploy after editing.",
+  "claimedZips": [
+    { "zip": "22102", "area": "Tysons, VA" }
+  ],
+  "highDemandZips": [
+    { "zip": "21204", "area": "Towson, MD" },
+    { "zip": "23226", "area": "Richmond, VA" },
+    { "zip": "23294", "area": "Richmond, VA" },
+    { "zip": "22101", "area": "McLean, VA" },
+    { "zip": "22180", "area": "Vienna, VA" },
+    { "zip": "20190", "area": "Reston, VA" }
+  ]
+}

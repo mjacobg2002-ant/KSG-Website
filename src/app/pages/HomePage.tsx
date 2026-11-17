@@ -27,13 +27,13 @@ import { DentalSpotlight } from "../components/DentalSpotlight";
 import { ServiceArea } from "../components/ServiceArea";
 
 /* ---------- Reusable CTA with reassurance ---------- */
-function CTABlock({ label = "Get Your Free Consultation", center = false }: { label?: string; center?: boolean }) {
+function CTABlock({ label = "Get Your Free Consultation", center = false, to = "/contact" }: { label?: string; center?: boolean; to?: string }) {
   const btnClass =
     "inline-flex items-center gap-3 px-10 py-4 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300 group";
   const btnStyle = { fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.05em" } as const;
   return (
     <div className={center ? "flex flex-col items-center" : "flex flex-col items-start"}>
-      <Link to="/contact" className={btnClass} style={btnStyle}>
+      <Link to={to} className={btnClass} style={btnStyle}>
         {label}
         <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
       </Link>
@@ -512,7 +512,7 @@ export function HomePage() {
                 </div>
               </div>
 
-              <CTABlock label="See It Run on Your Own Number" />
+              <CTABlock label="See It Run on Your Own Number" to="/demo-call" />
             </AnimatedSection>
 
             <AnimatedSection delay={0.15}>

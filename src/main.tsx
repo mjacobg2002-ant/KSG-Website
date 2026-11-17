@@ -2,6 +2,7 @@ import { ViteReactSSG } from "vite-react-ssg";
 import type { RouteRecord } from "vite-react-ssg";
 import { routes } from "./app/routes";
 import { articles } from "./app/data/articles";
+import { portalSlugs } from "./app/data/portal";
 import "./styles/index.css";
 
 // vite-react-ssg statically generates real HTML (with a fully-populated <head>)
@@ -18,5 +19,7 @@ export function includedRoutes(paths: string[], _routes: Readonly<RouteRecord[]>
   // "/404" is matched by the catch-all route and renders NotFoundPage, so this
   // emits dist/404.html — which Vercel serves (with a real 404 status) for any
   // unmatched URL, avoiding soft-404s.
-  return Array.from(new Set([...staticPaths, ...articlePaths, "/404"]));
+  // One static page per client config in data/portal (unlisted, noindex).
+  const portalPaths = portalSlugs.map((slug) => `/portal/${slug}`);
+  return Array.from(new Set([...staticPaths, ...articlePaths, ...portalPaths, "/404"]));
 }

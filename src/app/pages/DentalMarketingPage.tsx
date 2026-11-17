@@ -8,6 +8,7 @@ import { IntakeForm, type IntakeField } from "../components/dental/IntakeForm";
 import { ResponsivePhoto } from "../components/dental/ResponsivePhoto";
 import { StickyEnrollmentCTA } from "../components/dental/StickyEnrollmentCTA";
 import { RoiPreviewCard } from "../components/dental/RoiPreviewCard";
+import { TerritoryChecker } from "../components/funnel/TerritoryChecker";
 import { founderPhoto, photos, westparkHomeShots } from "../components/dental/westparkMedia";
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
@@ -372,6 +373,9 @@ export function DentalMarketingPage() {
               <Link to="/dental-roi" className="inline-flex items-center min-h-[44px] text-white/70 hover:text-white underline underline-offset-4">
                 Dental ROI Calculator
               </Link>
+              <Link to="/audit" className="inline-flex items-center min-h-[44px] text-white/70 hover:text-white underline underline-offset-4">
+                Free website &amp; rank check
+              </Link>
             </div>
           </div>
 
@@ -608,6 +612,32 @@ export function DentalMarketingPage() {
             Review the full agreement before paying. Completing Stripe checkout confirms your
             practice&rsquo;s acceptance and starts the six-month term.
           </p>
+        </div>
+      </section>
+
+      {/* ============ TERRITORY + LEAD RESCUE ============ */}
+      <section id="territory" className="scroll-mt-20 py-20 lg:py-24 border-b border-white/8" aria-labelledby="territory-title">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <TerritoryChecker headingId="territory-title" />
+          <div className="border border-white/12 p-6 sm:p-8">
+            <Eyebrow>Optional add-on &middot; Lead Rescue</Eyebrow>
+            <h2 className="text-white" style={display("clamp(1.5rem, 2.6vw, 2rem)")}>
+              What happens to the calls your front desk can&rsquo;t pick up?
+            </h2>
+            <p className="text-white/70 mt-4" style={body("0.98rem")}>
+              Lead Rescue texts a missed caller back in under a minute, sorts emergencies from routine visits and puts
+              each one in a pipeline. Run the after-hours simulation yourself, or have the same text sent to your phone.
+            </p>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-x-6 gap-y-1 mt-6">
+              <Link to="/demo-call" className="inline-flex items-center gap-3 min-h-[52px] px-6 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-colors group" style={body("0.94rem", 1.4)}>
+                Simulate a missed call
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              </Link>
+              <Link to="/audit" className="inline-flex items-center min-h-[52px] text-white/80 hover:text-white underline underline-offset-4" style={body("0.94rem")}>
+                Run a free rank check on your site
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 

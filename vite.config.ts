@@ -10,6 +10,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  // NEXT_PUBLIC_DENTAL_DEMO_URL (the /audit demo link) is read alongside VITE_ vars.
+  envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
   resolve: {
     alias: {
       // Alias @ to the src directory

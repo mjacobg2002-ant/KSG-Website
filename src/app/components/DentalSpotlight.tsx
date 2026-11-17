@@ -1,9 +1,9 @@
 import { useRef } from "react";
+import { Link } from "react-router";
 import { motion, useInView } from "motion/react";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { AnimatedSection } from "./AnimatedSection";
 import { useCountUp } from "./SocialProof";
-import { BOOKING_URL } from "../booking";
 
 /*
  * Featured dental case study — Westpark Dental Studio (Tysons/McLean, VA).
@@ -155,16 +155,14 @@ export function DentalSpotlight({ eyebrow = "Featured Case Study · Dental" }: {
               Read the Full Dental Case Study
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/audit"
               className="inline-flex items-center gap-2 text-blue-300/80 hover:text-blue-200 transition-colors group"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", fontWeight: 500, letterSpacing: "0.04em" }}
             >
               Run a free rank check on your practice
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </div>
           <p
             className="text-white/25 mt-8 max-w-3xl"

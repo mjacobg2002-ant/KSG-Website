@@ -1,0 +1,26 @@
+{
+  "slug": "demo-practice",
+  "practiceName": "Demo Family Dental",
+  "city": "Vienna, VA",
+  "demo": true,
+  "accessCodeSha256": "",
+  "stages": {
+    "leadRescue": { "status": "complete", "daysAgo": 26, "note": "Missed-call text-back live on the main office line." },
+    "websiteBuild": { "status": "complete", "daysAgo": 15, "note": "New site launched with online booking and click-to-call." },
+    "googleAds": { "status": "complete", "daysAgo": 12, "note": "Search campaigns running on new-patient and emergency keywords." }
+  },
+  "guarantee": {
+    "target": 3,
+    "windowDays": 30,
+    "adsLiveDaysAgo": 12,
+    "bookedPatients": [
+      { "daysAgo": 9, "source": "Google Ads call" },
+      { "daysAgo": 4, "source": "Website booking" }
+    ]
+  },
+  "links": {
+    "liveSite": "/dental-marketing#work",
+    "callLogs": "/demo-call",
+    "agreement": "/a/4xrtrhp2ltjj30/index#s17"
+  }
+}

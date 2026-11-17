@@ -10,6 +10,11 @@ import { InsightArticlePage } from "./pages/InsightArticlePage";
 import { ContactPage } from "./pages/ContactPage";
 import { DentalMarketingPage } from "./pages/DentalMarketingPage";
 import { DentalRoiPage } from "./pages/DentalRoiPage";
+import { AuditPage } from "./pages/AuditPage";
+import { DemoCallPage } from "./pages/DemoCallPage";
+import { MapGapPage } from "./pages/MapGapPage";
+import { PortalPage } from "./pages/PortalPage";
+import { StartPage } from "./pages/StartPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -26,6 +31,11 @@ export const routes: RouteRecord[] = [
       { path: "services", Component: ServicesPage },
       { path: "dental-marketing", Component: DentalMarketingPage },
       { path: "dental-roi", Component: DentalRoiPage },
+      { path: "audit", Component: AuditPage },
+      { path: "demo-call", Component: DemoCallPage },
+      { path: "map-gap", Component: MapGapPage },
+      { path: "start", Component: StartPage },
+      { path: "portal/:slug", Component: PortalPage },
       { path: "case-studies", Component: CaseStudiesPage },
       { path: "process", Component: ProcessPage },
       { path: "insights", Component: InsightsPage },

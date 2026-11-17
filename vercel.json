@@ -14,6 +14,20 @@
           "value": "no-referrer"
         }
       ]
+    },
+    {
+      "source": "/(portal/.*|map-gap)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
-  ]
+  ],
+  "functions": {
+    "api/audit.js": {
+      "maxDuration": 45
+    }
+  }
 }

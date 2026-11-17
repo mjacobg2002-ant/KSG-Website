@@ -17,9 +17,7 @@ export const INTAKE_ENDPOINT = "/api/dental-intake";
 /** Founder call booking (Google Calendar). Primary action on the dental page. */
 export const BOOK_CALL_URL = "https://calendar.app.google/xTjcBRJKfehHL3gh9";
 
-export const CONTACT_EMAIL = "marcel.grisard@kindsupplyco.org";
-export const CONTACT_PHONE_DISPLAY = "(925) 775-8253";
-export const CONTACT_PHONE_HREF = "tel:+19257758253";
+export const CONTACT_EMAIL = "partnerships@kindsupplydigital.com";
 
 export const PACKAGE = {
   name: "Complete Dental Growth Package",

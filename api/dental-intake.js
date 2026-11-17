@@ -9,7 +9,7 @@
 // Variables; until then this returns 503 and the page offers a pre-filled
 // email instead):
 //   RESEND_API_KEY       Resend API key — emails each request
-//   INTAKE_TO_EMAIL      recipient (default marcel.grisard@kindsupplyco.org)
+//   INTAKE_TO_EMAIL      recipient (default partnerships@kindsupplydigital.com)
 //   INTAKE_FROM_EMAIL    sender on a domain verified in Resend
 //                        (default "Kind Supply Digital <onboarding@resend.dev>",
 //                        which Resend only delivers to the account owner)
@@ -20,7 +20,7 @@
 // validation and length limits, and a best-effort per-IP rate limit.
 // No protected health information is requested; free text is length-capped.
 
-const DEFAULT_TO = "marcel.grisard@kindsupplyco.org";
+const DEFAULT_TO = "partnerships@kindsupplydigital.com";
 const DEFAULT_FROM = "Kind Supply Digital <onboarding@resend.dev>";
 const MIN_FILL_MS = 3000;
 const RATE_LIMIT = 5; // requests

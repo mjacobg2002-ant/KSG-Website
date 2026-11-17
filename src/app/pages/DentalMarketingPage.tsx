@@ -9,14 +9,13 @@ import { ResponsivePhoto } from "../components/dental/ResponsivePhoto";
 import { StickyEnrollmentCTA } from "../components/dental/StickyEnrollmentCTA";
 import { RoiPreviewCard } from "../components/dental/RoiPreviewCard";
 import { TerritoryChecker } from "../components/funnel/TerritoryChecker";
+import { DENTAL_TOOLS } from "../data/dentalTools";
 import { founderPhoto, photos, westparkHomeShots } from "../components/dental/westparkMedia";
 import { dentalFaqs } from "../components/dental/dentalFaq";
 import {
   AGREEMENT_PATH,
   BOOK_CALL_URL,
   CONTACT_EMAIL,
-  CONTACT_PHONE_DISPLAY,
-  CONTACT_PHONE_HREF,
   GUARANTEE,
   PACKAGE,
   SHOW_STANDALONE_COMPARISON,
@@ -641,6 +640,29 @@ export function DentalMarketingPage() {
         </div>
       </section>
 
+      {/* ============ FREE TOOLS ============ */}
+      <section id="tools" className="scroll-mt-20 py-20 lg:py-24 border-b border-white/8" aria-labelledby="tools-title">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+          <Eyebrow>Free tools</Eyebrow>
+          <h2 id="tools-title" className="text-white max-w-3xl" style={display("clamp(1.9rem, 3.4vw, 2.7rem)")}>
+            See where your practice is losing patients, before you talk to anyone
+          </h2>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+            {DENTAL_TOOLS.map((t) => (
+              <li key={t.path}>
+                <Link to={t.path} className="group flex flex-col h-full p-6 border border-white/12 bg-[#0c1525] hover:border-blue-400/60 transition-colors">
+                  <span className="text-white flex items-center justify-between gap-3" style={{ ...body("1.02rem", 1.35), fontWeight: 600 }}>
+                    {t.label}
+                    <ArrowRight size={16} className="text-blue-300 shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </span>
+                  <span className="text-white/60 mt-2" style={body("0.9rem", 1.55)}>{t.desc}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* ============ FOUNDER ============ */}
       <section className="py-16 lg:py-20" aria-labelledby="founder-title">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid sm:grid-cols-[minmax(15rem,2fr)_minmax(0,3fr)] lg:grid-cols-[26rem_1fr] gap-8 sm:gap-12 lg:gap-20 items-center">
@@ -662,9 +684,6 @@ export function DentalMarketingPage() {
             <div className="flex flex-wrap gap-x-7 gap-y-1" style={body("0.94rem")}>
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-300 hover:text-blue-200 break-all min-h-[44px] inline-flex items-center">
                 {CONTACT_EMAIL}
-              </a>
-              <a href={CONTACT_PHONE_HREF} className="text-blue-300 hover:text-blue-200 min-h-[44px] inline-flex items-center">
-                {CONTACT_PHONE_DISPLAY}
               </a>
             </div>
           </div>

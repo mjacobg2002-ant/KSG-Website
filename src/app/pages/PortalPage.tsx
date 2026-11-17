@@ -2,7 +2,7 @@ import { useEffect, useId, useState, type FormEvent } from "react";
 import { useParams } from "react-router";
 import { ArrowUpRight, CalendarCheck, Check, FileText, Globe, Lock, MessageSquare, MousePointerClick, PhoneCall, ShieldCheck, type LucideIcon } from "lucide-react";
 import { SEOHead, SITE } from "../components/SEOHead";
-import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, GUARANTEE } from "../components/dental/dentalConfig";
+import { GUARANTEE } from "../components/dental/dentalConfig";
 import { portalClients, type PortalClient, type PortalStage, type StageStatus } from "../data/portal";
 import { Eyebrow, INTER, LEADS_EMAIL, PLAYFAIR, body, buttonText, display, focusScope, goldButton, inputClass, labelClass, labelStyle } from "../components/funnel/ui";
 
@@ -287,7 +287,7 @@ export function PortalPage() {
             )}
           </div>
           <p className="text-white/55 mt-8" style={body("0.9rem")}>
-            Questions about anything on this page? <a className="underline underline-offset-4 text-blue-200" href={`mailto:${LEADS_EMAIL}`}>{LEADS_EMAIL}</a> or <a className="underline underline-offset-4 text-blue-200" href={CONTACT_PHONE_HREF}>{CONTACT_PHONE_DISPLAY}</a>.
+            Questions about anything on this page? <a className="underline underline-offset-4 text-blue-200" href={`mailto:${LEADS_EMAIL}`}>{LEADS_EMAIL}</a>.
           </p>
         </div>
       </section>

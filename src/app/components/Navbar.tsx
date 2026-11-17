@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import logoWhite from "../../imports/kind-supply-digital-logo-white.svg";
 import { BOOKING_URL } from "../booking";
 import { AGREEMENT_PATH } from "./dental/dentalConfig";
+import { DENTAL_TOOLS, DENTAL_TOOL_PATHS } from "../data/dentalTools";
 
 // Dental division page (React route). The Westpark case study stays linked
 // from that page and from the footer.
 const DENTAL_URL = "/dental-marketing";
-// Dental patient leak & ROI calculator. Styled and treated as part of the dental division.
-const DENTAL_ROI_URL = "/dental-roi";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -26,7 +25,28 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const isDental = location.pathname === DENTAL_URL || location.pathname === DENTAL_ROI_URL;
+  const isDental =
+    location.pathname === DENTAL_URL || DENTAL_TOOL_PATHS.includes(location.pathname) || location.pathname.startsWith("/portal/");
+  const onTool = DENTAL_TOOL_PATHS.includes(location.pathname) || location.pathname.startsWith("/portal/");
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const toolsRef = useRef<HTMLDivElement>(null);
+
+  // Close the tools menu on navigation, outside click and Escape.
+  useEffect(() => {
+    setToolsOpen(false);
+    setMobileOpen(false);
+  }, [location.pathname]);
+  useEffect(() => {
+    if (!toolsOpen) return;
+    const onDown = (e: MouseEvent) => !toolsRef.current?.contains(e.target as Node) && setToolsOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setToolsOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [toolsOpen]);
   const ctaHref = isDental ? AGREEMENT_PATH : BOOKING_URL;
   const ctaLabel = isDental ? "Review & Enroll" : "Free Consultation";
   const ctaTarget = isDental ? undefined : "_blank";
@@ -64,12 +84,12 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-5 xl:gap-8 whitespace-nowrap">
+          <div className="hidden lg:flex items-center gap-4 xl:gap-8 whitespace-nowrap">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`transition-colors duration-300 hover:text-white ${
+                className={`${link.path === "/" || link.path === "/process" ? "max-xl:hidden! " : ""}transition-colors duration-300 hover:text-white ${
                   location.pathname === link.path ? "text-white" : "text-white/50"
                 }`}
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 400 }}
@@ -86,16 +106,38 @@ export function Navbar() {
             >
               Dental Marketing
             </Link>
-            {/* Shown from xl up: at lg the row is already full. */}
-            <Link
-              to={DENTAL_ROI_URL}
-              className={`hidden xl:inline-flex transition-colors duration-300 ${
-                location.pathname === DENTAL_ROI_URL ? "text-blue-200" : "text-blue-300/90 hover:text-blue-200"
-              }`}
-              style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 500 }}
-            >
-              Dental ROI Calculator
-            </Link>
+            <div ref={toolsRef} className="relative">
+              <button
+                type="button"
+                aria-expanded={toolsOpen}
+                aria-controls="dental-tools-menu"
+                onClick={() => setToolsOpen((o) => !o)}
+                className={`inline-flex items-center gap-1 min-h-[44px] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300 ${
+                  onTool ? "text-blue-200" : "text-blue-300/90 hover:text-blue-200"
+                }`}
+                style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 500 }}
+              >
+                <span className="hidden xl:inline">Free&nbsp;</span>Dental Tools
+                <ChevronDown size={14} className={`transition-transform ${toolsOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+              </button>
+              {toolsOpen && (
+                <div id="dental-tools-menu" className="absolute right-0 top-full pt-2 z-50">
+                  <ul className="w-[340px] bg-[#0f172a] border border-white/10 shadow-2xl py-2 whitespace-normal">
+                    {DENTAL_TOOLS.map((t) => (
+                      <li key={t.path}>
+                        <Link
+                          to={t.path}
+                          className={`!flex flex-col !items-start px-5 py-3 hover:bg-white/5 transition-colors ${location.pathname === t.path ? "bg-white/5" : ""}`}
+                        >
+                          <span className="text-white" style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", fontWeight: 600 }}>{t.label}</span>
+                          <span className="text-white/50 mt-0.5" style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.76rem", lineHeight: 1.45 }}>{t.desc}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
             <a
               href={ctaHref}
               target={ctaTarget}
@@ -127,7 +169,7 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-[#0f172a] border-t border-white/5 overflow-hidden"
           >
-            <div className={`px-6 py-8 flex flex-col gap-4 ${isDental ? "max-h-[calc(100dvh-5rem)] overflow-y-auto" : ""}`}>
+            <div className="px-6 py-8 flex flex-col gap-4 max-h-[calc(100dvh-5rem)] overflow-y-auto">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -149,14 +191,20 @@ export function Navbar() {
               >
                 Dental Marketing
               </Link>
-              <Link
-                to={DENTAL_ROI_URL}
-                onClick={() => setMobileOpen(false)}
-                className="py-2 text-blue-300/90"
-                style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", letterSpacing: "0.05em", fontWeight: 500 }}
-              >
-                Dental ROI Calculator
-              </Link>
+              <p className="pt-2 text-white/40 uppercase" style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600 }}>
+                Free Dental Tools
+              </p>
+              {DENTAL_TOOLS.map((t) => (
+                <Link
+                  key={t.path}
+                  to={t.path}
+                  onClick={() => setMobileOpen(false)}
+                  className={`py-1.5 pl-4 border-l border-white/15 ${location.pathname === t.path ? "text-blue-200" : "text-blue-300/90"}`}
+                  style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.88rem", letterSpacing: "0.03em", fontWeight: 500 }}
+                >
+                  {t.label}
+                </Link>
+              ))}
               <a
                 href={ctaHref}
                 target={ctaTarget}

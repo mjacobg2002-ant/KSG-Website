@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { Mail, MapPin } from "lucide-react";
 import logoWhite from "../../imports/kind-supply-digital-logo-white.svg";
+import { DENTAL_TOOLS } from "../data/dentalTools";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -138,13 +139,16 @@ export function Footer() {
                     >
                       Dental Marketing
                     </Link>
-                    <Link
-                      to="/dental-roi"
-                      className="pl-3 border-l border-white/15 text-white/50 hover:text-blue-300 transition-colors"
-                      style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
-                    >
-                      Dental ROI Calculator
-                    </Link>
+                    {DENTAL_TOOLS.map((t) => (
+                      <Link
+                        key={t.path}
+                        to={t.path}
+                        className="pl-3 border-l border-white/15 text-white/50 hover:text-blue-300 transition-colors"
+                        style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem" }}
+                      >
+                        {t.label}
+                      </Link>
+                    ))}
                   </div>
                 ) : (
                   <span

@@ -72,7 +72,7 @@ app.post("/make-server-88bd143f/inquiries", async (c) => {
           },
           body: JSON.stringify({
             from: "Kind Supply Digital <onboarding@resend.dev>",
-            to: ["marcel.grisard@kindsupplyco.org"],
+            to: ["partnerships@kindsupplydigital.com"],
             subject: `New Consultation Inquiry from ${name} at ${company}`,
             html: `
               <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 40px; border-radius: 4px;">
@@ -120,7 +120,7 @@ app.post("/make-server-88bd143f/inquiries", async (c) => {
           const emailError = await emailResponse.text();
           console.log(`Resend email sending failed (non-critical): ${emailError}`);
         } else {
-          console.log(`Email notification sent to marcel.grisard@kindsupplyco.org for inquiry ${id}`);
+          console.log(`Email notification sent to partnerships@kindsupplydigital.com for inquiry ${id}`);
         }
       } catch (emailErr) {
         // Email failure is non-critical — the inquiry is already saved

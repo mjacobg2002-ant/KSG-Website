@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import { ArrowRight, Check, ChevronDown, Link2, PhoneMissed, MousePointerClick, ShieldCheck } from "lucide-react";
+import { LeadGate } from "../components/funnel/LeadGate";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { RangeField } from "../components/dental/RoiControls";
 import { AGREEMENT_PATH, BOOK_CALL_URL, GUARANTEE, PACKAGE, STANDALONE, usd } from "../components/dental/dentalConfig";
@@ -266,6 +267,13 @@ export function DentalRoiPage() {
       </section>
 
       {/* ============ CALCULATOR ============ */}
+      <LeadGate
+        tool="dental-roi"
+        title="See what your practice is losing each month"
+        text="Enter your practice name and work email to open the calculator."
+        cta="Open the calculator"
+        onUnlock={(l) => !practice && setPractice(l.practiceName)}
+      >
       <section className="py-8 sm:py-12" aria-label="Calculator">
         <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* ---------- Left: practice inputs ---------- */}
@@ -695,6 +703,7 @@ export function DentalRoiPage() {
           </div>
         </div>
       </section>
+      </LeadGate>
     </div>
   );
 }

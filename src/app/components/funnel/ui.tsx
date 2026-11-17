@@ -71,3 +71,43 @@ export async function postLead(kind: string, fields: Record<string, string>, sta
 
 export const mailto = (subject: string, lines: string[]) =>
   `mailto:${LEADS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+
+export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+export type SavedLead = { practiceName: string; email: string };
+const LEAD_KEY = "ksd:lead";
+
+/** The practice name and email last entered on any dental tool in this browser, to prefill the next one. */
+export function loadSavedLead(): SavedLead {
+  try {
+    const v = JSON.parse(window.localStorage.getItem(LEAD_KEY) || "{}");
+    return { practiceName: typeof v.practiceName === "string" ? v.practiceName : "", email: typeof v.email === "string" ? v.email : "" };
+  } catch {
+    return { practiceName: "", email: "" };
+  }
+}
+export function saveLead(lead: SavedLead) {
+  try {
+    window.localStorage.setItem(LEAD_KEY, JSON.stringify(lead));
+  } catch {
+    /* storage unavailable */
+  }
+}
+
+/** Validates practice name + email; returns an error message or "". */
+export function leadError(practiceName: string, email: string) {
+  if (!cleanText(practiceName, 160)) return "Please enter your practice name.";
+  if (!EMAIL_RE.test(email.trim())) return "Please enter a valid work email.";
+  return "";
+}
+
+/**
+ * Records that someone used a dental tool. Fire-and-forget: the tool never
+ * waits on, or fails because of, delivery. `details` are flat strings.
+ */
+export function recordToolLead(tool: string, practiceName: string, email: string, details: Record<string, string | number | boolean> = {}, startedAt = 0) {
+  const lead = { practiceName: cleanText(practiceName, 160), email: email.trim().slice(0, 200) };
+  saveLead(lead);
+  const flat = Object.fromEntries(Object.entries(details).map(([k, v]) => [k, String(v).slice(0, 300)]));
+  void postLead("tool", { tool, ...lead, details: JSON.stringify(flat) }, startedAt || Date.now() - 5000);
+}

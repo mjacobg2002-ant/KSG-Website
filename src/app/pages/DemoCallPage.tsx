@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { ArrowRight, Check, MessageSquare, Phone, PhoneMissed, RotateCcw, Siren, CalendarCheck } from "lucide-react";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { BOOK_CALL_URL } from "../components/dental/dentalConfig";
-import { Eyebrow, INTER, body, buttonText, cleanText, display, focusScope, ghostButton, goldButton, inputClass, labelClass, labelStyle, mailto, postLead, useQueryParams } from "../components/funnel/ui";
+import { Eyebrow, INTER, body, buttonText, cleanText, display, focusScope, ghostButton, goldButton, inputClass, labelClass, labelStyle, leadError, loadSavedLead, mailto, postLead, recordToolLead, saveLead, useQueryParams } from "../components/funnel/ui";
 
 const PAGE_URL = `${SITE}/demo-call`;
 const TEXT_AT = 42; // seconds from missed call to the automatic text
@@ -38,6 +38,9 @@ export function DemoCallPage() {
   const uid = useId();
   const params = useQueryParams();
   const [practice, setPractice] = useState("");
+  const [email, setEmail] = useState("");
+  const [gateError, setGateError] = useState("");
+  const recorded = useRef(false);
   const [phase, setPhase] = useState<Phase>("idle");
   const [seconds, setSeconds] = useState(0);
   const [realTime, setRealTime] = useState(false);
@@ -49,6 +52,7 @@ export function DemoCallPage() {
 
   // "Send a real test text" form
   const [formPractice, setFormPractice] = useState("");
+  const [formEmail, setFormEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [send, setSend] = useState<"idle" | "sending" | "done" | "error" | "fallback">("idle");
   const [sendError, setSendError] = useState("");
@@ -59,11 +63,14 @@ export function DemoCallPage() {
     return () => timers.current.forEach(window.clearTimeout);
   }, []);
   useEffect(() => {
-    const p = cleanText(params?.get("practice"), 60);
-    if (p) {
-      setPractice(p);
-      setFormPractice(p);
-    }
+    if (!params) return;
+    const saved = loadSavedLead();
+    const p = cleanText(params.get("practice"), 60) || saved.practiceName;
+    const em = cleanText(params.get("email"), 200) || saved.email;
+    setPractice(p);
+    setFormPractice(p);
+    setEmail(em);
+    setFormEmail(em);
   }, [params]);
   useEffect(() => {
     thread.current?.scrollTo({ top: thread.current.scrollHeight, behavior: "smooth" });
@@ -98,6 +105,15 @@ export function DemoCallPage() {
   };
 
   const start = () => {
+    const err = leadError(practice, email);
+    if (err) return setGateError(err);
+    setGateError("");
+    if (!recorded.current) {
+      recorded.current = true;
+      recordToolLead("demo-call", practice, email, { page: "/demo-call" }, startedAt.current);
+    }
+    setFormPractice((f) => f || practice);
+    setFormEmail((f) => f || email);
     reset();
     setPhase("ringing");
     setLog(["9:47 PM  Incoming call, office closed"]);
@@ -127,11 +143,13 @@ export function DemoCallPage() {
   const submitTest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const digits = phone.replace(/\D/g, "");
-    if (!cleanText(formPractice)) return (setSend("error"), setSendError("Please enter your practice name."));
+    const err = leadError(formPractice, formEmail);
+    if (err) return (setSend("error"), setSendError(err));
     if (!(digits.length === 10 || (digits.length === 11 && digits.startsWith("1")))) return (setSend("error"), setSendError("Please enter a 10-digit US cell number."));
     setSend("sending");
     const honeypot = (e.currentTarget.elements.namedItem("company_site") as HTMLInputElement | null)?.value ?? "";
-    const res = await postLead("test-text", { practiceName: cleanText(formPractice, 160), phone }, startedAt.current, honeypot);
+    saveLead({ practiceName: cleanText(formPractice, 160), email: formEmail.trim() });
+    const res = await postLead("test-text", { practiceName: cleanText(formPractice, 160), email: formEmail.trim(), phone }, startedAt.current, honeypot);
     if (res.ok) return setSend("done");
     if (res.unconfigured) return setSend("fallback");
     setSend("error");
@@ -161,18 +179,25 @@ export function DemoCallPage() {
             Nobody's at the front desk. Press the button and watch what Lead Rescue does with that call.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:items-end mt-8 max-w-2xl">
+          <div className="flex flex-col md:flex-row gap-3 md:items-end mt-8 max-w-4xl">
             <div className="flex-1">
               <label htmlFor={`${uid}-practice`} className={labelClass} style={labelStyle}>
-                Practice name <span className="text-white/40">(optional)</span>
+                Practice name
               </label>
-              <input id={`${uid}-practice`} className={inputClass} style={body("1rem")} placeholder="Maple Avenue Dental" maxLength={60} autoComplete="organization" value={practice} onChange={(e) => setPractice(e.target.value)} />
+              <input id={`${uid}-practice`} className={inputClass} style={body("1rem")} placeholder="Maple Avenue Dental" maxLength={60} autoComplete="organization" value={practice} onChange={(e) => (setPractice(e.target.value), setGateError(""))} required />
+            </div>
+            <div className="flex-1">
+              <label htmlFor={`${uid}-email`} className={labelClass} style={labelStyle}>
+                Work email
+              </label>
+              <input id={`${uid}-email`} type="email" className={inputClass} style={body("1rem")} placeholder="you@yourpractice.com" maxLength={200} autoComplete="email" required value={email} onChange={(e) => (setEmail(e.target.value), setGateError(""))} />
             </div>
             <button type="button" onClick={start} className={goldButton} style={buttonText}>
               <PhoneMissed size={17} aria-hidden="true" />
               {running ? "Run It Again" : "Simulate After-Hours Missed Call"}
             </button>
           </div>
+          {gateError && <p role="alert" className="text-[#f0a8a4] mt-3" style={body("0.9rem")}>{gateError}</p>}
           <label className="inline-flex items-center gap-2.5 mt-4 min-h-[44px] text-white/55 cursor-pointer" style={body("0.85rem")}>
             <input type="checkbox" className="w-4 h-4 accent-[#caa34e]" checked={realTime} onChange={(e) => setRealTime(e.target.checked)} />
             Play the 42-second wait in real time (default is sped up)
@@ -353,7 +378,7 @@ export function DemoCallPage() {
               Request received. Keep your phone handy: your test text comes from our Lead Rescue line shortly.
             </p>
           ) : (
-            <form onSubmit={submitTest} noValidate className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form onSubmit={submitTest} noValidate className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div className="absolute -left-[9999px]" aria-hidden="true">
                 <label htmlFor={`${uid}-company_site`}>Leave this field empty</label>
                 <input id={`${uid}-company_site`} name="company_site" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
@@ -363,10 +388,14 @@ export function DemoCallPage() {
                 <input id={`${uid}-fp`} className={inputClass} style={body("1rem")} required maxLength={160} autoComplete="organization" value={formPractice} onChange={(e) => setFormPractice(e.target.value)} />
               </div>
               <div>
+                <label htmlFor={`${uid}-fe`} className={labelClass} style={labelStyle}>Work email</label>
+                <input id={`${uid}-fe`} className={inputClass} style={body("1rem")} required type="email" maxLength={200} autoComplete="email" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} />
+              </div>
+              <div>
                 <label htmlFor={`${uid}-ph`} className={labelClass} style={labelStyle}>Cell phone</label>
                 <input id={`${uid}-ph`} className={inputClass} style={body("1rem")} required type="tel" inputMode="tel" autoComplete="tel" placeholder="(703) 555-0142" maxLength={20} value={phone} onChange={(e) => setPhone(e.target.value)} />
               </div>
-              <div className="sm:col-span-2">
+              <div className="sm:col-span-2 md:col-span-3">
                 <button type="submit" disabled={send === "sending"} className={`${goldButton} w-full sm:w-auto`} style={buttonText}>
                   {send === "sending" ? "Sending…" : "Send a Real Test Text to My Phone"}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
@@ -378,7 +407,7 @@ export function DemoCallPage() {
                 {send === "fallback" && (
                   <p role="alert" className="text-white/75 mt-3" style={body("0.9rem")}>
                     That didn't go through on our end.{" "}
-                    <a className="underline underline-offset-4 text-blue-200" href={mailto("Lead Rescue test text request", [`Practice: ${formPractice}`, `Cell phone: ${phone}`, "I agree to receive one demo text at this number."])}>Send the request by email instead</a>.
+                    <a className="underline underline-offset-4 text-blue-200" href={mailto("Lead Rescue test text request", [`Practice: ${formPractice}`, `Email: ${formEmail}`, `Cell phone: ${phone}`, "I agree to receive one demo text at this number."])}>Send the request by email instead</a>.
                   </p>
                 )}
               </div>

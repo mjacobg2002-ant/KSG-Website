@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, Lock, MapPin, ShieldCheck } from "lucide-react";
 import territories from "../../../../data/territories.json";
 import { GUARANTEE } from "../dental/dentalConfig";
-import { INTER, PLAYFAIR, body, buttonText, cleanText, goldButton, inputClass, labelClass, labelStyle, mailto, postLead } from "./ui";
+import { INTER, PLAYFAIR, body, buttonText, cleanText, goldButton, inputClass, labelClass, labelStyle, leadError, loadSavedLead, mailto, postLead, recordToolLead } from "./ui";
 
 type Entry = { zip: string; area?: string; partners?: number };
 /** Partner practices accepted per ZIP code. */
@@ -31,41 +31,50 @@ export function TerritoryChecker({ initialZip = "", practice = "", headingId }: 
   const [zip, setZip] = useState("");
   const [result, setResult] = useState<TerritoryStatus | null>(null);
   const [error, setError] = useState("");
+  const [practiceName, setPracticeName] = useState("");
   const [email, setEmail] = useState("");
   const [wait, setWait] = useState<"idle" | "sending" | "done" | "fallback">("idle");
   const startedAt = useRef(0);
 
   useEffect(() => {
     startedAt.current = Date.now();
+    const saved = loadSavedLead();
+    const q = new URLSearchParams(window.location.search);
+    setEmail(cleanText(q.get("email"), 200) || saved.email);
+    setPracticeName((p) => p || saved.practiceName);
   }, []);
   useEffect(() => {
-    if (/^\d{5}$/.test(initialZip)) {
-      setZip(initialZip);
-      setResult(lookupTerritory(initialZip));
-    }
+    if (practice) setPracticeName(practice);
+  }, [practice]);
+  // A ZIP from the link (/start?zip=) is filled in; the check still needs name + email.
+  useEffect(() => {
+    if (/^\d{5}$/.test(initialZip)) setZip(initialZip);
   }, [initialZip]);
 
   const check = (e: FormEvent) => {
     e.preventDefault();
     setWait("idle");
-    if (!/^\d{5}$/.test(zip)) {
+    const err = leadError(practiceName, email) || (/^\d{5}$/.test(zip) ? "" : "Enter the 5-digit ZIP code of your practice.");
+    if (err) {
       setResult(null);
-      setError("Enter the 5-digit ZIP code of your practice.");
+      setError(err);
       return;
     }
     setError("");
-    setResult(lookupTerritory(zip));
+    const r = lookupTerritory(zip);
+    setResult(r);
+    recordToolLead("territory", practiceName, email, { zip, result: r.state === "claimed" ? "full" : `${r.open} of ${SLOTS_PER_ZIP} open`, page: window.location.pathname }, startedAt.current);
   };
 
   const joinWaitlist = async (e: FormEvent) => {
     e.preventDefault();
     if (!result) return;
     setWait("sending");
-    const res = await postLead("waitlist", { zip: result.zip, email, practiceName: cleanText(practice, 160) }, startedAt.current);
+    const res = await postLead("waitlist", { zip: result.zip, email: email.trim(), practiceName: cleanText(practiceName, 160) }, startedAt.current);
     setWait(res.ok ? "done" : "fallback");
   };
 
-  const startHref = result ? `/start?zip=${result.zip}${practice ? `&practice=${encodeURIComponent(practice)}` : ""}` : "/start";
+  const startHref = result ? `/start?zip=${result.zip}&practice=${encodeURIComponent(cleanText(practiceName, 160))}` : "/start";
 
   return (
     <div className="border border-white/12 bg-[#0c1525] p-6 sm:p-8">
@@ -81,8 +90,20 @@ export function TerritoryChecker({ initialZip = "", practice = "", headingId }: 
         </div>
       </div>
 
-      <form onSubmit={check} noValidate className="flex flex-col sm:flex-row gap-3 sm:items-end">
-        <div className="flex-1">
+      <form onSubmit={check} noValidate className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:items-end">
+        <div>
+          <label htmlFor={`${uid}-practice`} className={labelClass} style={labelStyle}>
+            Practice name
+          </label>
+          <input id={`${uid}-practice`} className={inputClass} style={body("1rem")} required maxLength={160} autoComplete="organization" placeholder="Maple Avenue Dental" value={practiceName} onChange={(e) => (setPracticeName(e.target.value), setError(""))} />
+        </div>
+        <div>
+          <label htmlFor={`${uid}-email`} className={labelClass} style={labelStyle}>
+            Work email
+          </label>
+          <input id={`${uid}-email`} type="email" className={inputClass} style={body("1rem")} required maxLength={200} autoComplete="email" placeholder="you@yourpractice.com" value={email} onChange={(e) => (setEmail(e.target.value), setError(""))} />
+        </div>
+        <div>
           <label htmlFor={`${uid}-zip`} className={labelClass} style={labelStyle}>
             Practice ZIP code
           </label>
@@ -124,18 +145,16 @@ export function TerritoryChecker({ initialZip = "", practice = "", headingId }: 
             {wait === "done" ? (
               <p className="text-[#a9d7b0] mt-4" style={body("0.92rem")}>You're on the waitlist for {result.zip}. We'll email you if it opens.</p>
             ) : (
-              <form onSubmit={joinWaitlist} className="flex flex-col sm:flex-row gap-3 mt-5">
-                <label htmlFor={`${uid}-email`} className="sr-only">Business email</label>
-                <input id={`${uid}-email`} type="email" required autoComplete="email" placeholder="you@yourpractice.com" className={`${inputClass} flex-1`} style={body("0.95rem")} value={email} onChange={(e) => setEmail(e.target.value)} />
+              <form onSubmit={joinWaitlist} className="mt-5">
                 <button type="submit" disabled={wait === "sending"} className="inline-flex items-center justify-center min-h-[50px] px-5 border border-white/25 text-white hover:border-white/60 transition-colors disabled:opacity-50" style={buttonText}>
-                  {wait === "sending" ? "Adding…" : "Join the waitlist"}
+                  {wait === "sending" ? "Adding…" : `Join the ${result.zip} waitlist as ${email.trim()}`}
                 </button>
               </form>
             )}
             {wait === "fallback" && (
               <p className="text-white/70 mt-3" style={body("0.88rem")}>
                 That didn't go through.{" "}
-                <a className="underline underline-offset-4 text-blue-200" href={mailto(`Territory waitlist: ${result.zip}`, [`Please add me to the waitlist for ZIP ${result.zip}.`, `Email: ${email}`, practice ? `Practice: ${practice}` : ""])}>
+                <a className="underline underline-offset-4 text-blue-200" href={mailto(`Territory waitlist: ${result.zip}`, [`Please add me to the waitlist for ZIP ${result.zip}.`, `Email: ${email}`, `Practice: ${practiceName}`])}>
                   Email us instead
                 </a>
                 .

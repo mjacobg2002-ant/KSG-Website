@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import { ArrowRight, Check, Link2, Printer, Star } from "lucide-react";
+import { LeadGate } from "../components/funnel/LeadGate";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { BOOK_CALL_URL } from "../components/dental/dentalConfig";
 import { CREAM, Eyebrow, GOLD_ON_CREAM, INTER, PLAYFAIR, body, buttonText, cleanText, display, focusScope, ghostButton, goldButton, inputClass, labelClass, labelStyle, useQueryParams } from "../components/funnel/ui";
@@ -167,6 +168,14 @@ export function MapGapPage() {
         noIndex
       />
 
+      <LeadGate
+        tool="map-gap"
+        title="See how far behind the #1 practice on the map you are"
+        text="Enter your practice name and work email to open your Map Pack snapshot."
+        cta="Open my snapshot"
+        details={() => ({ competitor: s.comp, reviews: s.reviews, rating: s.rating, compReviews: s.compReviews, compRating: s.compRating })}
+        onUnlock={(l) => !s.practice && set("practice", l.practiceName)}
+      >
       {/* ============ CONTROLS (not printed) ============ */}
       <section className="no-print border-b border-white/10 bg-[radial-gradient(ellipse_at_top_right,#1c2940,transparent_64%)]" aria-labelledby="gap-controls">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 pt-10 pb-8 sm:pt-12">
@@ -293,6 +302,7 @@ export function MapGapPage() {
           </div>
         </div>
       </section>
+      </LeadGate>
     </div>
   );
 }

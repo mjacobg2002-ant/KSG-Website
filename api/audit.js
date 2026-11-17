@@ -617,8 +617,9 @@ export default async function handler(req, res) {
 
   const practiceName = clean(input.practiceName).slice(0, 160);
   const city = clean(input.city).slice(0, 120);
-  let email = clean(input.email).slice(0, 200);
-  if (email && !EMAIL_RE.test(email)) email = "";
+  const email = clean(input.email).slice(0, 200);
+  if (!practiceName) return res.status(400).json({ error: "Please enter your practice name." });
+  if (!EMAIL_RE.test(email)) return res.status(400).json({ error: "Please enter a valid work email." });
   const norm = normalizeUrl(typeof input.websiteUrl === "string" ? input.websiteUrl.slice(0, 300) : "");
   if (norm.error) return res.status(400).json({ error: norm.error });
   const websiteUrl = norm.url.href;

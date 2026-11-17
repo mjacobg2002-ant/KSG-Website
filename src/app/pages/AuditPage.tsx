@@ -2,12 +2,10 @@ import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { AlertTriangle, ArrowRight, Check, Info, Loader2, X } from "lucide-react";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { BOOK_CALL_URL } from "../components/dental/dentalConfig";
-import { Eyebrow, INTER, PLAYFAIR, body, buttonText, cleanText, display, focusScope, ghostButton, goldButton, inputClass, labelClass, labelStyle, useQueryParams } from "../components/funnel/ui";
+import { Eyebrow, INTER, PLAYFAIR, body, buttonText, cleanText, display, focusScope, goldButton, inputClass, labelClass, labelStyle, leadError, loadSavedLead, saveLead, useQueryParams } from "../components/funnel/ui";
 
 const PAGE_URL = `${SITE}/audit`;
 const AUDIT_ENDPOINT = "/api/audit";
-/** Deployed dental demo site. Set NEXT_PUBLIC_DENTAL_DEMO_URL in Vercel; falls back to the Westpark build on /dental-marketing. */
-const DEMO_URL = (import.meta.env.NEXT_PUBLIC_DENTAL_DEMO_URL as string | undefined) || "/dental-marketing#work";
 
 type Status = "pass" | "warn" | "fail" | "info";
 type CheckItem = { id: string; label: string; status: Status; detail: string };
@@ -44,13 +42,13 @@ function Gauge({ score, color }: { score: number; color: string }) {
   const r = 78;
   const arc = Math.PI * r; // half circle
   return (
-    <div className="relative w-[220px] max-w-full" role="img" aria-label={`Score ${score.toFixed(1)} out of 10`}>
+    <div className="relative w-[200px] shrink-0 self-center sm:self-auto" role="img" aria-label={`Score ${score.toFixed(1)} out of 10`}>
       <svg viewBox="0 0 200 112" className="w-full h-auto" aria-hidden="true">
         <path d="M 22 100 A 78 78 0 0 1 178 100" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="14" strokeLinecap="round" />
         <path d="M 22 100 A 78 78 0 0 1 178 100" fill="none" stroke={color} strokeWidth="14" strokeLinecap="round" strokeDasharray={arc} strokeDashoffset={arc * (1 - score / 10)} style={{ transition: "stroke-dashoffset 1s cubic-bezier(0.22,1,0.36,1)" }} />
       </svg>
       <p className="absolute inset-x-0 bottom-0 text-center text-white tabular-nums whitespace-nowrap" style={{ fontFamily: INTER, lineHeight: 1 }}>
-        <span style={{ fontSize: "2.7rem", fontWeight: 600 }}>{score.toFixed(1)}</span>
+        <span style={{ fontSize: "2.6rem", fontWeight: 600 }}>{score.toFixed(1)}</span>
         <span className="text-white/45" style={{ fontSize: "1.1rem", fontWeight: 500 }}> / 10</span>
       </p>
     </div>
@@ -69,11 +67,13 @@ export function AuditPage() {
 
   useEffect(() => {
     if (!params) return;
+    const saved = loadSavedLead();
     setForm((f) => ({
       ...f,
-      practiceName: cleanText(params.get("practice"), 160) || f.practiceName,
+      practiceName: cleanText(params.get("practice"), 160) || f.practiceName || saved.practiceName,
       city: cleanText(params.get("city"), 120) || f.city,
       websiteUrl: cleanText(params.get("url"), 300) || f.websiteUrl,
+      email: cleanText(params.get("email"), 200) || f.email || saved.email,
     }));
   }, [params]);
 
@@ -95,11 +95,13 @@ export function AuditPage() {
 
   const run = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!form.practiceName.trim() || !form.city.trim() || !form.websiteUrl.trim()) {
+    const missing = leadError(form.practiceName, form.email) || (!form.city.trim() || !form.websiteUrl.trim() ? "Please fill in your city and website." : "");
+    if (missing) {
       setState("error");
-      setError("Please fill in your practice name, city and website.");
+      setError(missing);
       return;
     }
+    saveLead({ practiceName: form.practiceName.trim(), email: form.email.trim() });
     setState("loading");
     setReport(null);
     const honeypot = (e.currentTarget.elements.namedItem("company_site") as HTMLInputElement | null)?.value ?? "";
@@ -121,25 +123,17 @@ export function AuditPage() {
 
   const name = report?.practiceName || form.practiceName.trim() || "Your Practice";
   const tone = report ? TONE[report.verdict.tone] : TONE.amber;
-  const demoHref = (() => {
-    const [base, hash = ""] = DEMO_URL.split("#");
-    const q = new URLSearchParams({ practice: name, city: report?.city || form.city.trim() });
-    return `${base}${base.includes("?") ? "&" : "?"}${q.toString()}${hash ? `#${hash}` : ""}`;
-  })();
   const startHref = `/start?practice=${encodeURIComponent(name)}`;
 
   const upgradeBox = (sticky: boolean) => (
-    <aside className={`border border-blue-400/40 bg-[#131d32] p-6 ${sticky ? "lg:sticky lg:top-28" : ""}`} aria-label="Upgrade preview">
+    <aside className={`border border-blue-400/40 bg-[#131d32] p-6 ${sticky ? "lg:sticky lg:top-28" : ""}`} aria-label="Next step">
       <p className="text-white" style={{ fontFamily: PLAYFAIR, fontSize: "1.5rem", lineHeight: 1.25 }}>
-        Want to See What {name} Looks Like With a 9.8/10 Conversion Site?
+        Want every leak on {name}&rsquo;s site fixed?
       </p>
       <div className="flex flex-col gap-3 mt-6">
-        <a href={demoHref} {...(/^https?:/.test(demoHref) ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`${goldButton} text-center`} style={buttonText}>
-          Preview Your Upgraded Site Live
+        <a href={startHref} className={`${goldButton} text-center py-3`} style={{ ...buttonText, lineHeight: 1.35 }}>
+          Fix Every Leak + Get 3 Guaranteed Patients in 30 Days
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform shrink-0" aria-hidden="true" />
-        </a>
-        <a href={startHref} className={`${ghostButton} text-center py-3`} style={{ ...buttonText, fontSize: "0.86rem", lineHeight: 1.35 }}>
-          Fix Every Leak + Get 3 Guaranteed Patients in 30 Days &rarr;
         </a>
       </div>
       <p className="text-white/45 mt-4" style={body("0.76rem", 1.55)}>
@@ -190,8 +184,8 @@ export function AuditPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 mt-4 md:items-end">
               <div>
-                <label htmlFor={`${uid}-e`} className={labelClass} style={labelStyle}>Work email <span className="text-white/40">(optional, to get a copy)</span></label>
-                <input id={`${uid}-e`} className={inputClass} style={body("1rem")} type="email" maxLength={200} autoComplete="email" placeholder="you@yourpractice.com" {...field("email")} />
+                <label htmlFor={`${uid}-e`} className={labelClass} style={labelStyle}>Work email</label>
+                <input id={`${uid}-e`} className={inputClass} style={body("1rem")} type="email" required maxLength={200} autoComplete="email" placeholder="you@yourpractice.com" {...field("email")} />
               </div>
               <button type="submit" disabled={state === "loading"} className={goldButton} style={buttonText}>
                 {state === "loading" ? <Loader2 size={17} className="animate-spin" aria-hidden="true" /> : null}

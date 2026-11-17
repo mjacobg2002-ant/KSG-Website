@@ -3,6 +3,9 @@
 // Small lead forms on the dental funnel pages:
 //   kind "test-text"  -> /demo-call: "Send a Real Test Text to My Phone"
 //   kind "waitlist"   -> TerritoryChecker: waitlist for a claimed ZIP
+//   kind "tool"       -> any dental tool opened (practice name + work email gate)
+//
+// GET /api/lead returns which delivery channels are configured (booleans only).
 //
 // Delivery: see api/_lib/deliver.js. For "test-text" you can also set
 //   DEMO_TEXT_WEBHOOK_URL  an inbound webhook (e.g. a GoHighLevel workflow) that
@@ -22,30 +25,68 @@ function toE164(raw) {
   return null;
 }
 
+const TOOLS = {
+  "demo-call": "Missed-Call Simulator",
+  "dental-roi": "Patient Leak & ROI Calculator",
+  "map-gap": "Map Pack Competitor Snapshot",
+  territory: "Territory Availability Check",
+};
+
+/** Practice name + email are required on every dental tool form. */
+function contact(f) {
+  const practiceName = clean(f.practiceName).slice(0, 160);
+  const email = clean(f.email).slice(0, 200);
+  if (!practiceName) return { error: "Please enter your practice name." };
+  if (!EMAIL_RE.test(email)) return { error: "Please enter a valid work email." };
+  return { practiceName, email };
+}
+
+function parseDetails(raw) {
+  try {
+    const obj = JSON.parse(clean(raw).slice(0, 4000) || "{}");
+    return Object.entries(obj).slice(0, 25).map(([k, v]) => [clean(k).slice(0, 40), clean(String(v)).slice(0, 300)]).filter(([k, v]) => k && v);
+  } catch {
+    return [];
+  }
+}
+
 const KINDS = {
   "test-text": (f) => {
-    const practiceName = clean(f.practiceName).slice(0, 160);
+    const c = contact(f);
+    if (c.error) return c;
     const phoneE164 = toE164(clean(f.phone));
-    if (!practiceName) return { error: "Please enter your practice name." };
     if (!phoneE164) return { error: "Please enter a 10-digit US cell number." };
     return {
       label: "Lead Rescue demo: live test text requested",
-      data: { practiceName, phoneE164, consent: "Agreed on the form to receive one demo text at this number" },
-      rows: [["Practice name", practiceName], ["Cell phone", phoneE164], ["Consent", "Agreed to receive one demo text"]],
+      data: { ...c, phoneE164, consent: "Agreed on the form to receive one demo text at this number" },
+      rows: [["Practice name", c.practiceName], ["Email", c.email], ["Cell phone", phoneE164], ["Consent", "Agreed to receive one demo text"]],
+      replyTo: c.email,
       extraWebhook: process.env.DEMO_TEXT_WEBHOOK_URL,
     };
   },
   waitlist: (f) => {
+    const c = contact(f);
+    if (c.error) return c;
     const zip = clean(f.zip);
-    const email = clean(f.email).slice(0, 200);
-    const practiceName = clean(f.practiceName).slice(0, 160);
     if (!/^\d{5}$/.test(zip)) return { error: "Invalid ZIP code." };
-    if (!EMAIL_RE.test(email)) return { error: "Please enter a valid email address." };
     return {
       label: `Territory waitlist: ${zip}`,
-      data: { zip, email, practiceName },
-      rows: [["ZIP", zip], ["Email", email], ["Practice name", practiceName]],
-      replyTo: email,
+      data: { zip, ...c },
+      rows: [["ZIP", zip], ["Practice name", c.practiceName], ["Email", c.email]],
+      replyTo: c.email,
+    };
+  },
+  tool: (f) => {
+    const c = contact(f);
+    if (c.error) return c;
+    const tool = clean(f.tool);
+    if (!TOOLS[tool]) return { error: "Unknown tool." };
+    const details = parseDetails(f.details);
+    return {
+      label: `Dental tool used: ${TOOLS[tool]}`,
+      data: { tool, ...c, details: Object.fromEntries(details) },
+      rows: [["Tool", TOOLS[tool]], ["Practice name", c.practiceName], ["Email", c.email], ...details],
+      replyTo: c.email,
     };
   },
 };
@@ -53,8 +94,19 @@ const KINDS = {
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   res.setHeader("X-Robots-Tag", "noindex");
+  if (req.method === "GET") {
+    return res.status(200).json({
+      delivery: {
+        email: Boolean(process.env.RESEND_API_KEY),
+        verifiedSender: Boolean(process.env.INTAKE_FROM_EMAIL),
+        webhook: Boolean(process.env.LEADS_WEBHOOK_URL || process.env.INTAKE_WEBHOOK_URL),
+        demoTextWebhook: Boolean(process.env.DEMO_TEXT_WEBHOOK_URL),
+        pagespeedKey: Boolean(process.env.PAGESPEED_API_KEY),
+      },
+    });
+  }
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
+    res.setHeader("Allow", "GET, POST");
     return res.status(405).json({ error: "Method not allowed." });
   }
   const body = readBody(req);

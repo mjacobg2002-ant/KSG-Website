@@ -31,6 +31,7 @@ const staticRoutes = [
   { path: "/audit", changefreq: "monthly", priority: "0.8", lastmod: today },
   { path: "/demo-call", changefreq: "monthly", priority: "0.8", lastmod: today },
   { path: "/start", changefreq: "monthly", priority: "0.6", lastmod: today },
+  { path: "/speed-to-lead", changefreq: "monthly", priority: "0.7", lastmod: today },
   { path: "/case-studies", changefreq: "monthly", priority: "0.9", lastmod: today },
   { path: "/westpark-case-study", changefreq: "monthly", priority: "0.8", lastmod: today },
   { path: "/process", changefreq: "monthly", priority: "0.7", lastmod: today },

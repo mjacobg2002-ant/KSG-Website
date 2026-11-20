@@ -1,8 +1,9 @@
-import { ArrowRight, Check, Lock } from "lucide-react";
+import { Check, Lock } from "lucide-react";
+import { AddToCartButton } from "../components/SpeedToLeadPromo";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { SPEED_TO_LEAD } from "../components/speedToLeadConfig";
 import { BOOK_CALL_URL, CONTACT_EMAIL } from "../components/dental/dentalConfig";
-import { Eyebrow, body, buttonText, display, focusScope, ghostButton, goldButton } from "../components/funnel/ui";
+import { Eyebrow, body, buttonText, display, focusScope, ghostButton } from "../components/funnel/ui";
 
 const PAGE_URL = `${SITE}/speed-to-lead`;
 
@@ -41,11 +42,11 @@ function CheckoutCard() {
         ))}
       </ul>
 
-      <a href={SPEED_TO_LEAD.checkoutUrl} className={`${goldButton} w-full`} style={buttonText}>
-        Start for ${SPEED_TO_LEAD.monthly}/month
-        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+      <AddToCartButton className="w-full" />
+      <a href={SPEED_TO_LEAD.checkoutUrl} className="flex items-center justify-center min-h-[44px] mt-2 text-white/70 hover:text-white underline underline-offset-4 transition-colors" style={body("0.88rem")}>
+        Skip the cart, buy now
       </a>
-      <p className="flex items-center justify-center gap-2 text-white/45 mt-4" style={body("0.82rem")}>
+      <p className="flex items-center justify-center gap-2 text-white/45 mt-2" style={body("0.82rem")}>
         <Lock size={13} aria-hidden="true" /> Secure checkout by Stripe
       </p>
     </div>
@@ -73,9 +74,9 @@ export function SpeedToLeadPage() {
         </div>
       </section>
 
-      <section className="py-10 sm:py-14">
+      <section className="py-10 sm:py-14 pb-28 lg:pb-14">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-14 items-start">
-          <div>
+          <div className="order-2 lg:order-1">
             <h2 className="text-white mb-6" style={display("1.6rem")}>What's included</h2>
             <ul className="flex flex-col gap-6">
               {INCLUDED.map(([title, text]) => (
@@ -103,7 +104,7 @@ export function SpeedToLeadPage() {
             </ol>
           </div>
 
-          <div className="flex flex-col gap-5 lg:sticky lg:top-24">
+          <div id="buy" className="order-1 lg:order-2 flex flex-col gap-5 lg:sticky lg:top-24 scroll-mt-24">
             <CheckoutCard />
             <div className="flex flex-col sm:flex-row gap-3">
               <a href={BOOK_CALL_URL} target="_blank" rel="noopener noreferrer" className={`${ghostButton} flex-1`} style={buttonText}>Questions? Book 15 minutes</a>
@@ -114,6 +115,15 @@ export function SpeedToLeadPage() {
           </div>
         </div>
       </section>
+
+      {/* Mobile: price and Add to cart always within thumb reach. */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0a1120]/95 backdrop-blur-xl border-t border-white/10 px-4 py-3 flex items-center gap-3" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
+        <p className="text-white shrink-0" style={body("1rem", 1.2)}>
+          <span style={{ fontWeight: 600 }}>${SPEED_TO_LEAD.monthly}</span>
+          <span className="block text-white/50" style={body("0.75rem", 1.2)}>per month</span>
+        </p>
+        <AddToCartButton className="flex-1 min-h-[48px]" />
+      </div>
     </div>
   );
 }

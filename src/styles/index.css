@@ -3,3 +3,8 @@
 @import './theme.css';
 @import './roi.css';
 @import './funnel.css';
+
+/* Buy flow: keep the chat widget off the Add to cart / Checkout buttons (see Layout.tsx). */
+html.hide-chat-widget chat-widget {
+  display: none !important;
+}

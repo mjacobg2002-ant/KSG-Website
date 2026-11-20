@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { removeFromCart } from "../components/cart";
 import { SEOHead, SITE } from "../components/SEOHead";
 import { SPEED_TO_LEAD } from "../components/speedToLeadConfig";
 import { BOOK_CALL_URL, CONTACT_EMAIL } from "../components/dental/dentalConfig";
@@ -6,6 +8,8 @@ import { Eyebrow, body, buttonText, display, focusScope, goldButton } from "../c
 
 /** Stripe Payment Link redirects here after a successful checkout. */
 export function SpeedToLeadWelcomePage() {
+  // Paid: empty the cart so the badge clears.
+  useEffect(() => removeFromCart("speed-to-lead"), []);
   return (
     <div className={focusScope}>
       <SEOHead

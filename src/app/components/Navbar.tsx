@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, ShoppingCart, X } from "lucide-react";
+import { useCart } from "./cart";
 import { motion, AnimatePresence } from "motion/react";
 import logoWhite from "../../imports/kind-supply-digital-logo-white.svg";
 import { BOOKING_URL } from "../booking";
@@ -20,6 +21,30 @@ const navLinks = [
   { label: "Insights", path: "/insights" },
   { label: "Contact", path: "/contact" },
 ];
+
+function CartLink() {
+  const { count } = useCart();
+  return (
+    <Link
+      to="/cart"
+      className="relative inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-white/80 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+      aria-label={count ? `Cart, ${count} item` : "Cart, empty"}
+    >
+      <ShoppingCart size={21} aria-hidden="true" />
+      {count > 0 && (
+        <span
+          className="absolute top-1 right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-blue-500 text-[#0f172a] flex items-center justify-center"
+          style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.68rem", fontWeight: 700 }}
+          aria-hidden="true"
+        >
+          {count}
+        </span>
+      )}
+    </Link>
+  );
+}
+
+const SPEED_TO_LEAD_PATH = "/speed-to-lead";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -84,12 +109,12 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-8 whitespace-nowrap">
+          <div className="hidden lg:flex items-center gap-3.5 xl:gap-6 whitespace-nowrap">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`${link.path === "/" || link.path === "/process" ? "max-xl:hidden! " : ""}transition-colors duration-300 hover:text-white ${
+                className={`${link.path === "/" || link.path === "/process" ? "lg:hidden! " : link.path === "/insights" ? "max-xl:hidden! " : ""}transition-colors duration-300 hover:text-white ${
                   location.pathname === link.path ? "text-white" : "text-white/50"
                 }`}
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 400 }}
@@ -97,6 +122,15 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              to={SPEED_TO_LEAD_PATH}
+              className={`transition-colors duration-300 ${
+                location.pathname.startsWith(SPEED_TO_LEAD_PATH) ? "text-blue-200" : "text-blue-300/90 hover:text-blue-200"
+              }`}
+              style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 500 }}
+            >
+              Speed to Lead
+            </Link>
             <Link
               to={DENTAL_URL}
               className={`transition-colors duration-300 ${
@@ -117,7 +151,7 @@ export function Navbar() {
                 }`}
                 style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.08em", fontWeight: 500 }}
               >
-                <span className="hidden xl:inline">Free&nbsp;</span>Dental Tools
+                Dental Tools
                 <ChevronDown size={14} className={`transition-transform ${toolsOpen ? "rotate-180" : ""}`} aria-hidden="true" />
               </button>
               {toolsOpen && (
@@ -138,18 +172,21 @@ export function Navbar() {
                 </div>
               )}
             </div>
+            <CartLink />
             <a
               href={ctaHref}
               target={ctaTarget}
               rel={ctaRel}
-              className="ml-2 px-6 py-2.5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300"
+              className="px-6 py-2.5 bg-blue-500 text-[#0f172a] font-medium hover:bg-blue-400 transition-all duration-300"
               style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", letterSpacing: "0.05em", fontWeight: 500 }}
             >
               {ctaLabel}
             </a>
           </div>
 
-          {/* Mobile Toggle */}
+          {/* Mobile: cart + menu toggle */}
+          <div className="lg:hidden flex items-center gap-1">
+          <CartLink />
           <button
             className={`lg:hidden text-white p-2 ${isDental ? "min-h-[44px] min-w-[44px] focus-visible:outline-2 focus-visible:outline-blue-300" : ""}`}
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -157,6 +194,7 @@ export function Navbar() {
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+          </div>
         </div>
       </div>
 
@@ -170,6 +208,15 @@ export function Navbar() {
             className="lg:hidden bg-[#0f172a] border-t border-white/5 overflow-hidden"
           >
             <div className="px-6 py-8 flex flex-col gap-4 max-h-[calc(100dvh-5rem)] overflow-y-auto">
+              <Link
+                to={SPEED_TO_LEAD_PATH}
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between gap-3 px-4 py-3.5 border border-blue-400/40 bg-blue-500/10 text-white"
+                style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.92rem", fontWeight: 600 }}
+              >
+                <span>Speed to Lead System</span>
+                <span className="text-blue-200" style={{ fontWeight: 500 }}>$497/mo &rarr;</span>
+              </Link>
               {navLinks.map((link) => (
                 <Link
                   key={link.path}

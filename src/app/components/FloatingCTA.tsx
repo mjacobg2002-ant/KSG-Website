@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export function FloatingCTA() {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
-  const isContact = location.pathname === "/contact";
+  const isContact = location.pathname === "/contact" || location.pathname === "/cart" || location.pathname.startsWith("/speed-to-lead");
   // The dental page offers its own no-call next steps; skip the consult bar.
   const isDental =
     ["/dental-marketing", "/dental-roi", "/audit", "/demo-call", "/map-gap", "/start"].includes(location.pathname) || location.pathname.startsWith("/portal/");

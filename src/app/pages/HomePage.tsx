@@ -18,6 +18,7 @@ import {
   Clock,
 } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
+import { SpeedToLeadPromo } from "../components/SpeedToLeadPromo";
 import { SEOHead } from "../components/SEOHead";
 import { LeadRescueDemo } from "../components/LeadRescueDemo";
 import { PipelineBoard } from "../components/PipelineBoard";
@@ -314,6 +315,9 @@ export function HomePage() {
 
       {/* ============ CLIENT WALL — social proof up front ============ */}
       <ClientWall />
+
+      {/* ============ BUY ONLINE — Speed to Lead System ============ */}
+      <SpeedToLeadPromo />
 
       {/* ============ DENTAL PROOF — our strongest case study, up front ============ */}
       <div id="dental-results" className="scroll-mt-20">

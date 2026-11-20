@@ -237,6 +237,17 @@
   @media(max-width:860px){.sim-grid{grid-template-columns:1fr;max-width:520px}}
   @media(prefers-reduced-motion:reduce){.sim-orb.ring,.sim-orb.ring svg,.sim-typing i{animation:none}}
 
+  /* the CRM app (screen recording in a phone frame) */
+  .app{background:var(--navy-2)}
+  .app-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,5vw,64px);align-items:center;max-width:1040px;margin:0 auto}
+  .app h2{font-size:clamp(2rem,5vw,3.2rem)}
+  .app .lede{margin:16px 0 24px;font-size:1.06rem;max-width:50ch}
+  .app-phone{position:relative;width:min(280px,72vw);margin:0 auto;border-radius:40px;border:1px solid rgba(255,255,255,.15);background:#060b16;padding:10px;box-shadow:0 34px 70px -30px rgba(0,0,0,.9),0 0 60px -20px rgba(106,166,208,.35)}
+  .app-phone video{display:block;width:100%;aspect-ratio:220/480;object-fit:cover;border-radius:31px;background:#0f172a}
+  .app-phone__tag{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);white-space:nowrap;font-family:var(--dsp);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.66rem;color:#12182a;background:var(--gold);border-radius:999px;padding:6px 12px}
+  @media(max-width:900px){.app-grid{grid-template-columns:1fr;max-width:520px}.app-phone{order:-1;margin-bottom:12px}}
+  @media(max-width:560px){.app .crm-feats{grid-template-columns:1fr}}
+
   /* calculator */
   .calc-wrap{max-width:1000px;margin:0 auto;background:var(--navy-2);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,4vw,44px);box-shadow:0 30px 60px -30px rgba(0,0,0,.85)}
   .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,48px);align-items:center}
@@ -488,6 +499,31 @@
   </div>
 </section>
 
+<!-- THE CRM APP -->
+<section class="app" id="app">
+  <div class="shell">
+    <div class="app-grid">
+      <div>
+        <span class="crm-badge">★ Included With the Speed-to-Lead CRM</span>
+        <h2>Your whole business,<br><span class="gold">in one app.</span></h2>
+        <p class="lede">This is the app you get with the speed-to-lead CRM. Run everything from your phone, right from the job site: every conversation, your schedule, and the paperwork that gets you paid.</p>
+        <ul class="crm-feats">
+          <li><b>Conversations</b>Every call, text, email &amp; form lead in one inbox.</li>
+          <li><b>Your Schedule</b>See your day, your crews and what's next.</li>
+          <li><b>Book Appointments</b>Put estimates and jobs on the calendar in seconds.</li>
+          <li><b>Estimates</b>Send a professional estimate before you leave the driveway.</li>
+          <li><b>Invoices</b>Bill the job and get paid faster.</li>
+          <li><b>Contracts</b>Send contracts out and get them signed.</li>
+        </ul>
+      </div>
+      <div class="app-phone">
+        <video src="/contractors/assets/crm-app.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Screen recording of the CRM app: conversations, schedule, appointments, estimates, invoices and contracts"></video>
+        <span class="app-phone__tag">The app you get</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta" id="book">
   <div class="shell">
@@ -518,7 +554,7 @@
     }
   })();
   document.getElementById('yr').textContent=new Date().getFullYear();
-  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){var hv=document.querySelector('.hero__bg');if(hv){hv.removeAttribute('autoplay');hv.pause&&hv.pause();}}
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.hero__bg,.app-phone video').forEach(function(hv){hv.removeAttribute('autoplay');hv.pause&&hv.pause();hv.setAttribute('controls','');});}
   function calculateRevenue(){
     var adSpend=parseFloat(document.getElementById('adSpend').value);
     var ticketPrice=parseFloat(document.getElementById('ticketPrice').value)||0;

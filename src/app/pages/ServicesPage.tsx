@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { ArrowRight, Code2, Search, BarChart3, RefreshCw, FileText, PhoneMissed, MapPin } from "lucide-react";
 import { AnimatedSection } from "../components/AnimatedSection";
 import { SEOHead, SITE } from "../components/SEOHead";
+import { SpeedToLeadPromo } from "../components/SpeedToLeadPromo";
 
 const services = [
   {
@@ -129,6 +130,9 @@ export function ServicesPage() {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Buy online */}
+      <SpeedToLeadPromo id="buy-speed-to-lead" />
 
       {/* Services Detail */}
       <section className="py-20">

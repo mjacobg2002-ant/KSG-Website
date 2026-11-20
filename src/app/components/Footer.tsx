@@ -14,7 +14,7 @@ const navLinks = [
 
 const serviceLinks = [
   { label: "Missed-Call Text-Back", path: "/services" },
-  { label: "Speed-to-Lead Automation", path: "/services" },
+  { label: "Speed to Lead System ($497/mo)", path: "/speed-to-lead" },
   { label: "CRM & Lead Tracking", path: "/services" },
   { label: "Client-Acquisition Websites", path: "/services" },
   { label: "Local SEO & Paid Ads", path: "/services" },

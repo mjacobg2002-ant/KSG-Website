@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script async src="https://js.stripe.com/v3/buy-button.js"></script>
 <style>
   /* Matches kindsupplydigital.com: navy, blue accent, Playfair Display headings,
      Inter body, square edges, hairline borders. */
@@ -42,7 +41,7 @@
   /* payment — first thing on the page */
   .pay{padding:56px 0 48px;background:radial-gradient(ellipse at 50% 0%,rgba(59,130,246,.10) 0%,transparent 65%)}
   .pay__card{background:var(--navy-2);border:1px solid rgba(255,255,255,.08);padding:36px 28px 28px;text-align:center}
-  .pay stripe-buy-button{display:block;margin:0 auto}
+  .pay__price{margin:0 0 20px;color:#fff;font-size:1.05rem}.pay__btn{display:inline-block;background:#fff;color:var(--navy-2,#0b1a33);font-weight:700;padding:14px 28px;border-radius:6px;text-decoration:none}.pay__btn:hover{opacity:.9}
   .pay__notice{margin:24px auto 0;max-width:34rem;color:rgba(255,255,255,.85);font-size:.95rem;line-height:1.75;font-weight:500}
   .pay__ver{margin:12px 0 0;color:var(--muted);font-size:.78rem;letter-spacing:.05em}
 
@@ -96,7 +95,7 @@
   }
   @media print{
     body{background:#fff;color:#111}
-    header,footer,.stick,.pay stripe-buy-button{display:none}
+    header,footer,.stick,.pay__btn{display:none}
     .pay{padding:0;background:none}
     .pay__card,.sig{background:#fff;border:1px solid #999}
     .pay__notice,.title h1,.doc h2,.doc p,.doc p strong,.doc p em,.sig p,.sig p strong{color:#111}
@@ -117,12 +116,10 @@
   <section class="pay" id="pay" aria-label="Payment and acceptance">
     <div class="shell">
       <div class="pay__card">
-        <stripe-buy-button
-          buy-button-id="buy_btn_1UYpdSCJQcEaXUBUulN7U1wP"
-          publishable-key="pk_live_51TwTOYCJQcEaXUBUIRzg7Pfb3iP25OkW9tJrvjVcKo3YWRD7p5cNsRMF53oPNTFCUhXvz3T8XJpnK5DHlclPs4an00gWfZdJuD">
-        </stripe-buy-button>
-        <p class="pay__notice">Read the full Agreement below before paying. Completing payment is your acceptance of, and binds you to, this Agreement, including its six (6) month term.</p>
-        <p class="pay__ver">Agreement Version: November 16, 2026</p>
+        <p class="pay__price"><b>$1,500 / month</b> &middot; four monthly payments &middot; <b>$6,000</b> total initial commitment</p>
+        <a class="pay__btn" href="https://buy.stripe.com/9B67sKcHQ1tjciA7XkefC02">Subscribe &amp; Accept Agreement</a>
+        <p class="pay__notice">Read the full Agreement below before paying. Completing payment is your acceptance of, and binds you to, this Agreement, including its four (4) month term.</p>
+        <p class="pay__ver">Agreement Version: November 20, 2026</p>
       </div>
     </div>
   </section>
@@ -150,9 +147,9 @@
   <p>1.1 <strong>Effective Date.</strong> &ldquo;Effective Date&rdquo; means the date on which Client completes the first payment through Provider&rsquo;s online checkout as provided in Section 5.</p>
   <p>1.2 <strong>Covered Location.</strong> &ldquo;Covered Location&rdquo; means the one (1) dental office of Client designated by Client at or following checkout and confirmed by Provider in writing, which confirmation is incorporated into this Agreement.</p>
   <p>1.3 <strong>Additional Location.</strong> &ldquo;Additional Location&rdquo; means any office owned or operated by Client or its owners or affiliates other than the Covered Location, now or in the future, including without limitation Client&rsquo;s second existing office.</p>
-  <p>1.4 <strong>Initial Term.</strong> &ldquo;Initial Term&rdquo; means the period of six (6) consecutive months commencing on the Effective Date.</p>
-  <p>1.5 <strong>Monthly Fee.</strong> &ldquo;Monthly Fee&rdquo; means Two Thousand and No/100 Dollars ($2,000.00).</p>
-  <p>1.6 <strong>Term Commitment.</strong> &ldquo;Term Commitment&rdquo; means the aggregate of six (6) Monthly Fees, totaling Twelve Thousand and No/100 Dollars ($12,000.00).</p>
+  <p>1.4 <strong>Initial Term.</strong> &ldquo;Initial Term&rdquo; means the period of four (4) consecutive months commencing on the Effective Date.</p>
+  <p>1.5 <strong>Monthly Fee.</strong> &ldquo;Monthly Fee&rdquo; means One Thousand Five Hundred and No/100 Dollars ($1,500.00).</p>
+  <p>1.6 <strong>Term Commitment.</strong> &ldquo;Term Commitment&rdquo; means the aggregate of four (4) Monthly Fees, totaling Six Thousand and No/100 Dollars ($6,000.00).</p>
   <p>1.7 <strong>Client Materials.</strong> &ldquo;Client Materials&rdquo; means Client&rsquo;s logos, trademarks, photographs, text, business information, data, and domain name.</p>
   <p>1.8 <strong>Provider Materials.</strong> &ldquo;Provider Materials&rdquo; means the website&rsquo;s source code, design, layouts, templates, and hosting environment, together with Provider&rsquo;s tools, systems, methods, and know-how.</p>
   <p>1.9 <strong>Ad Spend.</strong> &ldquo;Ad Spend&rdquo; means all amounts charged by Google or any other advertising platform for the placement of advertisements.</p>
@@ -187,7 +184,7 @@
   <p>5.2 <strong>Opportunity to Review.</strong> Client acknowledges that the full text of this Agreement was available for Client to read, print, and save before Client completed payment, and that Client had the opportunity to review it with counsel of its choosing.</p>
   <p>5.3 <strong>Record of Acceptance.</strong> Provider&rsquo;s checkout and payment-processor records, including the date and time of payment, the name and email address of the payer, the payment method used, and the version of this Agreement displayed, shall constitute evidence of Client&rsquo;s acceptance. The Agreement accepted by Client is the version displayed at the time of payment, and no later change to this web page shall alter it except by an amendment under Section 16.2.</p>
   <p>5.4 <strong>Electronic Signatures and Records.</strong> The Parties consent to conduct this transaction by electronic means. Electronic acceptance, electronic records, and electronic payment authorizations shall be valid and enforceable pursuant to the Virginia Uniform Electronic Transactions Act, Va. Code &sect; 59.1-479 et seq., and the Electronic Signatures in Global and National Commerce Act, 15 U.S.C. &sect; 7001 et seq.</p>
-  <p>5.5 <strong>Recurring Payment Authorization.</strong> By completing checkout, Client authorizes Provider to charge the payment method provided at checkout in six (6) consecutive monthly installments of Two Thousand and No/100 Dollars ($2,000.00) each, totaling Twelve Thousand and No/100 Dollars ($12,000.00), the first installment on the Effective Date and each subsequent installment on the same day of each succeeding month, together with any continuation fees under Section 3.2 and any late charges or Accelerated Balance due hereunder. This authorization shall remain in effect until all amounts due have been paid and any continuation has been terminated in accordance with this Agreement.</p>
+  <p>5.5 <strong>Recurring Payment Authorization.</strong> By completing checkout, Client authorizes Provider to charge the payment method provided at checkout in four (4) consecutive monthly installments of One Thousand Five Hundred and No/100 Dollars ($1,500.00) each, totaling Six Thousand and No/100 Dollars ($6,000.00), the first installment on the Effective Date and each subsequent installment on the same day of each succeeding month, together with any continuation fees under Section 3.2 and any late charges or Accelerated Balance due hereunder. This authorization shall remain in effect until all amounts due have been paid and any continuation has been terminated in accordance with this Agreement.</p>
   <p>5.6 <strong>Authority.</strong> The individual who completes checkout on behalf of Client represents and warrants that he or she is duly authorized to bind Client to this Agreement.</p>
   <p>5.7 <strong>Chargebacks.</strong> Client shall resolve any billing concern in accordance with Section 4.5 and Section 15 and shall not initiate a chargeback, reversal, or payment dispute with any financial institution or card issuer for any amount authorized under this Agreement. Any such chargeback or reversal shall constitute a material breach of this Agreement, and Client shall reimburse Provider for the reversed amount, all related processing fees, and the costs of collection described in Section 15.3. Provider may furnish this Agreement and its checkout records to any financial institution or card issuer as evidence of Client&rsquo;s authorization. Nothing herein limits any right of Client that may not be waived under applicable law.</p>
   <p>5.8 <strong>Payment Method.</strong> Client shall maintain a valid payment method on file throughout the Initial Term and any continuation thereof.</p>
@@ -264,7 +261,7 @@
   <p>16.12 <strong>Survival.</strong> Sections 4, 5, 8, 9, 10, 12.3, 13, 14, 15, 16, 17.6, and 17.7 shall survive any expiration or termination of this Agreement.</p>
 
   <h2>17. First-Month New-Patient Guarantee (Covered Location Only)</h2>
-  <p>17.1 <strong>Guarantee.</strong> Notwithstanding Sections 3.1, 4.7, 10.1, and 13.2, if the Google Ads campaign managed by Provider for the Covered Location does not produce at least five (5) Booked New Patients during the Guarantee Period, and each of the conditions in Section 17.3 has been satisfied, then Provider shall refund to Client the first Monthly Fee paid by Client to Provider, in the amount of Two Thousand and No/100 Dollars ($2,000.00) (the &ldquo;Guarantee Refund&rdquo;), as provided in Section 17.5, and this Agreement shall terminate as provided in Section 17.7. The Guarantee Refund is limited as stated in Section 17.6, and this Section 17 applies only to the Covered Location as stated in Section 17.11.</p>
+  <p>17.1 <strong>Guarantee.</strong> Notwithstanding Sections 3.1, 4.7, 10.1, and 13.2, if the Google Ads campaign managed by Provider for the Covered Location does not produce at least five (5) Booked New Patients during the Guarantee Period, and each of the conditions in Section 17.3 has been satisfied, then Provider shall refund to Client the first Monthly Fee paid by Client to Provider, in the amount of One Thousand Five Hundred and No/100 Dollars ($1,500.00) (the &ldquo;Guarantee Refund&rdquo;), as provided in Section 17.5, and this Agreement shall terminate as provided in Section 17.7. The Guarantee Refund is limited as stated in Section 17.6, and this Section 17 applies only to the Covered Location as stated in Section 17.11.</p>
   <p>17.2 <strong>Definitions.</strong> For purposes of this Section 17:</p>
   <p class="sub">(a) &ldquo;Campaign Launch Date&rdquo; means the date on which the Google Ads campaign managed by Provider for the Covered Location first begins running and serving advertisements, as stated in Provider&rsquo;s written launch notice to Client;</p>
   <p class="sub">(b) &ldquo;Guarantee Period&rdquo; means the thirty (30) consecutive days beginning on the Campaign Launch Date;</p>
@@ -279,10 +276,10 @@
   <p class="sub">(f) Client&rsquo;s Google Ads account was not suspended or restricted during the Guarantee Period by reason of any act, omission, content, or billing matter of Client.</p>
   <p>17.4 <strong>Counting; Unanswered Calls.</strong> The number of Booked New Patients shall be determined by Provider from the call-tracking and conversion-tracking records Provider maintains for the campaign, and such records shall control absent manifest error. Client is responsible for answering the calls and requests the campaign produces. Accordingly, each telephone call generated by the campaign from a prospective new patient during the Covered Location&rsquo;s published office hours that Client does not answer, and each appointment request generated by the campaign to which Client does not respond within one (1) business day, shall be counted as a Booked New Patient. No written confirmation, report, or other action is required of Client to determine the count. Within five (5) business days after the end of the Guarantee Period, Provider shall send Client a written statement of the number of Booked New Patients counted, by count and date only and without any patient-identifying information, consistent with Section 9.1.</p>
   <p>17.5 <strong>Refund Issued Without Notice.</strong> If the campaign produces fewer than five (5) Booked New Patients during the Guarantee Period and each of the conditions in Section 17.3 has been satisfied, Provider shall issue the Guarantee Refund to Client&rsquo;s original payment method within fifteen (15) days after the end of the Guarantee Period. Client is not required to request the Guarantee Refund or to give written or any other notice to receive it.</p>
-  <p>17.6 <strong>Refund Limited to Provider&rsquo;s Fee; Ad Spend Not Refundable.</strong> The Guarantee Refund is limited to the first Monthly Fee of Two Thousand and No/100 Dollars ($2,000.00) paid by Client to Provider. All Ad Spend, including the Minimum Ad Budget, is paid by Client directly to Google under Section 7.4, is never received by Provider, and is not refundable by Provider under this Section 17 or otherwise. Provider has no obligation to refund, reimburse, or credit any Ad Spend or any other amount paid by Client to Google or any other third party, whether or not the guarantee in Section 17.1 is met.</p>
+  <p>17.6 <strong>Refund Limited to Provider&rsquo;s Fee; Ad Spend Not Refundable.</strong> The Guarantee Refund is limited to the first Monthly Fee of One Thousand Five Hundred and No/100 Dollars ($1,500.00) paid by Client to Provider. All Ad Spend, including the Minimum Ad Budget, is paid by Client directly to Google under Section 7.4, is never received by Provider, and is not refundable by Provider under this Section 17 or otherwise. Provider has no obligation to refund, reimburse, or credit any Ad Spend or any other amount paid by Client to Google or any other third party, whether or not the guarantee in Section 17.1 is met.</p>
   <p>17.7 <strong>Effect of Refund; Termination; Sole Remedy.</strong> Upon payment of the Guarantee Refund, this Agreement shall terminate, Client shall be released from all Monthly Fees not yet due, and Sections 10.2 and 12.3(a) shall not apply to such termination. Upon such termination: (a) Client&rsquo;s license to the website under Section 8.2 shall end, Provider shall retain the website and all other Provider Materials and may remove the website from public access, and the purchase option in Section 8.4 shall not be available; (b) notwithstanding Section 8.3, Provider shall retain, and may remove from Client&rsquo;s Google Ads account, the campaigns, ad groups, keyword and negative-keyword lists, advertisements, and conversion-tracking configuration created by Provider, while the account itself and its billing and historical data remain Client&rsquo;s; and (c) Provider shall relinquish its access to Client&rsquo;s accounts and release Client&rsquo;s domain name and Client Materials as provided in Sections 8.1 and 12.3. The Guarantee Refund and such termination are Client&rsquo;s sole and exclusive remedy if the campaign does not produce five (5) Booked New Patients during the Guarantee Period. Client shall not withhold or set off any Monthly Fee in anticipation of a Guarantee Refund.</p>
   <p>17.8 <strong>Guarantee Met; Agreement Binding.</strong> If the campaign produces five (5) or more Booked New Patients during the Guarantee Period, the guarantee in Section 17.1 is satisfied on the date the third Booked New Patient is counted, even if that date falls before the end of the Guarantee Period. Upon such satisfaction: (a) no Guarantee Refund shall be owed; (b) the first Monthly Fee is fully earned and non-refundable; (c) Client may not cancel or terminate this Agreement for the first month or on account of the Guarantee Period; and (d) this Agreement shall continue in full force for the remainder of the Initial Term, and Client remains bound to the full Term Commitment as provided in Section 3.1.</p>
-  <p>17.9 <strong>Minimum Ad Budget Not Funded; Guarantee Void.</strong> If Client does not fund the Minimum Ad Budget for the campaign, or any other condition in Section 17.3 is not satisfied, the guarantee in this Section 17 is void and of no effect, no Guarantee Refund shall be owed regardless of the number of Booked New Patients, and nothing in this Section 17 shall release Client from this Agreement. Because Provider will by then have performed work under this Agreement, including the design and build of the website and the setup of the Google Ads campaign, Client shall be bound to this Agreement for the full six-month Initial Term and the full Term Commitment as provided in Section 3.1.</p>
+  <p>17.9 <strong>Minimum Ad Budget Not Funded; Guarantee Void.</strong> If Client does not fund the Minimum Ad Budget for the campaign, or any other condition in Section 17.3 is not satisfied, the guarantee in this Section 17 is void and of no effect, no Guarantee Refund shall be owed regardless of the number of Booked New Patients, and nothing in this Section 17 shall release Client from this Agreement. Because Provider will by then have performed work under this Agreement, including the design and build of the website and the setup of the Google Ads campaign, Client shall be bound to this Agreement for the full four-month Initial Term and the full Term Commitment as provided in Section 3.1.</p>
   <p>17.10 <strong>One Time Only.</strong> This Section 17 applies once, to the first Guarantee Period only, and does not guarantee any result in any later period or any other result of the Services.</p>
   <p>17.11 <strong>Covered Location Only; No Application to Additional Location.</strong> This Section 17 applies solely to the Covered Location, being the first practice location engaged by Client under this Agreement. It does not apply to the Additional Location or to any other office, practice, or location added at any time after the Effective Date, whether by separate agreement under Section 6.2, consolidation under Section 6.4, amendment, change order, or otherwise, and no Guarantee Refund, termination right, or other benefit of this Section 17 shall be available for any such location. Any such consolidation or later agreement shall not revive, restart, or extend the guarantee in this Section 17.</p>
 
@@ -308,7 +305,7 @@
 
 <div class="stick" id="stick" aria-hidden="true">
   <div class="stick__in">
-    <p class="stick__txt" style="margin:0"><b>$2,000 / month &middot; 6-month term</b><span>Payment is your acceptance of this Agreement.</span></p>
+    <p class="stick__txt" style="margin:0"><b>$1,500 / month &middot; 4-month term</b><span>Payment is your acceptance of this Agreement.</span></p>
     <a class="stick__btn" href="#pay" tabindex="-1">Pay Now &rarr;</a>
   </div>
 </div>
